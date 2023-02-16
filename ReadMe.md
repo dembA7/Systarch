@@ -4,8 +4,9 @@
 < A01067546> Alan Patricio González Bernal <br>
 < A01709522> Arturo Cristián Díaz López <br>
 < A01708668> Alan Rodrigo Castillo Sánchez <br>
-< Matrícula4> Nombre4 <br>
-< Matrícula5> Nombre5 <br>
+< A01704492> Diego Vega Camacho <br>
+< A01704245> José Emiliano Riosmena Castañón <br>
+< A01708940> Ian Padrón Corona <br>
 <br>
 <br>
 <h2> Link del drive de la primera entrega:</h2>
