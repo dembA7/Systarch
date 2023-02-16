@@ -1,4 +1,4 @@
-<h1> Este será el repo de la UF TC2005B. </h1>
+<h1> Repositorio Systarch </h1>
 <h2>Integrantes: </h2><br>
 
 < A01067546> Alan Patricio González Bernal <br>
