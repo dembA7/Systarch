@@ -3,7 +3,7 @@ Este será el repo de la UF TC2005B.
 
 < A01067546> Alan Patricio González Bernal <br>
 < A01708668> Alan Rodrigo Castillo Sánchez <br>
-< Matrícula3> Nombre3 <br>
+< A01704245> José Emiliano Riosmena Castañón <br>
 < A01708940> Ian Joab Padrón Corona <br>
 < Matrícula5> Nombre5 <br>
 <br>
