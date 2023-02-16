@@ -3,6 +3,6 @@ Este será el repo de la UF TC2005B.
 
 < A01067546> Alan Patricio González Bernal <br>
 < Matrícula2> Nombre2 <br>
-< Matrícula3> Nombre3 <br>
+< A01709522> Arturo Cristián Díaz López <br>
 < Matrícula4> Nombre4 <br>
 < Matrícula5> Nombre5 <br>
