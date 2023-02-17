@@ -10,3 +10,6 @@
 <br>
 <h2> Link del drive de la primera entrega:</h2>
 https://docs.google.com/document/d/1lNncdZ4c5azexelN2l80KekGYjI0TlFaP5Up3xvpzis/edit?usp=sharing
+
+<h2> Link del plan de trabajo:</h2>
+https://docs.google.com/spreadsheets/d/1FuEA50wStO9juoATRucUHZVDISysxLpZ0bLaQ0suh9U/edit?usp=sharing
