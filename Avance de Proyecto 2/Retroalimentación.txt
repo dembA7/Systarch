@@ -1,0 +1,48 @@
+Retroalimentación para Systarch
+    En cuanto a la presentación:
+        *Probablemente yo (Ian), tendré que revisar esto manualmente para la siguiente presentación/retro*
+        Vamos muy rápido al inicio, ez brou
+        (Tal vez fueron nervios, pero todo bien)
+        Coherencia, más que nada en lo que decimos para la presentación <- Esto también lo mencionó el profe LALO
+        (Se soluciona con un guión y practicar antes de presentar)
+
+        No repitamos información Repeticiones: III's
+        (Lo que observe es que entre nosotros repetíamos el objetivo constantemente 'importar archivos')
+
+        Organización para la presentación (quien dice que cosa)
+        Menos texto para las diapositivas
+        Voltear a ver al público
+        Modelos simplificados
+
+    En cuanto el contenido:
+        Los casos de uso son AUTOMÁTICOS (Del sistema). Si bien son buenos, no son realmente cosas que el usuario hace.
+        Hay que profundizar en los diagramas de actividades (Que ocurre en el sistema 'Ej. El sistema ingresa a las bases de datos, etc.')
+        Crear proyectos es un requisito FUNDAMENTAL.
+        URGENTE: REQUERIMOS más COMUNICACIÓN con el SOCIOFORMADOR para lo que presentamos ante el público <- También preocupa a los profes *carita triste*
+        (Razón: Los requisitos no funcionales y los mockups dice que realmente tuvimos que platicarlo con él)
+        En cuanto a los mockups y futuras presentaciones: Requerimos más elementos visuales para dar una idea de como lucirá
+        MUY BIEN por identificar los riesgos pero nos falta también empezar a pensar en las soluciones (PRÁCTICAS/REALES) que vamos a implementar
+        RECOMENDACIÓN: El testing NO DEBE ser lo último para realizar  (Debe venir implícito en el desarrollo del sistema) 
+        Corregir: LOGIN POR GOOGLE -> MICROSOFT
+        Tenemos una ambición muy GRANDE, debemos ser más REALISTAS (Por ejemplo en la extendibilidad del proyecto)
+        (Ejemplo 2: Definimos demasiados Navegadores)
+        RECOMENDACIÓN: Cambiemos los requisitos no funcionales de acuerdo al punto anterior
+    
+    Cita de Lalo para reflexionar "¿Un ingeniero debe enfocarse tanto en el desarrollo de documentación?"
+    Al menos yo (Ian) considero que nos lo dijo para trabajar más en la parte de cómo vamos a dar soluciones en vez de identificar los problemas
+    
+    Cita de Ricardo para reflexionar: "Acaso están priorizando más el entregable de la clase sobre el proyecto que REQUIERE el socioformador?
+    Sugerencia: De la clase, es sugerible que veamos que nos sirve para el proyecto (No es necesario aplicar todo al proyecto porque todos los proyectos son diferentes)
+
+
+
+
+
+
+
+
+
+
+
+
+
