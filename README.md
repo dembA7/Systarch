@@ -1,5 +1,7 @@
 # Systarch
 
+https://github.com/dembA7/Systarch/blob/main/assets/Logo.f91d758d.svg
+
 ## Integrantes
 
 * A01067546 Alan Patricio González Bernal
