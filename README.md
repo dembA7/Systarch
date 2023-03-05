@@ -1,6 +1,6 @@
 # Systarch
 
-https://github.com/dembA7/Systarch/blob/main/assets/Logo.f91d758d.svg
+![Dispatch Health](assets/Logo.f91d758d.svg)
 
 ## Integrantes
 
