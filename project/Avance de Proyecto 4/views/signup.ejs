@@ -1,0 +1,90 @@
+<%- include('includes/head.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DispatchHealth</title>
+    <style>
+        section{
+        margin: 0 auto;
+        max-width: 85em;
+        line-height: 1.5;
+        padding: 4em 1em;
+    }
+    </style>
+</head>
+<body>
+    <section>
+        <h1 class="display-6">Crea una cuenta</h1>
+        <br><br><br>
+        <div class="row g-2">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="name" class="form-control" id="floatingInputGrid" placeholder="name@example.com">
+                <label for="floatingInputGrid">Nombre Completo</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="floatingSelectGrid">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="floatingSelectGrid">Skill</label>
+              </div>
+            </div>
+          </div>
+          <br><br><br>
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInputGrid" placeholder="name@example.com">
+                <label for="floatingInputGrid">Correo Electrónico</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="password" class="form-control" id="floatingInputGrid" placeholder="name@example.com">
+                <label for="floatingInputGrid">Contraseña</label>
+              </div>
+            </div>
+          </div>
+          <br><br><br>
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="tel" class="form-control" id="floatingInputGrid" placeholder="name@example.com">
+                <label for="floatingInputGrid">Teléfono</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="password" class="form-control" id="floatingInputGrid" placeholder="name@example.com">
+                <label for="floatingInputGrid">Confirmar Contraseña</label>
+              </div>
+            </div>
+          </div>
+          <br><br><br>
+          <a class="btn btn-outline-secondary" type="button" href="login">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+              </svg>
+              Regresar
+            </a>
+          <a type="button" class="btn btn-outline-success" href="inicio">
+              Crear
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+              </svg>
+            </a>
+            
+            
+    </section>
+</body>
+</html>
+
+<%- include('includes/foot.ejs') %>
