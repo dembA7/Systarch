@@ -60,7 +60,7 @@ exports.get_signup = (request, response, next) => {
     response.render('signup', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
-      csrfToken: request.csrfToken()
+      csrfToken: request.csrfToken(),
     });
 };
 

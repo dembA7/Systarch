@@ -12,14 +12,14 @@
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="text" class="form-control" id="userName" name="userName" placeholder="Bernardo Gómez">
+                <input type="text" class="form-control" id="userName" name="userName" placeholder="Bernardo Gómez" required>
                 <label for="floatingInputGrid">Nombre Completo</label>
               </div>
             </div>
 
             <div class="col-md">
               <div class="form-floating" id="userSkill" name="userSkill">
-                <select class="form-select" id="floatingSelectGrid">
+                <select class="form-select" id="floatingSelectGrid" required>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
@@ -36,16 +36,16 @@
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="email" class="form-control" id="userMail" name="userMail" placeholder="name@example.com">
+                <input type="email" class="form-control" id="userMail" name="userMail" placeholder="name@example.com" required>
                 <label for="floatingInputGrid">Correo Electrónico</label>
               </div>
             </div>
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="password" class="form-control" id="userPass" name="userPass" placeholder="A1234567890">
+                <input type="password" class="form-control" id="userPass" name="userPass" placeholder="A1234567890" required>
                 <label for="floatingInputGrid">Contraseña</label>
-              </div>
+              </form>
             </div>
 
           </div>
@@ -56,16 +56,16 @@
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="tel" class="form-control" id="userCel" name="userCel" placeholder="4421234567">
+                <input type="tel" class="form-control" id="userCel" name="userCel" placeholder="4421234567" required>
                 <label for="floatingInputGrid">Teléfono</label>
               </div>
             </div>
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="password" class="form-control" id="userConfPass" name="userConfPass" placeholder="A1234567890">
+                <input type="password" class="form-control" id="userConfPass" name="userConfPass" placeholder="A1234567890" required>
                 <label for="floatingInputGrid">Confirmar Contraseña</label>
-              </div>
+              </form>
             </div>
 
           </div>
@@ -75,6 +75,7 @@
           <button class="btn btn-primary" type="submit">Crear</button>
           
         </form> 
+
     </section>
 
 <%- include('includes/foot.ejs') %>
