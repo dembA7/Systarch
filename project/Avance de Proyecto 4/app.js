@@ -34,9 +34,10 @@ const fileStorage = multer.diskStorage({
 
 const fileFilter = (request, file, callback) => {
     if (file.mimetype == 'text/csv') {
-            callback(null, true);
+        callback(null, true);
     } else {
-            callback(null, false);
+        console.log("Me lleva la chingadaaaaaaaaa");
+        callback(null, false);
     }
 }
 
