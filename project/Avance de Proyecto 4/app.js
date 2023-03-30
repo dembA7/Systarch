@@ -33,9 +33,7 @@ const fileStorage = multer.diskStorage({
 });
 
 const fileFilter = (request, file, callback) => {
-    if (file.mimetype == 'image/png' || 
-        file.mimetype == 'image/jpg' ||
-        file.mimetype == 'image/jpeg' ) {
+    if (file.mimetype == 'text/csv') {
             callback(null, true);
     } else {
             callback(null, false);
