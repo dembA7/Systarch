@@ -6,7 +6,7 @@
 
         <br><br><br>
 
-        <form action="/usuarios/signup" method="POST">
+        <form action="/usuarios/signup" method="POST" onsubmit="return validateFields()">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="row g-2">
 
@@ -63,7 +63,7 @@
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="password" class="form-control" id="userConfPass" name="userConfPass" placeholder="A1234567890" onkeyup="validatePwords()">
+                <input type="password" class="form-control" id="userConfPass" name="userConfPass" placeholder="A1234567890" onkeyup="return validatePwords()">
                 <label for="floatingInputGrid">Confirmar Contraseña</label>
               </div>
             </div>
@@ -75,22 +75,6 @@
           <button class="btn btn-primary" type="submit">Crear</button>
           
         </form> 
-        <script>
-          function validatePwords() {
-            let pw1 = document.getElementById('userPass').value;
-            let pw2 = document.getElementById('userConfPass').value;
-            const mensaje = document.getElementById('mensaje');
-
-            if (pw2 != pw1) {
-              mensaje.innerHTML = "Las contraseñas no coinciden";
-              mensaje.style.color = "red";
-            }
-
-            else { 
-              mensaje.innerHTML = "";
-            }
-          }
-        </script>
     </section>
 
 <%- include('includes/foot.ejs') %>
