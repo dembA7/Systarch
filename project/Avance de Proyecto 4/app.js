@@ -8,8 +8,8 @@ const isAuth = require('./util/is-auth');
 const app = express();
 
 app.use(session({
-    secret: 'mi string secreto que debe ser un string aleatorio muy largo, no como éste', 
-    resave: false, 
+    secret: 'z0AGH6jvVSVfvHBBcurM', 
+    resave: false,
     saveUninitialized: false,
 }));
 
@@ -23,23 +23,25 @@ app.set('views', 'views');
 
 // CSRF Protection
 const csrfProtection = csrf();
-app.use(csrfProtection); 
+app.use(csrfProtection);
+
 app.use((request, response, next) => {
     response.locals.csrfToken = request.csrfToken();
     next();
 });
 
 // Renders
-const rutasUsuarios = require('./routes/usuarios.routes');
-app.use('/usuarios', rutasUsuarios);
-
-const rutasPerros = require('./routes/perros.routes');
-app.use('/perros', isAuth, rutasPerros);
-
+const projUsuarios = require('./routes/usuarios.routes');
+const projInicio = require("./routes/dispatch.routes");
+app.use('/usuarios', projUsuarios);
+app.use('/inicio', isAuth, projInicio);
 
 app.use((request, response, next) => {
-    response.status(404);
-    response.send('Lo sentimos, esta ruta no existe');
+    response.render('err404', {
+        titulo: 'DispatchHealth: ERR404',
+        isLoggedIn: request.session.isLoggedIn || false,
+        username: request.session.username || '',
+    });
 });
 
 app.listen(3000);
