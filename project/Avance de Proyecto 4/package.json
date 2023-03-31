@@ -1,11 +1,11 @@
 {
-  "name": "lab18",
+  "name": "systarch",
   "version": "1.0.0",
-  "description": "Autenticación de usuarios",
+  "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "nodemon app.js"
+    "start": "node app.js",
+    "test": ""
   },
   "author": "Diego Vega",
   "license": "ISC",
@@ -13,10 +13,12 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "bootstrap-icons": "^1.10.3",
+    "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.2.0",
     "nodemon": "^2.0.22"
   }
