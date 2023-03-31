@@ -67,7 +67,6 @@ exports.get_signup = (request, response, next) => {
 
 exports.post_signup = (request, response, next) => {
   if (request.body.userPass != request.body.userConfPass){
-    console.log("Lanzando misil a EitanWuzzyUwU");
     request.session.mensaje = 'Las contraseñas no coinciden';
     response.redirect('/usuarios/signup');
   }
