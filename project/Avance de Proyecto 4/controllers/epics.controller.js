@@ -7,12 +7,12 @@ exports.get_import = (request, response, next) => {
   response.render('uploadCSV', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
-    mensaje: request.session.mensaje || ''
+    mensaje: request.session.mensaje || '',
   });
 };
 
 exports.post_import = (request, response, next) => {
-  if(request.session.mensaje == 'Error'){
+  if(request.session.mensaje == 'Formato de archivo no válido, por favor, intenta de nuevo.'){
     response.redirect('/epics/import')
   }
   else{

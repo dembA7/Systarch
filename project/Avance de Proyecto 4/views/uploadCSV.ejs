@@ -4,7 +4,7 @@
         <style>
             .form-control{
                 width: 900px;
-                height: 200px;
+                height: auto;
                 justify-content: center;
                 align-items: center;
                 display: flex;
@@ -19,9 +19,10 @@
                 <br><br><br><br>
                 <form action="/epics/import" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <label for="formFileMultiple" class="form-label">Inserta el archivo .csv a evaluar para generar el reporte.</label>
+                    <label for="formFileMultiple" class="form-label"><strong>Ingresa el archivo .csv para generar un epic.</strong></label>
                     <br><br>
-                    <input class="form-control" type="file" id="formFileMultiple" multiple />
+                    <input class="form-control form-control-lg" type="file" id="csvUploaded" name="csvUploaded"/>
+                    <br>
 
                     <% if (mensaje !='' ) { %>
                         <div>

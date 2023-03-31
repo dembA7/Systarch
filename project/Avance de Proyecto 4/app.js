@@ -39,7 +39,7 @@ const fileFilter = (request, file, callback) => {
       callback(null, true);
     }
     else {
-        request.session.mensaje = 'Error';
+        request.session.mensaje = 'Formato de archivo no válido, por favor, intenta de nuevo.';
         console.log("Nothing added to public folder. Error: Invalid type file");
         callback(null, false);
     }
