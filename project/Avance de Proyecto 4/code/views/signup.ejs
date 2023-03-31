@@ -1,10 +1,16 @@
 <%- include('includes/head.ejs') %>
     <section>
-        <h1 class="display-6">
-          Crea una cuenta
-        </h1>
+      <style>
+        section{
+          margin: 1em;
+        }
+        h1{
+          font-size: 46px;
+        }
+      </style>
+        <h1>Crea una cuenta</h1>
 
-        <br><br><br>
+        <br><br>
 
         <form action="/usuarios/signup" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
