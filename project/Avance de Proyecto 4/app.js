@@ -34,7 +34,6 @@ const fileStorage = multer.diskStorage({
 
 const fileFilter = (request, file, callback) => {
     if (file.mimetype == 'text/csv') {
-<<<<<<< HEAD
       request.session.mensaje = '';
       console.log("CSV added to public folder successfully.");
       callback(null, true);
@@ -42,11 +41,6 @@ const fileFilter = (request, file, callback) => {
     else {
         request.session.mensaje = 'Error';
         console.log("Nothing added to public folder. Error: Invalid type file");
-=======
-        callback(null, true);
-    } else {
-        console.log("Me lleva la chingadaaaaaaaaa");
->>>>>>> 3d24844172538e9d657ae2c6d7e9d331eb411136
         callback(null, false);
     }
 }
