@@ -70,12 +70,18 @@
 
           </div>
 
-          <br><br><br>
-
+          <br>
+          <% if (mensaje !='' ) { %>
+            <div>
+              <%= mensaje %>
+            </div>
+          <% } %>
+          <br>
           <button class="btn btn-primary" type="submit">Crear</button>
           
         </form> 
 
+        
     </section>
 
 <%- include('includes/foot.ejs') %>

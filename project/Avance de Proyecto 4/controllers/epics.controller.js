@@ -1,22 +1,22 @@
-const csv = require('../models/csv.model');
+const express = require('express');
+const multer = require('multer');
+
+const pruebas = express();
 
 exports.get_import = (request, response, next) => {
   response.render('uploadCSV', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
+    mensaje: request.session.mensaje || '',
   });
 };
 
 exports.post_import = (request, response, next) => {
-  console.log(request.file)
-  const csvUploaded = new fileCSV({
-    name: request.file.filename,
-    uploadBy: request.session.username
-  });
-
-  csvUploaded.then(() => {
-        console.log("CSV added to public folder successfully.");
-        response.redirect('/../inicio');
-    })
-  .catch((error) => {console.log(error)});
+  if(request.session.mensaje == 'Formato de archivo no válido, por favor, intenta de nuevo.'){
+    response.redirect('/epics/import')
+  }
+  else{
+    console.log(request.file)
+    response.redirect('/../inicio');
+  }
 };

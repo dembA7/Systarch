@@ -34,15 +34,24 @@ const fileStorage = multer.diskStorage({
 
 const fileFilter = (request, file, callback) => {
     if (file.mimetype == 'text/csv') {
+<<<<<<< HEAD
         callback(null, true);
     } else {
         window.alert("Archivo invalido");
+=======
+      request.session.mensaje = '';
+      console.log("CSV added to public folder successfully.");
+      callback(null, true);
+    }
+    else {
+        request.session.mensaje = 'Formato de archivo no válido, por favor, intenta de nuevo.';
+        console.log("Nothing added to public folder. Error: Invalid type file");
+>>>>>>> 7c97761678e3ea132fafb5cd6bf13be47a1f38eb
         callback(null, false);
     }
 }
 
-app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('csvUploaded')); 
-
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('csvUploaded'));
 
 // Views
 app.set('view engine', 'ejs');

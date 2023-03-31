@@ -60,11 +60,22 @@ exports.get_signup = (request, response, next) => {
     response.render('signup', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
+<<<<<<< HEAD
       csrfToken: request.csrfToken(),
+=======
+      mensaje: request.session.mensaje || '',
+      csrfToken: request.csrfToken()
+>>>>>>> 7c97761678e3ea132fafb5cd6bf13be47a1f38eb
     });
 };
 
 exports.post_signup = (request, response, next) => {
+  if (request.body.userPass != request.body.userConfPass){
+    request.session.mensaje = 'Las contraseñas no coinciden';
+    response.redirect('/usuarios/signup');
+  }
+  else{
+    console.log("Son iguales");
     const usuario = new Usuario({
       userName: request.body.userName || "Anonimo",
       userPass: request.body.userPass || "12345",
@@ -77,6 +88,7 @@ exports.post_signup = (request, response, next) => {
     .then(([rows, fieldData]) => {
         response.redirect('/usuarios/login');
     }).catch((error) => {console.log(error)});
+  }
 };
 
 exports.get_account = (request, response, next) => {
