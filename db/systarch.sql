@@ -146,7 +146,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `epics`
 --
 ALTER TABLE `epics`
-  MODIFY `id` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `epic_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `projects`
