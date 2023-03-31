@@ -56,8 +56,13 @@
                       <label for="floatingPassword">Contraseña</label>
                     </div>
 
-                    <br><br>
-                    
+                    <br>
+                    <% if (mensaje !='' ) { %>
+                      <div>
+                        <%= mensaje %>
+                      </div>
+                    <% } %>
+                    <br>
                     <button class="btn btn-primary" type="submit">Ingresar</button>
 
                   </form>
