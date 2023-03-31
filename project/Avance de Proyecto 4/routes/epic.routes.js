@@ -6,9 +6,9 @@ const router = express.Router();
 
 const epicsController = require('../controllers/epics.controller');
 
-router.get('/import', isAuth, epicsController.get_import);
+router.get('/import', epicsController.get_import);
 
-router.post('/import', isAuth, epicsController.post_import);
+router.post('/import', epicsController.post_import);
 
 
 module.exports = router;

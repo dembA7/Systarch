@@ -1,7 +1,7 @@
 {
-  "name": "lab18",
+  "name": "systarch",
   "version": "1.0.0",
-  "description": "Autenticación de usuarios",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
@@ -13,6 +13,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "bootstrap-icons": "^1.10.3",
+    "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
