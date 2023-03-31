@@ -97,6 +97,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`) VALUES
 ('', '$2a$12$XVRFML.2LtsemV0YWr7OcOd6Cypgb.AFviA1MZkfFgC3DR0RQZ/Dy', 'Diego Vega', 442, 'diego@gmail.com', NULL, '3');
 
+
+
 --
 -- Índices para tablas volcadas
 --
@@ -135,6 +137,42 @@ ALTER TABLE `tickets`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_ID`);
 
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `epics`
+--
+ALTER TABLE `epics`
+  MODIFY `id` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT de la tabla `projects`
+--
+ALTER TABLE `projects`
+  MODIFY `project_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT de la tabla `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `report_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT de la tabla `tickets`
+--
+ALTER TABLE `tickets`
+  MODIFY `ticket_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -157,3 +195,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
