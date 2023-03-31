@@ -91,7 +91,9 @@ exports.post_signup = (request, response, next) => {
 };
 
 exports.get_account = (request, response, next) => {
-    response.render('account')
+    response.render('account', {
+      isLoggedIn: request.session.isLoggedIn || false
+    })
 };
 
 exports.post_account = (request, response, next) => {
