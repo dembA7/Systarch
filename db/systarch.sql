@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-03-2023 a las 20:40:12
+-- Tiempo de generación: 31-03-2023 a las 05:52:35
 -- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.0.25
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,47 +61,25 @@ CREATE TABLE `reports` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tickets`
---
-
-CREATE TABLE `tickets` (
-  `ticket_ID` varchar(100) NOT NULL,
-  `ticket_Key` varchar(100) NOT NULL,
-  `ticket_Status` varchar(50) DEFAULT NULL,
-  `ticket_Points` int(15) DEFAULT NULL,
-  `ticket_Type` char(5) DEFAULT NULL,
-  `ticket_Label` varchar(300) DEFAULT NULL,
-  `ticket_Update` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `users`
+-- Estructura de tabla para la tabla `users2`
 --
 
 CREATE TABLE `users` (
-  `user_ID` varchar(100) NOT NULL,
+  `user_ID` int(11) NOT NULL,
   `user_Password` varchar(100) NOT NULL,
   `user_Name` varchar(100) NOT NULL,
-  `user_Phone` int(10) DEFAULT NULL,
+  `user_Phone` int(10) NOT NULL,
   `user_Mail` varchar(100) NOT NULL,
-  `user_WeeklyAgilePoints` int(50) DEFAULT NULL,
-  `user_Skill` char(2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `user_WeeklyAgilePoints` int(50) NOT NULL,
+  `user_Skill` char(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`) VALUES
-('', '$2a$12$XVRFML.2LtsemV0YWr7OcOd6Cypgb.AFviA1MZkfFgC3DR0RQZ/Dy', 'Diego Vega', 442, 'diego@gmail.com', NULL, '3');
-
-
-
---
--- Índices para tablas volcadas
---
+('', '$2a$12$BghMv6mrUluYGbbiI5VT3.znqu2clVrLhr/job/dXW.KiVZTgv9wO', 'dieego', 43242542, 'diego@gmail.com', NULL, '3');
 
 --
 -- Indices de la tabla `epics`
@@ -131,47 +109,12 @@ ALTER TABLE `reports`
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`ticket_ID`);
 
+
 --
--- Indices de la tabla `users`
+-- AUTO_INCREMENT de la tabla `users2`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_ID`);
-
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `epics`
---
-ALTER TABLE `epics`
-  MODIFY `epic_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `projects`
---
-ALTER TABLE `projects`
-  MODIFY `project_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `reports`
---
-ALTER TABLE `reports`
-  MODIFY `report_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `tickets`
---
-ALTER TABLE `tickets`
-  MODIFY `ticket_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT de la tabla `users`
---
-ALTER TABLE `users`
-  MODIFY `user_ID` varchar(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -195,4 +138,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
