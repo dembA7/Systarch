@@ -1,7 +1,33 @@
 <%- include('includes/head.ejs') %>
     
     <section>
+        <style>
+            .form-control{
+                width: 900px;
+                height: 200px;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+            }
+        </style>
+        <h1>Importa archivo</h1>
+        <div class="row">
+            <div class="col-md-2">
+                <h1></h1>
+            </div>
+            <div class="col-md-8">
+                <br><br><br><br>
+                <form action="/epics/import" method="POST">
+                    <label for="formFileMultiple" class="form-label">Inserta el archivo .csv a evaluar para generar el reporte.</label>
+                    <br><br>
+                    <input class="form-control" type="file" id="formFileMultiple" multiple />
+                </form>
+                <br><br>
+                <button class="btn btn-primary" type="submit">Importar</button>
+            </div>
+            <div class="col-md-2">
 
+<<<<<<< HEAD
         <form action="/epics/import" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label for="formFileMultiple" class="form-label">Multiple files input example</label>
@@ -17,6 +43,11 @@
 
             <button class="btn btn-primary" type="submit">Importar</button>
         </form>
+=======
+            </div>
+        </div>
+        
+>>>>>>> 3d24844172538e9d657ae2c6d7e9d331eb411136
 
     </section>
 
