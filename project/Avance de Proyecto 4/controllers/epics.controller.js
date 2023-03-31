@@ -1,8 +1,3 @@
-const express = require('express');
-const multer = require('multer');
-
-const pruebas = express();
-
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''

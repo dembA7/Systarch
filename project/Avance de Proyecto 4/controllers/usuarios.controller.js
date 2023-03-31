@@ -2,20 +2,22 @@ const Usuario = require('../models/usuarios.model');
 const bcrypt = require('bcryptjs');
 
 exports.get_login = (request, response, next) => {
-    const mensaje = request.session.mensaje || "";
-    if (request.session.mensaje) {
-        request.session.mensaje  = '';
-    }
+
+  const msg = request.session.mensaje;
+  request.session.mensaje  = '';
+
   if (request.session.isLoggedIn){
     response.render('inicio',{
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
     });
   }
+
   else{
     response.render('login', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
+      mensaje: msg
     });
   }
 };
@@ -25,7 +27,6 @@ exports.post_login = (request, response, next) => {
     Usuario.fetchOne(request.body.userMail)
       .then(([rows, fieldData]) => {
         if (rows.length == 1) {
-          console.log(rows);
           bcrypt
             .compare(request.body.userPass, rows[0].user_Password)
             .then((doMatch) => {
@@ -33,12 +34,13 @@ exports.post_login = (request, response, next) => {
                 request.session.isLoggedIn = true;
                 request.session.nombre = rows[0].user_Name;
                 return request.session.save((err) => {
+                  console.log("[Info] Some user logged in successfully.")
                   response.redirect("/../inicio");
                 });
               } 
               else {
                 request.session.mensaje = "Usuario y/o contraseña incorrectos";
-                console.log("Usuario y/o contraseña incorrectos")
+                console.log("[WARN] Some user tried to login with invalid credentials.")
                 response.redirect("/usuarios/login");
               }
             })
@@ -46,6 +48,7 @@ exports.post_login = (request, response, next) => {
         }
         else {
           request.session.mensaje = "Usuario y/o contraseña incorrectos";
+          console.log("[WARN] Some user tried to login with invalid credentials.")
           response.redirect("/usuarios/login");
         }
       })
@@ -92,12 +95,13 @@ exports.get_account = (request, response, next) => {
 };
 
 exports.post_account = (request, response, next) => {
-    console.log("Esta funcionando");
+    console.log("[Info] User used POST in Account.");
     
 };
 
 exports.logout = (request, response, next) => {
     request.session.destroy(() => {
+        console.log("[Info] Some user closed session.");
         response.redirect('/usuarios/login');
     });
 };
