@@ -1,16 +1,20 @@
 <%- include('includes/head.ejs') %>
-    <% if (mensaje !='' ) { %>
-        <div>
-            <%= mensaje %>
-        </div>
-    <% } %>
-
+    
     <section>
 
         <form action="/epics/import" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label for="formFileMultiple" class="form-label">Multiple files input example</label>
             <input class="form-control" type="file" id="csvUploaded" name="csvUploaded"/>
+            
+            <% if (mensaje !='' ) { %>
+                <div>
+                    <%= mensaje %>
+                </div>
+            <% } %>
+            
+            <br>
+
             <button class="btn btn-primary" type="submit">Importar</button>
         </form>
 
