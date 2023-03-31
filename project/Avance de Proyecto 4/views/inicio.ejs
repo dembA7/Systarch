@@ -1,25 +1,29 @@
 <%- include('includes/head.ejs') %>
 
 <style>
-    .btn-outline-success{
-        margin-left: 4rem;
-    }
-    .btn-outline-primary{
-        margin-left: 120px;
-    }
-    #searchbar{
-        max-width: 75em;
-    }
-    #primary{
-        margin: 0 auto;
-        max-width: auto;
-        line-height: 1.5;
-        padding-top: 2em;
-        padding-left: 1em;
+    section{
+        margin-top: 2em;
     }
     h1{
-        padding-left: 1em;
+        margin-left: 1em;
         font-size: 76px;
+    }
+    .btn-outline-success, .btn-outline-primary,  .btn-outline-secondary, .form-control{
+        margin-top: 2.3em;
+    }
+    .btn-outline-success{
+        display: inline-block;
+    }
+    .btn-outline-primary{
+        position: relative;
+        right: 220px;
+    }
+    .form-control{
+        width: 650px;
+    }
+    #progressBars{
+        margin-left: 2em;
+        margin-right: 85em;
     }
 </style>
 
@@ -50,7 +54,7 @@
             </a>
         </div>
 
-        <div class="col">
+        <div>
             <form class="d-flex" role="search" id="searchbar">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
@@ -68,8 +72,44 @@
 </section>
 
 
-<!-- 
 <section id="progressBars">
+
+    <br>
+
+    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
+        <div class="progress-bar bg-success" style="width: 25%"></div>
+    </div>
+    <br><br>
+
+    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
+        <div class="progress-bar bg-success" style="width: 25%"></div>
+    </div>
+    <br><br>
+
+    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
+        <div class="progress-bar bg-success" style="width: 25%"></div>
+    </div>
+    <br><br>
+
+    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
+        <div class="progress-bar bg-success" style="width: 25%"></div>
+    </div>
+    <br><br>
+
+    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
+        <div class="progress-bar bg-success" style="width: 25%"></div>
+    </div>
+    <br><br>
+
+    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
+        <div class="progress-bar bg-success" style="width: 25%"></div>
+    </div>
+    <br><br>
+
+</section>
+
+
+<!-- <section id="progressBars">
     <div class="col-md-10">
             
     </div>
@@ -155,6 +195,6 @@
     </div>
 </div>
 <br><br><br>
-</section> -->
+</section>  -->
 
 <%- include('includes/foot.ejs') %>
