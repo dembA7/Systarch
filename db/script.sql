@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 09, 2023 at 09:29 PM
--- Server version: 5.7.24
--- PHP Version: 8.0.1
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 31-03-2023 a las 05:52:35
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `systarch`
+-- Base de datos: `systarch`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `epics`
+-- Estructura de tabla para la tabla `epics`
 --
 
 CREATE TABLE `epics` (
@@ -32,70 +32,57 @@ CREATE TABLE `epics` (
   `user_ID` varchar(100) DEFAULT NULL,
   `ticket_ID` varchar(100) DEFAULT NULL,
   `project_ID` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `projects`
+-- Estructura de tabla para la tabla `projects`
 --
 
 CREATE TABLE `projects` (
   `project_ID` varchar(100) NOT NULL,
   `project_Name` varchar(100) NOT NULL,
   `report_ID` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reports`
+-- Estructura de tabla para la tabla `reports`
 --
 
 CREATE TABLE `reports` (
   `report_ID` varchar(100) NOT NULL,
   `report_Progress` int(100) DEFAULT NULL,
   `report_Estimated` int(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tickets`
---
-
-CREATE TABLE `tickets` (
-  `ticket_ID` varchar(100) NOT NULL,
-  `ticket_Key` varchar(100) NOT NULL,
-  `ticket_Status` varchar(50) DEFAULT NULL,
-  `ticket_Points` int(15) DEFAULT NULL,
-  `ticket_Type` char(5) DEFAULT NULL,
-  `ticket_Label` varchar(300) DEFAULT NULL,
-  `ticket_Update` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
+-- Estructura de tabla para la tabla `users2`
 --
 
 CREATE TABLE `users` (
-  `user_ID` varchar(100) NOT NULL,
+  `user_ID` int(11) NOT NULL,
   `user_Password` varchar(100) NOT NULL,
   `user_Name` varchar(100) NOT NULL,
-  `user_Phone` int(10) DEFAULT NULL,
+  `user_Phone` int(10) NOT NULL,
   `user_Mail` varchar(100) NOT NULL,
-  `user_WeeklyAgilePoints` int(50) DEFAULT NULL,
-  `user_Skill` char(2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `user_WeeklyAgilePoints` int(50) NOT NULL,
+  `user_Skill` char(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indexes for dumped tables
+-- Volcado de datos para la tabla `users`
 --
 
+INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`) VALUES
+('', '$2a$12$BghMv6mrUluYGbbiI5VT3.znqu2clVrLhr/job/dXW.KiVZTgv9wO', 'dieego', 43242542, 'diego@gmail.com', NULL, '3');
+
 --
--- Indexes for table `epics`
+-- Indices de la tabla `epics`
 --
 ALTER TABLE `epics`
   ADD PRIMARY KEY (`epic_ID`),
@@ -104,36 +91,37 @@ ALTER TABLE `epics`
   ADD KEY `ticket_ID` (`ticket_ID`);
 
 --
--- Indexes for table `projects`
+-- Indices de la tabla `projects`
 --
 ALTER TABLE `projects`
   ADD PRIMARY KEY (`project_ID`),
   ADD KEY `report_ID` (`report_ID`);
 
 --
--- Indexes for table `reports`
+-- Indices de la tabla `reports`
 --
 ALTER TABLE `reports`
   ADD PRIMARY KEY (`report_ID`);
 
 --
--- Indexes for table `tickets`
+-- Indices de la tabla `tickets`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`ticket_ID`);
 
+
 --
--- Indexes for table `users`
+-- AUTO_INCREMENT de la tabla `users2`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_ID`);
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `epics`
+-- Filtros para la tabla `epics`
 --
 ALTER TABLE `epics`
   ADD CONSTRAINT `epics_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`),
@@ -141,7 +129,7 @@ ALTER TABLE `epics`
   ADD CONSTRAINT `epics_ibfk_3` FOREIGN KEY (`ticket_ID`) REFERENCES `tickets` (`ticket_ID`);
 
 --
--- Constraints for table `projects`
+-- Filtros para la tabla `projects`
 --
 ALTER TABLE `projects`
   ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`report_ID`) REFERENCES `reports` (`report_ID`);
