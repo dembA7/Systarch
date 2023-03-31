@@ -34,21 +34,21 @@ exports.post_login = (request, response, next) => {
                 request.session.isLoggedIn = true;
                 request.session.nombre = rows[0].user_Name;
                 return request.session.save((err) => {
-                  console.log("[Info] Some user logged in successfully.")
+                  console.log("[Info] A user logged in successfully.")
                   response.redirect("/../inicio");
                 });
               } 
               else {
-                request.session.mensaje = "Usuario y/o contraseña incorrectos";
-                console.log("[WARN] Some user tried to login with invalid credentials.")
+                request.session.mensaje = "Usuario y/o contraseña incorrectos.";
+                console.log("[WARN] A user failed to login.")
                 response.redirect("/usuarios/login");
               }
             })
             .catch((error) => console.log(error));
         }
         else {
-          request.session.mensaje = "Usuario y/o contraseña incorrectos";
-          console.log("[WARN] Some user tried to login with invalid credentials.")
+          request.session.mensaje = "Usuario y/o contraseña incorrectos.";
+          console.log("[WARN] A user failed to login.")
           response.redirect("/usuarios/login");
         }
       })
@@ -70,7 +70,7 @@ exports.get_signup = (request, response, next) => {
 
 exports.post_signup = (request, response, next) => {
   if (request.body.userPass != request.body.userConfPass){
-    request.session.mensaje = 'Las contraseñas no coinciden';
+    request.session.mensaje = 'Las contraseñas no coinciden.';
     response.redirect('/usuarios/signup');
   }
   else{
@@ -101,7 +101,7 @@ exports.post_account = (request, response, next) => {
 
 exports.logout = (request, response, next) => {
     request.session.destroy(() => {
-        console.log("[Info] Some user closed session.");
+        console.log("[Info] A user logget out.");
         response.redirect('/usuarios/login');
     });
 };
