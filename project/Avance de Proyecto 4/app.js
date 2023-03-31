@@ -35,12 +35,12 @@ const fileStorage = multer.diskStorage({
 const fileFilter = (request, file, callback) => {
     if (file.mimetype == 'text/csv') {
       request.session.mensaje = '';
-      console.log("[Info] Some user uploaded a .CSV to 'public' folder successfully.");
+      console.log("[Info] A user uploaded a .CSV to 'public' folder successfully.");
       callback(null, true);
     }
     else {
         request.session.mensaje = 'Formato de archivo no válido, por favor, intenta de nuevo.';
-        console.log("[Warn] Some user tried to upload an invalid file as a .CSV");
+        console.log("[Warn] A user tried to upload an invalid file as a .CSV");
         callback(null, false);
     }
 }
