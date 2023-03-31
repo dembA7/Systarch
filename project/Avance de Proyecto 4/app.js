@@ -36,7 +36,7 @@ const fileFilter = (request, file, callback) => {
     if (file.mimetype == 'text/csv') {
         callback(null, true);
     } else {
-        console.log("Me lleva la chingadaaaaaaaaa");
+        window.alert("Archivo invalido");
         callback(null, false);
     }
 }
