@@ -74,7 +74,7 @@ exports.post_signup = (request, response, next) => {
     response.redirect('/usuarios/signup');
   }
   else{
-    console.log("Son iguales");
+    console.log("Las contraseñas coinciden.");
     const usuario = new Usuario({
       userName: request.body.userName || "Anonimo",
       userPass: request.body.userPass || "12345",
