@@ -70,11 +70,11 @@ exports.get_signup = (request, response, next) => {
 
 exports.post_signup = (request, response, next) => {
   if (request.body.userPass != request.body.userConfPass){
-    request.session.mensaje = 'Las contraseñas no coinciden.';
+    request.session.mensaje = '[Info] Las contraseñas no coinciden.';
     response.redirect('/usuarios/signup');
   }
   else{
-    console.log("Las contraseñas coinciden.");
+    console.log("[Info] Las contraseñas coinciden. Creando usuario.");
     const usuario = new Usuario({
       userName: request.body.userName || "Anonimo",
       userPass: request.body.userPass || "12345",
@@ -87,6 +87,7 @@ exports.post_signup = (request, response, next) => {
     .then(([rows, fieldData]) => {
         response.redirect('/usuarios/login');
     }).catch((error) => {console.log(error)});
+    console.log("[Info] El usuario se ha creado correctamente.")
   }
 };
 
