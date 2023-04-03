@@ -5,6 +5,7 @@ const session = require('express-session');
 const csrf = require('csurf');
 const isAuth = require('./util/is-auth');
 const multer = require('multer');
+const csv = require('csv-parser');
 
 const app = express();
 
@@ -33,8 +34,8 @@ const fileStorage = multer.diskStorage({
 });
 
 const fileFilter = (request, file, callback) => {
-    console.log(file.mimetype);
-    if (file.mimetype == 'text/csv') {
+    console.log(file.originalname);
+    if (file.originalname.match(/\.csv$/)) {
       request.session.mensaje = '';
       console.log("[Info] A user uploaded a .CSV to 'public' folder successfully.");
       callback(null, true);

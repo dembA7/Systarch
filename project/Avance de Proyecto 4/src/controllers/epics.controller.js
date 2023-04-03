@@ -13,12 +13,13 @@ exports.get_import = (request, response, next) => {
 
 exports.post_import = (request, response, next) => {
   if (request.file && request.file.path) {
+    console.log("Funciono");
     const { csv } = request.file;
-        response.render('viewCSV', {
+        /*response.render('viewCSV', {
           isLoggedIn: request.session.isLoggedIn || false,
           nombre: request.session.nombre || '',
           dataArray: datos
-          });
+          });*/
   } 
   else {
     response.redirect('/epics/import');
