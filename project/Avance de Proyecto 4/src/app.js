@@ -33,6 +33,7 @@ const fileStorage = multer.diskStorage({
 });
 
 const fileFilter = (request, file, callback) => {
+    console.log(file.mimetype);
     if (file.mimetype == 'text/csv') {
       request.session.mensaje = '';
       console.log("[Info] A user uploaded a .CSV to 'public' folder successfully.");

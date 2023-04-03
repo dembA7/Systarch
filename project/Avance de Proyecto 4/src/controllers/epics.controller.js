@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -11,6 +12,20 @@ exports.get_import = (request, response, next) => {
 };
 
 exports.post_import = (request, response, next) => {
+  if (request.file && request.file.path) {
+    const { csv } = request.file;
+        response.render('viewCSV', {
+          isLoggedIn: request.session.isLoggedIn || false,
+          nombre: request.session.nombre || '',
+          dataArray: datos
+          });
+  } 
+  else {
+    response.redirect('/epics/import');
+  }
+};
+
+  /*
   if(request.session.mensaje == 'Formato de archivo no válido, por favor, intenta de nuevo.'){
     response.redirect('/epics/import');
   }
@@ -48,5 +63,5 @@ exports.post_import = (request, response, next) => {
     nombre: request.session.nombre || '',
     dataArray: datos
     });
-  }
-};
+  } 
+}; */
