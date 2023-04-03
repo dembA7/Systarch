@@ -3,6 +3,9 @@
 <!-- ESTILOS -->
 
 <style>
+
+    /* GENERAL */
+
     section{
         padding-top: 1.3em;
     }
@@ -11,7 +14,10 @@
         font-size: 76px;
         width: auto;
     }
-    #primary{
+
+    /* HEAD */
+
+    #head{
         display: flex;
     }
     .btn-outline-success, .btn-outline-primary,  .btn-outline-secondary, .form-control{
@@ -37,6 +43,48 @@
         margin-right: 75px;
         color: #252525;
     }
+
+    /* BODY */
+
+    .progress{
+        max-width: 750px;
+        border-radius: 30px;
+    }
+    .progress-bar{
+        border-radius: 30px;
+    }
+    #epic{
+        padding: 25px 25px;
+        display: flex;
+        flex-direction: row;
+    }
+    #progressBar, #epicDetail{
+        flex: 1;
+    }
+    #epicDetail{
+        border: 1px solid #e9ecef;
+        border-radius: 30px;
+        background-color: #e9ecef;
+        height: 50px;
+        margin-right: 35px;
+        margin-left: 35px;
+        text-align: left;
+        padding-top: 8px;
+        padding-left: 30px;
+        font-size: 20px;
+        color: #252525;
+    }
+    .bi-arrow-up-right{
+        color: #252525;
+        position: absolute;
+        right: 0;
+        margin-right: 85px;
+        margin-left: 15px;
+        margin-top: 6px;
+    }
+
+    /* RESPONSIVE */
+
     @media(max-width: 981px){
         #search{
             display: none;
@@ -49,7 +97,10 @@
     }
 </style>
 
-<section id="primary">
+
+<!-- HEAD -->
+
+<section id="head">
     <div id="title">
         <h1>Epics</h1>
     </div>
@@ -86,41 +137,137 @@
     </div>
 </section>
 
+<!-- BODY -->
 
-<!-- <section id="progressBars">
-
+<section id="body">
     <br>
 
-    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
-        <div class="progress-bar bg-success" style="width: 25%"></div>
-    </div>
-    <br><br>
+    <div id="epic">
+        <div id="progressContainer" style="width: 40%" class="item">
+            <div id="progressBar">
+                <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+                    <div class="progress-bar bg-success" style="width: 10%"></div>
+                </div>
+            </div>
+        </div>
+        <div id="epicDetail" style="width: 60%" class="item">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, excepturi.
 
-    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
-        <div class="progress-bar bg-success" style="width: 56%"></div>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                    </svg>
+                </a>
+            </p>
+        </div>
     </div>
-    <br><br>
 
-    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
-        <div class="progress-bar bg-success" style="width: 34%"></div>
+    <div id="epic">
+        <div id="progressContainer" style="width: 40%" class="item">
+            <div id="progressBar">
+                <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+                    <div class="progress-bar bg-success" style="width: 40%"></div>
+                </div>
+            </div>
+        </div>
+        <div id="epicDetail" style="width: 60%" class="item">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, excepturi.
+
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                    </svg>
+                </a>
+            </p>
+        </div>
     </div>
-    <br><br>
 
-    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
-        <div class="progress-bar bg-success" style="width: 79%"></div>
+    <div id="epic">
+        <div id="progressContainer" style="width: 40%" class="item">
+            <div id="progressBar">
+                <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+                    <div class="progress-bar bg-success" style="width: 85%"></div>
+                </div>
+            </div>
+        </div>
+        <div id="epicDetail" style="width: 60%" class="item">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, excepturi.
+
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                    </svg>
+                </a>
+            </p>
+        </div>
     </div>
-    <br><br>
 
-    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
-        <div class="progress-bar bg-success" style="width: 100%"></div>
+    <div id="epic">
+        <div id="progressContainer" style="width: 40%" class="item">
+            <div id="progressBar">
+                <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+                    <div class="progress-bar bg-success" style="width: 26%"></div>
+                </div>
+            </div>
+        </div>
+        <div id="epicDetail" style="width: 60%" class="item">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, excepturi.
+
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                    </svg>
+                </a>
+            </p>
+        </div>
     </div>
-    <br><br>
 
-    <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 40px">
-        <div class="progress-bar bg-success" style="width: 7%"></div>
+    <div id="epic">
+        <div id="progressContainer" style="width: 40%" class="item">
+            <div id="progressBar">
+                <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+                    <div class="progress-bar bg-success" style="width: 67%"></div>
+                </div>
+            </div>
+        </div>
+        <div id="epicDetail" style="width: 60%" class="item">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, excepturi.
+
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                    </svg>
+                </a>
+            </p>
+        </div>
     </div>
-    <br><br>
 
-</section> -->
+    <div id="epic">
+        <div id="progressContainer" style="width: 40%" class="item">
+            <div id="progressBar">
+                <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
+                    <div class="progress-bar bg-success" style="width: 95%"></div>
+                </div>
+            </div>
+        </div>
+        <div id="epicDetail" style="width: 60%" class="item">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, excepturi.
+
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"/>
+                    </svg>
+                </a>
+            </p>
+        </div>
+    </div>
+
+</section>
 
 <%- include('includes/foot.ejs') %>
