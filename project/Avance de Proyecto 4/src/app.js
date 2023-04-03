@@ -5,7 +5,6 @@ const session = require('express-session');
 const csrf = require('csurf');
 const isAuth = require('./util/is-auth');
 const multer = require('multer');
-const csv = require('csv-parser');
 
 const app = express();
 
@@ -29,7 +28,8 @@ const fileStorage = multer.diskStorage({
     filename: (request, file, callback) => {
         //aquí configuramos el nombre que queremos que tenga el archivo en el servidor, 
         //para que no haya problema si se suben 2 archivos con el mismo nombre concatenamos el timestamp
-        callback(null, new Date().getMilliseconds() + '-' + file.originalname);
+        callback(null, file.originalname);
+        //callback(null, new Date().getMilliseconds() + '-' + file.originalname);
     },
 });
 

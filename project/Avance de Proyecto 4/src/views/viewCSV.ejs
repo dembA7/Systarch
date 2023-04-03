@@ -16,7 +16,26 @@
             }
         </style>
         <h1>Previsualización de Epic importado</h1>
-        
+        <table>
+            <thead>
+              <tr>
+                <th>Columna 1</th>
+                <th>Columna 2</th>
+                <th>Columna 3</th>
+                <!-- Agrega aquí las columnas adicionales que necesites -->
+              </tr>
+            </thead>
+            <tbody>
+              <% data.forEach(function(row) { %>
+              <tr>
+                <td><%= row.columna1 %></td>
+                <td><%= row.columna2 %></td>
+                <td><%= row.columna3 %></td>
+                <!-- Agrega aquí las columnas adicionales que necesites -->
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
     </section>
 
 <%- include('includes/foot.ejs') %>

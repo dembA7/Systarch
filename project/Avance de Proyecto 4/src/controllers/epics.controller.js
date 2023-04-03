@@ -1,5 +1,5 @@
 const fs = require('fs');
-const path = require('path');
+const csv = require('csv-parser');
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -13,55 +13,21 @@ exports.get_import = (request, response, next) => {
 
 exports.post_import = (request, response, next) => {
   if (request.file && request.file.path) {
-    const { csv } = request.file;
-        response.render('viewCSV', {
-          isLoggedIn: request.session.isLoggedIn || false,
-          nombre: request.session.nombre || '',
-          data: csv,
-          });
+    const datos = [];
+    fs.createReadStream(request.file.path)
+      .pipe(csv())
+      .on('data', (row) => {
+        datos.push(row);
+      })
+    .on('end', () => {
+      response.render('viewCSV', {
+        isLoggedIn: request.session.isLoggedIn || false,
+        nombre: request.session.nombre || '',
+        data: datos,
+        });
+    });
   } 
   else {
     response.redirect('/epics/import');
   }
 };
-
-  /*
-  if(request.session.mensaje == 'Formato de archivo no válido, por favor, intenta de nuevo.'){
-    response.redirect('/epics/import');
-  }
-
-  else{
-    console.log(request.file)
-    let datos = [];
-    
-    const flpath = request.file.path;
-
-    fs.readFile(flpath, 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-      }
-
-      // Convertir el contenido del archivo .csv en un array de objetos
-      let filas = data.split('\n');
-      let encabezados = filas[0].split(',');
-
-      for (let i = 1; i < filas.length; i++) {
-        let fila = filas[i].split(',');
-        let objeto = {};
-
-        for (let j = 0; j < encabezados.length; j++) {
-          objeto[encabezados[j]] = fila[j];
-        }
-
-        datos.push(objeto);
-      }
-      console.log(datos)
-    });
-    
-    response.render('viewCSV', {
-    isLoggedIn: request.session.isLoggedIn || false,
-    nombre: request.session.nombre || '',
-    dataArray: datos
-    });
-  } 
-}; */
