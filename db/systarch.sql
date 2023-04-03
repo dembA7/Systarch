@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `epics` (
-  `epic_ID` varchar(100) NOT NULL,
-  `user_ID` varchar(100) DEFAULT NULL,
-  `ticket_ID` varchar(100) DEFAULT NULL,
-  `project_ID` varchar(100) DEFAULT NULL
+  `epic_ID` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `user_ID` int(100) DEFAULT NULL,
+  `ticket_ID` int(100) DEFAULT NULL,
+  `project_ID` int(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -41,9 +41,9 @@ CREATE TABLE `epics` (
 --
 
 CREATE TABLE `projects` (
-  `project_ID` varchar(100) NOT NULL,
-  `project_Name` varchar(100) NOT NULL,
-  `report_ID` varchar(100) DEFAULT NULL
+  `project_ID` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `project_Name` varchar(200) NOT NULL,
+  `report_ID` int(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -53,7 +53,7 @@ CREATE TABLE `projects` (
 --
 
 CREATE TABLE `reports` (
-  `report_ID` varchar(100) NOT NULL,
+  `report_ID` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
   `report_Progress` int(100) DEFAULT NULL,
   `report_Estimated` int(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -65,7 +65,7 @@ CREATE TABLE `reports` (
 --
 
 CREATE TABLE `tickets` (
-  `ticket_ID` varchar(100) NOT NULL,
+  `ticket_ID` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
   `ticket_Key` varchar(100) NOT NULL,
   `ticket_Status` varchar(50) DEFAULT NULL,
   `ticket_Points` int(15) DEFAULT NULL,
@@ -81,9 +81,9 @@ CREATE TABLE `tickets` (
 --
 
 CREATE TABLE `users` (
-  `user_ID` varchar(100) NOT NULL,
-  `user_Password` varchar(100) NOT NULL,
-  `user_Name` varchar(100) NOT NULL,
+  `user_ID` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `user_Password` varchar(150) NOT NULL,
+  `user_Name` varchar(150) NOT NULL,
   `user_Phone` int(10) DEFAULT NULL,
   `user_Mail` varchar(100) NOT NULL,
   `user_WeeklyAgilePoints` int(50) DEFAULT NULL,
@@ -105,7 +105,6 @@ INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `use
 -- Indices de la tabla `epics`
 --
 ALTER TABLE `epics`
-  ADD PRIMARY KEY (`epic_ID`),
   ADD KEY `user_ID` (`user_ID`,`ticket_ID`,`project_ID`),
   ADD KEY `project_ID` (`project_ID`),
   ADD KEY `ticket_ID` (`ticket_ID`);
@@ -114,28 +113,10 @@ ALTER TABLE `epics`
 -- Indices de la tabla `projects`
 --
 ALTER TABLE `projects`
-  ADD PRIMARY KEY (`project_ID`),
   ADD KEY `report_ID` (`report_ID`);
 
 --
--- Indices de la tabla `reports`
---
-ALTER TABLE `reports`
-  ADD PRIMARY KEY (`report_ID`);
 
---
--- Indices de la tabla `tickets`
---
-ALTER TABLE `tickets`
-  ADD PRIMARY KEY (`ticket_ID`);
-
---
--- Indices de la tabla `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_ID`);
-
---
 -- Restricciones para tablas volcadas
 --
 
