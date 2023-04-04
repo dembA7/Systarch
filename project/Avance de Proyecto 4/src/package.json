@@ -7,7 +7,7 @@
     "start": "node app.js",
     "test": ""
   },
-  "author": "Diego Vega",
+  "author": "Systarch",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
