@@ -87,7 +87,7 @@ exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
   console.log("Se solicitan detalles del epic")
-  response.render('epic detail', {
+  response.render('proyectview', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
     mensaje: msg || '',
