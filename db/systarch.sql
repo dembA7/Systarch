@@ -72,12 +72,12 @@ CREATE TABLE `tickets` (
   `Issue_Id` int(30) NOT NULL,
   `Summary` varchar(400) NOT NULL,
   `Issue_Type` char(10) NOT NULL,
-  `Story_Points` int(50) DEFAULT NULL, --Ticket points
+  `Story_Points` int(50) DEFAULT NULL,
   `ticket_Status` varchar(50) NOT NULL,
   `ticket_Update` date NOT NULL,
   `ticket_Assignee` varchar(100) DEFAULT NULL,
   `ticket_Assignee_ID` varchar(200) DEFAULT NULL,
-  `ticket_Label` varchar(300) DEFAULT NULL --Backend/Frontend
+  `ticket_Label` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
