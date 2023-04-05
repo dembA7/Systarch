@@ -29,6 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `epics` (
   `epic_ID` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `epic_Link` varchar(30) NOT NULL,
+  `epic_Link_Summary` varchar(400) NOT NULL,
   `user_ID` int(100) DEFAULT NULL,
   `ticket_ID` int(100) DEFAULT NULL,
   `project_ID` int(100) DEFAULT NULL
@@ -65,13 +67,17 @@ CREATE TABLE `reports` (
 --
 
 CREATE TABLE `tickets` (
-  `ticket_ID` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  `ticket_Key` varchar(100) NOT NULL,
-  `ticket_Status` varchar(50) DEFAULT NULL,
-  `ticket_Points` int(15) DEFAULT NULL,
-  `ticket_Type` char(5) DEFAULT NULL,
-  `ticket_Label` varchar(300) DEFAULT NULL,
-  `ticket_Update` date DEFAULT NULL
+  `ticket_Id` int(100) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `Issue_Key` varchar(100) NOT NULL,
+  `Issue_Id` int(30) NOT NULL,
+  `Summary` varchar(400) NOT NULL,
+  `Issue_Type` char(10) NOT NULL,
+  `Story_Points` int(50) DEFAULT NULL, --Ticket points
+  `ticket_Status` varchar(50) NOT NULL,
+  `ticket_Update` date NOT NULL,
+  `ticket_Assignee` varchar(100) DEFAULT NULL,
+  `ticket_Assignee_ID` varchar(200) DEFAULT NULL,
+  `ticket_Label` varchar(300) DEFAULT NULL --Backend/Frontend
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -126,7 +132,7 @@ ALTER TABLE `projects`
 ALTER TABLE `epics`
   ADD CONSTRAINT `epics_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`),
   ADD CONSTRAINT `epics_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`),
-  ADD CONSTRAINT `epics_ibfk_3` FOREIGN KEY (`ticket_ID`) REFERENCES `tickets` (`ticket_ID`);
+  ADD CONSTRAINT `epics_ibfk_3` FOREIGN KEY (`ticket_Id`) REFERENCES `tickets` (`ticket_Id`);
 
 --
 -- Filtros para la tabla `projects`
