@@ -1,0 +1,55 @@
+<%- include('includes/head.ejs') %>
+    <br>
+
+    <div>
+
+      <!--Dentro de este div no se debe mover nada, está hecho para que automáticamente se acomode el despliegue dependiendo de
+          como esté acomodada la ventana. Es un ajuste automático. Todo lo relacionado a los datos debe moverse en el js-->
+          <button style="margin-left: 15px;" onclick="window.location.href='../inicio'" class="btn btn-secondary float-right">Regresar</button>
+          <div class="d-flex justify-content-between align-items-center px-4">
+            <p class="mr-auto mb-0"><h1>Dashboard</h1></p></div>      
+          <div class="d-flex justify-content-between align-items-center px-4">
+                  <p class="mr-auto mb-0"><h2>Proyecto 1</h2></p>
+                    <p class="mr-auto mb-0"><h2></h2></p>
+                  <p class="ml-auto mb-0"><h4>
+                    <figure>
+                      <figcaption>Miembros del equipo</figcaption>
+                    <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
+                    
+                  </figure>
+                  </h4></p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center px-5">
+
+                  <script>
+
+                    //Éste código se debe borrar al final, es solo para visualización inicial y de muestra, se debe eliminar
+                    //Esta sección una vez se realice la creación del MVC
+
+                    //Simplemente el añadido de datos. Desde el html se configuró para que su despliegue sea el mejor así que
+                    //Sólo pon el código de las gráficas.
+
+                      alert("Revisando datos...");
+
+                      const miImagen = new Image();
+                      miImagen.src = "https://tudashboard.com/wp-content/uploads/2021/03/grafica-de-barras.png";
+                      document.body.appendChild(miImagen);
+
+                      const miImagen2 = new Image();
+                      miImagen2.src = "https://images.vexels.com/media/users/3/143065/isolated/preview/c6cbc8cf5ca3856bca8d5f28c0471fca-carro-de-grafico-de-barras.png";
+                      document.body.appendChild(miImagen2);
+
+                      const miImagen3 = new Image();
+                      miImagen3.src = "data:image/png;base64,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";
+                      document.body.appendChild(miImagen3);
+
+                      var miImagen4 = document.createElement("img");
+                      miImagen4.src = "https://cdn-icons-png.flaticon.com/512/46/46998.png";
+                      document.body.appendChild(miImagen4);
+                      miImagen4.style.marginLeft = "200px";
+
+                  </script>
+              </div>
+              </div>
+    </div>
+    <%- include('includes/foot.ejs') %>

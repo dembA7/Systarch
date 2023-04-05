@@ -59,16 +59,78 @@ function readCSV(flpath) {
 
         console.log("==========");
         console.log("Esto va primero")
-        console.log(datos[1]);
-
-        /*
-        for(let dictInDatos = 0; dictInDatos < 2; dictInDatos++){
+        console.log("==========");
+        for(let dictInDatos = 0; dictInDatos < 1; dictInDatos++){
           var dict = datos[dictInDatos];
-          for(var dataField in dict[dataField]){
-            console.log(dataField);
-            console.log(dict[dataField]);
+          for(const [tagField, infoField] of Object.entries(dict)){
+            switch (tagField) {
+              case "Issue key":
+                console.log("Issue key: ");
+                console.log(infoField);
+                break;
+                
+              case "Issue id":
+                console.log("Issue id: ");
+                console.log(infoField);
+                break;
+
+              case "Summary":
+                console.log("Summary");
+                console.log(infoField);
+                break;
+              
+              case "Issue Type":
+                console.log("Issue Type: ");
+                console.log(infoField);
+                break;
+
+              case "Custom field (Story Points)":
+                console.log("Story Points: ");
+                console.log(infoField);
+                break;
+
+              case "Status":
+                console.log("Status: ");
+                console.log(infoField);
+                break;
+
+              case "Custom field (Epic Link)":
+                console.log("Epic Link: ");
+                console.log(infoField);
+                break;
+              
+              case "Epic Link Summary":
+                console.log("Epic Link Summary: ");
+                console.log(infoField);
+                break;
+                
+              case "Updated":
+                console.log("Updated: ");
+                console.log(infoField);
+                break;
+
+              case "Assignee":
+                console.log("Assignee: ");
+                console.log(infoField);
+                break;
+
+              case "Assignee Id":
+                console.log("Assignee id: ");
+                console.log(infoField);
+                break;
+
+              case "Labels":
+                console.log("Label: ");
+                console.log(infoField);
+                break;
+                  
+              default:
+                console.log("No existe la columna: '" + tagField + "' ");
+                break;
+            }
+            console.log("========");
           }
-        }*/
+        }
         resolve()
       }
       
@@ -80,5 +142,17 @@ async function nextPage(flpath) {
   await readCSV(flpath);
   console.log("==========");
   console.log("Esto va segundo")
-  console.log(datos[1]);
+  
+  //console.log(datos[1]);
+};
+
+exports.get_detail = (request, response, next) => {
+  const msg = request.session.mensaje
+  request.session.mensaje = ''
+  console.log("Se solicitan detalles del epic")
+  response.render('proyectview', {
+    isLoggedIn: request.session.isLoggedIn || false,
+    nombre: request.session.nombre || '',
+    mensaje: msg || '',
+  });
 };
