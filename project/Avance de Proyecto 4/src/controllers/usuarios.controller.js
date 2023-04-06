@@ -103,7 +103,7 @@ exports.post_account = (request, response, next) => {
 
 exports.logout = (request, response, next) => {
     request.session.destroy(() => {
-        console.log("[Info] A user logget out.");
+        console.log("[Info] A user logged out.");
         response.redirect('/usuarios/login');
     });
 };
