@@ -1,5 +1,6 @@
 const Ticket = require('../models/dispatch.model');
 const fs = require('fs');
+const { parse } = require('date-fns');
 let datos = [];
 
 exports.get_import = (request, response, next) => {
@@ -94,11 +95,16 @@ function readCSV(flpath) {
               case "Custom field (Story Points)":
                 console.log("Story Points: ");
                 console.log(infoField);
+                const date = infoField;
+                const format = 'dd/mm/yyyy hh:mm:ss';
+                const newDate = parse(date, format, new Date());
+                const stamp = newDate.getTime();
+                console.log(stamp);
                 if(isNaN(parseFloat(infoField))){
                   tempTicket.Story_Points = 0;
                 }
                 else{
-                  tempTicket.Story_Points = parseFloat(infoField);
+                  tempTicket.Story_Points = stamp;
                 }
                 break;
 
