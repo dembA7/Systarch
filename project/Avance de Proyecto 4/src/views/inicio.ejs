@@ -73,6 +73,12 @@
         font-size: 20px;
         color: #252525;
     }
+    #detailBorder{
+        max-width: 1200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .bi-arrow-up-right{
         color: #252525;
         position: absolute;
@@ -84,7 +90,58 @@
 
     /* RESPONSIVE */
 
+    @media(max-width: 2298px){
+        #detailBorder{
+            max-width: 1150px;
+        }
+    }
+    @media(max-width: 2222px){
+        #detailBorder{
+            max-width: 1000px;
+        }
+    }
+    @media(max-width: 1938px){
+        #detailBorder{
+            max-width: 850px;
+        }
+    }
+    @media(max-width: 1710px){
+        #detailBorder{
+            max-width: 750px;
+        }
+    }
+    @media(max-width: 1550px){
+        #detailBorder{
+            max-width: 650px;
+        }
+    }
     @media(max-width: 1391px){
+        .progress{
+            height: 40px;
+        }
+        #epicDetail{
+            height: 40px;
+            font-size: 18px;
+        }
+        #detailBorder{
+            max-width: 550px;
+        }
+        .bi-arrow-up-right{
+            width: 15px;
+            height: 15px;
+        }
+    }
+    @media(max-width: 1212px){
+        #detailBorder{
+            max-width: 450px;
+        }
+    }
+    @media(max-width: 1041px){
+        #detailBorder{
+            max-width: 350px;
+        }
+    }
+    @media(max-width: 981px){
         #epic{
             display: flex;
             flex-direction: column;
@@ -101,6 +158,9 @@
             margin-bottom: 10px;
             text-align: center;
         }
+        #detailBorder{
+            max-width: 550px;
+        }
         .bi-arrow-up-right{
             margin: 0;
             right: auto;
@@ -114,8 +174,6 @@
         .detailButton{
             margin-bottom: 35px;
         }
-    }
-    @media(max-width: 981px){
         #search{
             display: none;
         }
@@ -192,7 +250,7 @@
             </div>
         </div>
         <div id="epicDetail" style="width: 60%" class="item">
-            <p>
+            <p id="detailBorder">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
             </p>
         </div>
@@ -214,8 +272,8 @@
             </div>
         </div>
         <div id="epicDetail" style="width: 60%" class="item">
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, excepturi.
+            <p id="detailBorder">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates adipisci aliquam, minima maxime laboriosam molestiae aut exercitationem vel perspiciatis dolor libero quidem eligendi.
             </p>
         </div>
         <div class="detailButton">
@@ -236,7 +294,7 @@
             </div>
         </div>
         <div id="epicDetail" style="width: 60%" class="item">
-            <p>
+            <p id="detailBorder">
                 Lorem ipsum dolor sit amet consectetur adipisicing.
             </p>
         </div>
@@ -258,7 +316,7 @@
             </div>
         </div>
         <div id="epicDetail" style="width: 60%" class="item">
-            <p>
+            <p id="detailBorder">
                 Lorem ipsum dolor sit.
             </p>
         </div>
@@ -280,7 +338,7 @@
             </div>
         </div>
         <div id="epicDetail" style="width: 60%" class="item">
-            <p>
+            <p id="detailBorder">
                 Lorem ipsum dolor sit amet consectetur.
             </p>
         </div>
@@ -302,7 +360,7 @@
             </div>
         </div>
         <div id="epicDetail" style="width: 60%" class="item">
-            <p>
+            <p id="detailBorder">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod suscipit!
             </p>
         </div>
