@@ -1,0 +1,12 @@
+Issue key,Issue id,Summary,Issue Type,Custom field (Story Points),Status,Custom field (Epic Link),Epic Link Summary,Labels,Labels,Updated
+PART-133,20826,Create UI filter: by patient name,Task,2.0,To Do,PART-289,NSE - P4,part/Frontend,,24/Feb/23 2:45 PM
+PART-77,20800,Care Requests Page - Filters - Clear All Button,Task,2.0,Code Review,PART-289,NSE - P4,,,28/Feb/23 10:20 AM
+PART-348,20811,Care Requests Page - Filter - Sources,Task,3.0,To Do,PART-289,NSE - P4,part/Frontend,part/nse,28/Feb/23 10:20 AM
+PART-347,20810,Care Requests Page - Filters - Service Line,Task,3.0,Done,PART-289,NSE - P4,part/Frontend,part/nse,27/Feb/23 11:58 AM
+PART-346,20833,Create UI filter: Markets,Task,3.0,To Do,PART-289,NSE - P4,part/Frontend,part/nse,28/Feb/23 10:17 AM
+PART-345,20832,Create UI filter: past care requests,Task,2.0,To Do,PART-289,NSE - P4,part/Frontend,part/nse,28/Feb/23 10:16 AM
+PART-343,20831,Create filter UI: my care requests,Task,2.0,To Do,PART-289,NSE - P4,part/Frontend,part/nse,24/Feb/23 2:45 PM
+PART-335,20809,Care Requests Page - Details component,Task,2.0,In Progress,PART-289,NSE - P4,part/Frontend,part/nse,28/Feb/23 10:20 AM
+PART-333,20830,Care Requests Page - case details component (timeline),Task,3.0,To Do,PART-289,NSE - P4,part/Frontend,part/nse,24/Feb/23 2:45 PM
+PART-292,20820,New care request filters,Story,,To Do,PART-289,NSE - P4,part/nse,,24/Feb/23 2:45 PM
+PART-290,20796,New expanded care request details design,Story,,In Progress,PART-289,NSE - P4,part/Frontend,part/nse,28/Feb/23 10:20 AM

@@ -22,7 +22,7 @@ exports.post_import = async (request, response, next) => {
     console.log("Savepath: " + request.file.path)
     
     const flpath = request.file.path;
-    await nextPage(flpath)
+    await nextPage(flpath);
     
     response.render('viewCSV', {
     isLoggedIn: request.session.isLoggedIn || false,
@@ -32,7 +32,7 @@ exports.post_import = async (request, response, next) => {
   }
 };
 
-function readCSV(flpath){
+function readCSV(flpath) {
   
   return new Promise((resolve, reject) => {
     fs.readFile(flpath, 'utf8', (err, data) => {
@@ -138,9 +138,21 @@ function readCSV(flpath){
   });
 };
 
-async function nextPage(flpath){
-  await readCSV(flpath)
+async function nextPage(flpath) {
+  await readCSV(flpath);
   console.log("==========");
   console.log("Esto va segundo")
+  
   //console.log(datos[1]);
+};
+
+exports.get_detail = (request, response, next) => {
+  const msg = request.session.mensaje
+  request.session.mensaje = ''
+  console.log("Se solicitan detalles del epic");
+  response.render('proyectview', {
+    isLoggedIn: request.session.isLoggedIn || false,
+    nombre: request.session.nombre || '',
+    mensaje: msg || '',
+  });
 };
