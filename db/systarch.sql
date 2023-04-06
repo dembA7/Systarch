@@ -77,7 +77,7 @@ CREATE TABLE `tickets` (
   `ticket_Status` varchar(50) NOT NULL,
   `epic_Link` varchar(30) NOT NULL,
   `epic_Link_Summary` varchar(400) NOT NULL,
-  `ticket_Update` timestamp NOT NULL,
+  `ticket_Update` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   `ticket_Assignee` varchar(100) DEFAULT NULL,
   `ticket_Assignee_ID` varchar(200) DEFAULT NULL,
   `ticket_Label` varchar(300) DEFAULT NULL
