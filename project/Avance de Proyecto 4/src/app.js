@@ -28,12 +28,14 @@ const fileStorage = multer.diskStorage({
     filename: (request, file, callback) => {
         //aquí configuramos el nombre que queremos que tenga el archivo en el servidor, 
         //para que no haya problema si se suben 2 archivos con el mismo nombre concatenamos el timestamp
-        callback(null, new Date().getMilliseconds() + '-' + file.originalname);
+        callback(null, file.originalname);
+        //callback(null, new Date().getMilliseconds() + '-' + file.originalname);
     },
 });
 
 const fileFilter = (request, file, callback) => {
-    if (file.mimetype == 'text/csv') {
+    console.log(file.originalname);
+    if (file.originalname.match(/\.csv$/)) {
       request.session.mensaje = '';
       console.log("[Info] A user uploaded a .CSV to 'public' folder successfully.");
       callback(null, true);
