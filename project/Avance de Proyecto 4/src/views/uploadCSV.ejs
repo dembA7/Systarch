@@ -52,7 +52,7 @@
         <form action="/epics/import" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <br><br>
-            <input class="form-control form-control-lg" type="file" id="csvUploaded" name="csvUploaded"/>
+            <input class="form-control form-control-lg" type="file" id="csvUploaded" name="csvUploaded" required/>
             <br>
 
             <% if (mensaje !='' ) { %>
