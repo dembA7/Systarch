@@ -1,3 +1,4 @@
+const Ticket = require('../models/dispatch.model');
 const fs = require('fs');
 let datos = [];
 
@@ -57,71 +58,90 @@ function readCSV(flpath) {
           datos.push(objeto);
         }
 
+
         console.log("==========");
         console.log("Esto va primero")
         console.log("==========");
         for(let dictInDatos = 0; dictInDatos < 1; dictInDatos++){
           var dict = datos[dictInDatos];
+          const tempTicket = new Ticket({});
           for(const [tagField, infoField] of Object.entries(dict)){
             switch (tagField) {
               case "Issue key":
                 console.log("Issue key: ");
                 console.log(infoField);
+                tempTicket.Issue_Key = infoField;
                 break;
                 
               case "Issue id":
                 console.log("Issue id: ");
                 console.log(infoField);
+                tempTicket.Issue_Id = parseInt(infoField);
                 break;
 
               case "Summary":
                 console.log("Summary");
                 console.log(infoField);
+                tempTicket.Summary = infoField;
                 break;
               
               case "Issue Type":
                 console.log("Issue Type: ");
                 console.log(infoField);
+                tempTicket.Issue_Type = infoField;
                 break;
 
               case "Custom field (Story Points)":
                 console.log("Story Points: ");
                 console.log(infoField);
+                if(isNaN(parseFloat(infoField))){
+                  tempTicket.Story_Points = 0;
+                }
+                else{
+                  tempTicket.Story_Points = parseFloat(infoField);
+                }
                 break;
 
               case "Status":
                 console.log("Status: ");
                 console.log(infoField);
+                tempTicket.ticket_Status = infoField;
                 break;
 
               case "Custom field (Epic Link)":
                 console.log("Epic Link: ");
                 console.log(infoField);
+                tempTicket.epic_Link = infoField;
                 break;
               
               case "Epic Link Summary":
                 console.log("Epic Link Summary: ");
                 console.log(infoField);
+                tempTicket.epic_Link_Summary = infoField;
                 break;
                 
               case "Updated":
                 console.log("Updated: ");
                 console.log(infoField);
+                tempTicket.ticket_Update = infoField;
                 break;
 
               case "Assignee":
                 console.log("Assignee: ");
                 console.log(infoField);
+                tempTicket.ticket_Assignee = infoField;
                 break;
 
               case "Assignee Id":
                 console.log("Assignee id: ");
                 console.log(infoField);
+                tempTicket.ticket_Assignee_ID = infoField;
                 break;
 
               case "Labels":
                 console.log("Label: ");
                 console.log(infoField);
+                tempTicket.ticket_Label = infoField
                 break;
                   
               default:
@@ -130,6 +150,7 @@ function readCSV(flpath) {
             }
             console.log("========");
           }
+          tempTicket.save()
         }
         resolve()
       }
@@ -149,7 +170,7 @@ async function nextPage(flpath) {
 exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
-  console.log("Se solicitan detalles del epic");
+  console.log("[Info] A user requested some epic details");
   response.render('proyectview', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
