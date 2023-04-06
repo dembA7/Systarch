@@ -1,6 +1,9 @@
 # Node modules folder
 node_modules/
 
+# DS_Store
+DS_Store
+
 # Logs
 logs
 *.log
