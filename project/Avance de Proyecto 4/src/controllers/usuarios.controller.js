@@ -74,7 +74,7 @@ exports.post_signup = (request, response, next) => {
     response.redirect('/usuarios/signup');
   }
   else{
-    console.log("[Info] Las contraseñas coinciden. Creando usuario.");
+    console.log("[Info] User created successfully.");
     const usuario = new Usuario({
       userName: request.body.userName || "Anonimo",
       userPass: request.body.userPass || "12345",
@@ -87,7 +87,6 @@ exports.post_signup = (request, response, next) => {
     .then(([rows, fieldData]) => {
         response.redirect('/usuarios/login');
     }).catch((error) => {console.log(error)});
-    console.log("[Info] El usuario se ha creado correctamente.")
   }
 };
 
