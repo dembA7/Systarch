@@ -123,7 +123,12 @@ function readCSV(flpath) {
               case "Updated":
                 console.log("Updated: ");
                 console.log(infoField);
-                tempTicket.ticket_Update = infoField;
+                if(!isNaN(Date.parse(infoField))){
+                  tempTicket.ticket_Update = "2023-03-14T10:03:00"
+                }
+                else{
+                  tempTicket.ticket_Update = "2023-03-14T10:03:00"
+                }
                 break;
 
               case "Assignee":
