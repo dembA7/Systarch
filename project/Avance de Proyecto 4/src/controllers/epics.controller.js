@@ -64,36 +64,27 @@ function readCSV(flpath) {
         console.log("==========");
         for(let dictInDatos = 0; dictInDatos < 1; dictInDatos++){
           var dict = datos[dictInDatos];
+          console.log(dict)
           const tempTicket = new Ticket({});
           for(const [tagField, infoField] of Object.entries(dict)){
             switch (tagField) {
               case "Issue key":
-                console.log("Issue key: ");
-                console.log(infoField);
                 tempTicket.Issue_Key = infoField;
                 break;
                 
               case "Issue id":
-                console.log("Issue id: ");
-                console.log(infoField);
                 tempTicket.Issue_Id = parseInt(infoField);
                 break;
 
               case "Summary":
-                console.log("Summary");
-                console.log(infoField);
                 tempTicket.Summary = infoField;
                 break;
               
               case "Issue Type":
-                console.log("Issue Type: ");
-                console.log(infoField);
                 tempTicket.Issue_Type = infoField;
                 break;
 
               case "Custom field (Story Points)":
-                console.log("Story Points: ");
-                console.log(infoField);
                 if(isNaN(parseFloat(infoField))){
                   tempTicket.Story_Points = 0;
                 }
@@ -103,53 +94,53 @@ function readCSV(flpath) {
                 break;
 
               case "Status":
-                console.log("Status: ");
-                console.log(infoField);
                 tempTicket.ticket_Status = infoField;
                 break;
 
               case "Custom field (Epic Link)":
-                console.log("Epic Link: ");
-                console.log(infoField);
                 tempTicket.epic_Link = infoField;
                 break;
               
               case "Epic Link Summary":
-                console.log("Epic Link Summary: ");
-                console.log(infoField);
                 tempTicket.epic_Link_Summary = infoField;
                 break;
                 
               case "Updated":
-                console.log("Updated: ");
-                console.log(infoField);
-                tempTicket.ticket_Update = infoField;
+                //Cambiar el formato del Jira al estandar ISO
+                const fechaHora = infoField;
+                const fechaHoraArray = fechaHora.split(" ");
+                const fechaArray = fechaHoraArray[0].split("/");
+                const horaArray = fechaHoraArray[1].split(":");
+                const fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;     
+                   
+                if(!isNaN(Date.parse(fechaISO))){
+                  tempTicket.ticket_Update = fechaISO
+                }
+                else{
+                  const today = new Date();
+                  tempTicket.ticket_Update = today.toISOString()
+                }
                 break;
 
               case "Assignee":
-                console.log("Assignee: ");
-                console.log(infoField);
                 tempTicket.ticket_Assignee = infoField;
                 break;
 
               case "Assignee Id":
-                console.log("Assignee id: ");
-                console.log(infoField);
                 tempTicket.ticket_Assignee_ID = infoField;
                 break;
 
               case "Labels":
-                console.log("Label: ");
-                console.log(infoField);
                 tempTicket.ticket_Label = infoField
                 break;
                   
               default:
-                console.log("No existe la columna: '" + tagField + "' ");
+                console.log("[Warn] CSV Line " +  dictInDatos + ": No existe el campo:");
+                console.log(`${tagField}`)
                 break;
             }
-            console.log("========");
           }
+          console.log("[Info] CSV Line " +  dictInDatos + " insertada correctamente")
           tempTicket.save()
         }
         resolve()
