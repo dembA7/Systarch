@@ -1,5 +1,6 @@
 const Ticket = require('../models/dispatch.model');
 const fs = require('fs');
+const { parse } = require("csv-parse");
 let datos = [];
 
 exports.get_import = (request, response, next) => {
@@ -36,35 +37,26 @@ exports.post_import = async (request, response, next) => {
 function readCSV(flpath) {
   
   return new Promise((resolve, reject) => {
-    fs.readFile(flpath, 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-        reject()
-      }
+    const data = []
+    fs.createReadStream(flpath)
+    .pipe(
+      parse({
+        delimiter: ",",
+        columns: true,
+        ltrim: true,
+      })
+    )
+    .on("data", function (row) {
+      data.push(row);
+    })
+    .on("error", function (error) {
+      console.log(error.message);
+      reject()
+    })
+    .on("end", function () {
 
-      else{
-
-        // Convertir el contenido del archivo .csv en un array de objetos
-        let filas = data.split('\n');
-        let encabezados = filas[0].split(',');
-
-        for (let i = 1; i < filas.length; i++) {
-          let fila = filas[i].split(',');
-          let objeto = {};
-
-          for (let j = 0; j < encabezados.length; j++) {
-            objeto[encabezados[j]] = fila[j];
-          }
-          datos.push(objeto);
-        }
-
-
-        console.log("==========");
-        console.log("Esto va primero")
-        console.log("==========");
-        for(let dictInDatos = 0; dictInDatos < 1; dictInDatos++){
-          var dict = datos[dictInDatos];
-          console.log(dict)
+      for(let dictInDatos = 0; dictInDatos < data.length; dictInDatos++){
+          var dict = data[dictInDatos];
           const tempTicket = new Ticket({});
           for(const [tagField, infoField] of Object.entries(dict)){
             switch (tagField) {
@@ -135,17 +127,16 @@ function readCSV(flpath) {
                 break;
                   
               default:
-                console.log("[Warn] CSV Line " +  dictInDatos + ": No existe el campo:");
+                console.log("[Warn] CSV Line " +  dictInDatos + ": Column doesn't exist in 'db':");
                 console.log(`${tagField}`)
                 break;
             }
           }
-          console.log("[Info] CSV Line " +  dictInDatos + " insertada correctamente")
+          console.log("[Info] CSV Line " +  dictInDatos + " inserted to 'db' successfully.")
           tempTicket.save()
         }
-        resolve()
-      }
-      
+
+      resolve()
     });
   });
 };
