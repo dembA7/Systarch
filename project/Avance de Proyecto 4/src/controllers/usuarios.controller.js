@@ -81,6 +81,7 @@ exports.post_signup = (request, response, next) => {
       userMail: request.body.userMail || "anon@gmail.com",
       userCel: request.body.userCel || "442123456789",
       userSkill: request.body.userSkill || '3',
+      userWeekAp: 0
     });
 
     usuario.save()
@@ -91,9 +92,20 @@ exports.post_signup = (request, response, next) => {
 };
 
 exports.get_account = (request, response, next) => {
-    response.render('account', {
+  Usuario.fetchUser(request.session.nombre)
+  .then(([rows, fieldData]) => {
+    if(rows.length == 1){
+      console.log(rows[0])
+      response.render('account', {
+      userInfo: rows[0],
       isLoggedIn: request.session.isLoggedIn || false
     })
+    }
+    else{
+      console.log("Ocurrio un problema")
+    }
+  }
+  )
 };
 
 exports.post_account = (request, response, next) => {

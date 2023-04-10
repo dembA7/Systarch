@@ -9,15 +9,16 @@ module.exports = class Usuario {
         this.userMail = nuevo_usuario.userMail;
         this.userCel = nuevo_usuario.userCel;
         this.userSkill = nuevo_usuario.userSkill;
+        this.userWeekAP = nuevo_usuario.userWeekAp;
     }
 
     save() {
         return bcrypt.hash(this.userPass, 12)
         .then((password_cifrado) => {
             return db.execute(`
-                INSERT INTO users (user_Name, user_Password, user_Mail, user_Phone, user_Skill)
+                INSERT INTO users (user_Name, user_Password, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints)
             values (?, ?, ?, ?, ?)
-            `, [this.userName, password_cifrado, this.userMail, this.userCel, this.userSkill]);
+            `, [this.userName, password_cifrado, this.userMail, this.userCel, this.userSkill, this.userWeekAP]);
         })
         .catch((error) => {console.log(error)});
     }
@@ -28,6 +29,14 @@ module.exports = class Usuario {
             FROM users
             WHERE user_Mail = ?
         `, [usermail]);
+    }
+
+    static fetchUser(username){
+        return db.execute(`
+            SELECT * 
+            FROM users
+            WHERE user_Name = ?
+        `, [username]);
     }
 
 }

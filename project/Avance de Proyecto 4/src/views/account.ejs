@@ -11,7 +11,9 @@
                 font-size: 76px;
             }
         </style>
-        <h1>Bernardo Goméz</h1>
+        <h1>
+            <%= userInfo.user_Name %>
+        </h1>
         <div class="row">
             <div class="col-md-4">
                 <br><br><br>
@@ -27,13 +29,13 @@
                 <div class="row g-2">
                     <div class="col-md">
                         <form class="form-floating">
-                            <input type="email" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="Bernardo Gómez" disabled>
+                            <input type="email" class="form-control" id="floatingInputValue" value="<%=userInfo.user_Name%>" disabled>
                             <label for="floatingInputValue">Nombre:</label>
                         </form>
                     </div>
                     <div class="col-md">
                         <form class="form-floating">
-                            <input type="password" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="bajbajba" disabled>
+                            <input type="password" class="form-control" id="floatingInputValue" value="It's a secret." disabled>
                             <label for="floatingInputValue">Contraseña:</label>
                         </form>
                     </div>
@@ -42,13 +44,13 @@
                 <div class="row g-2">
                     <div class="col-md">
                         <form class="form-floating">
-                            <input type="email" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="bernard123@outlook.example" disabled>
+                            <input type="email" class="form-control" id="floatingInputValue" value="<%=userInfo.user_Mail%>" disabled>
                             <label for="floatingInputValue">Correo:</label>
                         </form>
                     </div>
                     <div class="col-md">
                         <form class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="Front-End" disabled>
+                            <input type="text" class="form-control" id="floatingInputValue"  value="<%=userInfo.user_Skill%>" disabled>
                             <label for="floatingInputValue">Skill:</label>
                         </form>
                     </div>
@@ -57,13 +59,13 @@
                 <div class="row g-2">
                     <div class="col-md">
                         <form class="form-floating">
-                            <input type="tel" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="4421234567" disabled>
+                            <input type="tel" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="<%=userInfo.user_Phone%>" disabled>
                             <label for="floatingInputValue">Teléfono:</label>
                         </form>
                     </div>
                     <div class="col-md">
                         <form class="form-floating">
-                            <input type="text" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="7" disabled>
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="<%=userInfo.user_WeeklyAgilePoints%>" disabled>
                             <label for="floatingInputValue">WeeklyAP:</label>
                         </form>
                     </div>
