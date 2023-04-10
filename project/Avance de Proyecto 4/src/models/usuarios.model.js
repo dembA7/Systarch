@@ -17,7 +17,7 @@ module.exports = class Usuario {
         .then((password_cifrado) => {
             return db.execute(`
                 INSERT INTO users (user_Name, user_Password, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints)
-            values (?, ?, ?, ?, ?)
+            values (?, ?, ?, ?, ?, ?)
             `, [this.userName, password_cifrado, this.userMail, this.userCel, this.userSkill, this.userWeekAP]);
         })
         .catch((error) => {console.log(error)});
