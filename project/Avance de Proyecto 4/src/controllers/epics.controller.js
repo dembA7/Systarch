@@ -24,7 +24,7 @@ exports.post_import = async (request, response, next) => {
     console.log("Savepath: " + request.file.path)
     
     const flpath = request.file.path;
-    await nextPage(flpath);
+    await readCSV(flpath);
     
     response.render('viewCSV', {
     isLoggedIn: request.session.isLoggedIn || false,
@@ -34,7 +34,7 @@ exports.post_import = async (request, response, next) => {
   }
 };
 
-function readCSV(flpath) {
+async function readCSV(flpath) {
   
   return new Promise((resolve, reject) => {
     const data = []
@@ -139,14 +139,6 @@ function readCSV(flpath) {
       resolve()
     });
   });
-};
-
-async function nextPage(flpath) {
-  await readCSV(flpath);
-  console.log("==========");
-  console.log("Esto va segundo")
-  
-  //console.log(datos[1]);
 };
 
 exports.get_detail = (request, response, next) => {

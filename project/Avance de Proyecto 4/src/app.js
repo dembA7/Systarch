@@ -22,14 +22,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 const fileStorage = multer.diskStorage({
     destination: (request, file, callback) => {
-        //'uploads': Es el directorio del servidor donde se subirán los archivos 
+        //'upload': Es el directorio del servidor donde se subirán los archivos 
         callback(null, 'public/epics/upload');
     },
     filename: (request, file, callback) => {
-        //aquí configuramos el nombre que queremos que tenga el archivo en el servidor, 
-        //para que no haya problema si se suben 2 archivos con el mismo nombre concatenamos el timestamp
         callback(null, file.originalname);
-        //callback(null, new Date().getMilliseconds() + '-' + file.originalname);
     },
 });
 
