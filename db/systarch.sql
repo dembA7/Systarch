@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-04-2023 a las 23:47:41
+-- Tiempo de generación: 07-04-2023 a las 08:33:12
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -87,7 +87,8 @@ CREATE TABLE `tickets` (
 --
 
 INSERT INTO `tickets` (`ticket_Id`, `Issue_Key`, `Issue_Id`, `Summary`, `Issue_Type`, `Story_Points`, `ticket_Status`, `epic_Link`, `epic_Link_Summary`, `ticket_Update`, `ticket_Assignee`, `ticket_Assignee_ID`, `ticket_Label`) VALUES
-(1, 'PART-2355', 24413, 'PartnerMarketsPage.js / fix flaky test', 'Task', 0, 'To Do', 'PART-234', 'Express Tech Excellence', '0000-00-00 00:00:00', 'Kevin Anderson', '62cdf0d01e326fd93012992d', '');
+(1, 'PART-2355', 24413, 'PartnerMarketsPage.js / fix flaky test', 'Task', 0, 'To Do', 'PART-234', 'Express Tech Excellence', '2023-03-14 16:03:00', 'Kevin Anderson', '62cdf0d01e326fd93012992d', ''),
+(2, 'PART-2355', 24413, 'PartnerMarketsPage.js / fix flaky test', 'Task', 0, 'To Do', 'PART-234', 'Express Tech Excellence', '2023-03-14 16:03:00', 'Kevin Anderson', '62cdf0d01e326fd93012992d', '');
 
 -- --------------------------------------------------------
 
@@ -172,7 +173,7 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
