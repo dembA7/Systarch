@@ -9,7 +9,7 @@
             display: flex;
         }
         h1{
-            margin-top: 0.7em;
+            margin-top: 0.4em;
             margin-left: 1em;
             font-size: 76px;
         }
@@ -18,7 +18,7 @@
             text-align: center;
             align-items: center;
             justify-content: center;
-            padding-top: 80px;
+            padding-top: 20px;
         }
         .h3{
             text-align: center;
@@ -65,31 +65,5 @@
         </form>
     </div>
 </section>
-
-
-    <!-- <h1>Importa archivo</h1>
-    <div class="row">
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-8">
-            <br><br><br><br>
-            <form action="/epics/import" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <label for="formFileMultiple" class="form-label"><strong>Ingresa el archivo .csv para generar un epic.</strong></label>
-                <br><br>
-                <input class="form-control form-control-lg" type="file" id="csvUploaded" name="csvUploaded"/>
-                <br>
-                <% if (mensaje !='' ) { %>
-                    <div>
-                        <%= mensaje %>
-                    </div><br>
-                <% } %>
-                    
-                <button class="btn btn-primary" type="submit">Importar</button>
-            </form>
-        </div>
-        <div class="col-md-2">
-</section> -->
-
 
 <%- include('includes/foot.ejs') %>
