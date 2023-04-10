@@ -7,6 +7,9 @@
         h1{
           font-size: 46px;
         }
+        #mensaje{
+          color: red;
+        }
       </style>
 
         <h1>Crea una cuenta</h1>
@@ -79,7 +82,7 @@
 
           <br>
           <% if (mensaje !='' ) { %>
-            <div>
+            <div id="mensaje">
               <%= mensaje %>
             </div>
           <% } %>

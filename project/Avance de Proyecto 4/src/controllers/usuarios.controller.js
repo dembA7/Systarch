@@ -69,17 +69,24 @@ exports.get_signup = (request, response, next) => {
 };
 
 exports.post_signup = (request, response, next) => {
-  if (request.body.userPass != request.body.userConfPass){
-    request.session.mensaje = '[Info] Las contraseñas no coinciden.';
+  const phone = request.body.userCel.replace(/\s+/g, '');
+  if(isNaN(parseInt(phone)) || phone.length != 10){
+    request.session.mensaje = '[Advertencia] El teléfono debe ser un número de 10 dígitos.';
     response.redirect('/usuarios/signup');
   }
+
+  else if (request.body.userPass != request.body.userConfPass){
+    request.session.mensaje = '[Advertencia] Las contraseñas no coinciden.';
+    response.redirect('/usuarios/signup');
+  }
+  
   else{
     console.log("[Info] User created successfully.");
     const usuario = new Usuario({
       userName: request.body.userName || "Anonimo",
       userPass: request.body.userPass || "12345",
       userMail: request.body.userMail || "anon@gmail.com",
-      userCel: request.body.userCel || "442123456789",
+      userCel: phone || "442123456789",
       userSkill: request.body.userSkill || '3',
       userWeekAp: 0
     });
