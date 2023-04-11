@@ -102,14 +102,13 @@ exports.get_account = (request, response, next) => {
   Usuario.fetchUser(request.session.nombre)
   .then(([rows, fieldData]) => {
     if(rows.length == 1){
-      console.log(rows[0])
       response.render('account', {
       userInfo: rows[0],
       isLoggedIn: request.session.isLoggedIn || false
     })
     }
     else{
-      console.log("Ocurrio un problema")
+      console.log("[ERR] System failed to fetch user account information.")
     }
   }
   )

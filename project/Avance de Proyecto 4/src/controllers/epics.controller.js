@@ -1,4 +1,4 @@
-const Ticket = require('../models/dispatch.model');
+const Ticket = require('../models/tickets.model');
 const fs = require('fs');
 const { parse } = require("csv-parse");
 let datos = [];
@@ -132,6 +132,7 @@ async function readCSV(flpath) {
                 break;
             }
           }
+
           console.log("[Info] CSV Line " +  dictInDatos + " inserted to 'db' successfully.")
           tempTicket.save()
         }
