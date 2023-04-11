@@ -63,88 +63,42 @@ async function readCSV(flpath) {
       let ticket_i = 1;
 
       for(let userInfo of data){
-        
-        const tempTicket = new Ticket({});
-        
-        for(const [tagField, infoField] of Object.entries(userInfo)){
-          
-          switch (tagField) {
-            
-            case "Issue key":
-              tempTicket.Issue_Key = infoField;
-              break;
-              
-            case "Issue id":
-              tempTicket.Issue_Id = parseInt(infoField);
-              break;
+        const tempTicket = new Ticket({
+          Issue_Key : userInfo["Issue key"],
+          Issue_Id : parseInt(userInfo["Issue id"]),
+          Summary : userInfo.Summary,
+          Issue_Type : userInfo["Issue Type"],
+          ticket_Status : userInfo.Status,
+          epic_Link : userInfo["Custom field (Epic Link)"],
+          epic_Link_Summary : userInfo["Epic Link Summary"],
+          ticket_Assignee :  userInfo.Assignee,
+          ticket_Assignee_ID : userInfo["Assignee Id"],
+          ticket_Label: userInfo.Labels
+        });
 
-            case "Summary":
-              tempTicket.Summary = infoField;
-              break;
-            
-            case "Issue Type":
-              tempTicket.Issue_Type = infoField;
-              break;
+        //Story Points:
+        if (isNaN(parseFloat(userInfo["Custom field (Story Points)"]))) {
+          tempTicket.Story_Points = 0;
+        }
 
-            case "Custom field (Story Points)":
-              
-              if(isNaN(parseFloat(infoField))){
-                tempTicket.Story_Points = 0;
-              }
+        else {
+          tempTicket.Story_Points = parseFloat(userInfo["Custom field (Story Points)"]);
+        }
 
-              else{
-                tempTicket.Story_Points = parseFloat(infoField);
-              }
-              break;
+        //Updated: Cambiar el formato del Jira al estandar ISO
+        const fechaHora = userInfo.Updated;
+        const fechaHoraArray = fechaHora.split(" ");
+        const fechaArray = fechaHoraArray[0].split("/");
+        const horaArray = fechaHoraArray[1].split(":");
+        const fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
 
-            case "Status":
-              tempTicket.ticket_Status = infoField;
-              break;
+        if (!isNaN(Date.parse(fechaISO))) {
+          tempTicket.ticket_Update = fechaISO;
+        }
 
-            case "Custom field (Epic Link)":
-              tempTicket.epic_Link = infoField;
-              break;
-            
-            case "Epic Link Summary":
-              tempTicket.epic_Link_Summary = infoField;
-              break;
-              
-            case "Updated":
-              //Cambiar el formato del Jira al estandar ISO
-              const fechaHora = infoField;
-              const fechaHoraArray = fechaHora.split(" ");
-              const fechaArray = fechaHoraArray[0].split("/");
-              const horaArray = fechaHoraArray[1].split(":");
-              const fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;     
-                  
-              if(!isNaN(Date.parse(fechaISO))){
-                tempTicket.ticket_Update = fechaISO;
-              }
-
-              else{
-                const today = new Date();
-                tempTicket.ticket_Update = today.toISOString();
-              }
-
-              break;
-
-            case "Assignee":
-              tempTicket.ticket_Assignee = infoField;
-              break;
-
-            case "Assignee Id":
-              tempTicket.ticket_Assignee_ID = infoField;
-              break;
-
-            case "Labels":
-              tempTicket.ticket_Label = infoField;
-              break;
-                
-            default:
-              console.log("[Warn] CSV Line " +  dictInDatos + ": Column doesn't exist in 'db':");
-              console.log(`${tagField}`);
-              break;
-          }
+        else {
+          const today = new Date();
+          tempTicket.ticket_Update = today.toISOString();
         }
 
         await checkEpics(ticket_i, tempTicket);
