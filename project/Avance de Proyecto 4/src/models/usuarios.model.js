@@ -39,4 +39,20 @@ module.exports = class Usuario {
         `, [username]);
     }
 
+    static fetchAllNames(){
+        return db.execute(`
+            SELECT user_Name FROM users
+        `);
+    }
+
+    static updateTicketInfo(user, ticket_Assignee, ticket_Assignee_ID){
+        return db.execute(`
+            UPDATE users
+            SET 
+            ticket_Assignee = ?,
+            ticket_Assignee_ID = ?
+            WHERE user_Name = ?
+        `, [ticket_Assignee, ticket_Assignee_ID, user]);
+    }
+
 }
