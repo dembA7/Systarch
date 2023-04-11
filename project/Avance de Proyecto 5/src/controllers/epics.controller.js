@@ -193,6 +193,7 @@ async function checkAssignees(dictInDatos, tempTicket) {
           Linking data...
         `);
         
+        
         await User.updateTicketInfo(
           user.user_Name, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID
         );
