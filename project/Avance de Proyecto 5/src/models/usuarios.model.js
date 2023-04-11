@@ -60,4 +60,5 @@ module.exports = class Usuario {
             WHERE user_Name = ?
         `, [ticket_Assignee, ticket_Assignee_ID, user]);
     }
+
 }

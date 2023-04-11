@@ -43,15 +43,4 @@ module.exports = class Ticket {
     `, [ticket_Update, ticket_Status, Story_Points, Issue_Id]);
     }
 
-    static updateTicket(Issue_Id, Story_Points, ticket_Update, ticket_Status) {
-        return db.execute(`
-        UPDATE tickets
-        SET
-        ticket_Update = ?,
-        ticket_Status = ?,
-        Story_Points = ?,
-        WHERE Issue_Id = ?
-    `, [ticket_Update, ticket_Status, Story_Points, Issue_Id]);
-    }
-
 }
