@@ -36,7 +36,7 @@ exports.post_import = async (request, response, next) => {
 
 async function readCSV(flpath) {
   
-  return new Promise((resolve, reject) => {
+  return new Promise(async(resolve, reject) => {
     const data = []
     fs.createReadStream(flpath)
     .pipe(
@@ -135,8 +135,8 @@ async function readCSV(flpath) {
 
           await checkEpics(dictInDatos, tempTicket);
           await checkAssignees(dictInDatos, tempTicket);
-          
-          tempTicket.save();
+          await tempTicket.save();
+
           console.log(`[Info] CSV Line ${dictInDatos}: Ticket inserted to 'db' successfully.`);
           //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
           await sleep(10);
@@ -149,48 +149,40 @@ async function readCSV(flpath) {
 };
 
 async function checkEpics(dictInDatos, tempTicket) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async(resolve, reject) => {
+
     const tempEpic = new Epic({});
-    Epic.fetchOne(tempTicket.epic_Link)
-    .then(([rows, fieldData]) => {
-      if(rows.length == 0){
-        console.log(`[Warn] CSV Line ${dictInDatos}: No 'epic' with Link '${tempTicket.epic_Link}' exists. Attempting to create one.`);
-        tempEpic.epic_Link = tempTicket.epic_Link;
-        tempEpic.epic_Link_Summary = tempTicket.epic_Link_Summary;
-        tempEpic.save();
-        console.log(`[Info] CSV Line ${dictInDatos}: Epic created successfully.`);
-      }
-      resolve();
-    })
+    rows = await Epic.fetchOne(tempTicket.epic_Link)
+
+    if(rows[0].length == 0){
+      console.log(`[Warn] CSV Line ${dictInDatos}: No 'epic' with Link '${tempTicket.epic_Link}' exists. Attempting to create one.`);
+      tempEpic.epic_Link = tempTicket.epic_Link;
+      tempEpic.epic_Link_Summary = tempTicket.epic_Link_Summary;
+      await tempEpic.save();
+      console.log(`[Info] CSV Line ${dictInDatos}: Epic created successfully.`);
+    }
+    resolve();
   });
 }
 
 async function checkAssignees(dictInDatos, tempTicket) {
   return new Promise(async(resolve, reject) => {
-    User.fetchAllNames()
-    .then(async([usersArray, fieldData]) => {
-      for(let indexInUsersArray = 0; indexInUsersArray < usersArray.length; indexInUsersArray++){
+    let usersArray = await User.fetchAllNames()
+    for(let indexInUsersArray = 0; indexInUsersArray < usersArray.length; indexInUsersArray++){
 
-        var objectInfo = usersArray[indexInUsersArray];
-
+        var objectInfo = usersArray[0][indexInUsersArray];
         for(const [tagField_userName, userName] of Object.entries(objectInfo)){
-
           if(tempTicket.ticket_Assignee == userName){
-
-            User.fetchUser(userName)
-            .then(async([userinfo, fieldData]) => {
-              
-              if(userinfo.ticket_Assignee != userName){
-                console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`)
-                User.updateTicketInfo(userName, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID)
+            userinfo = await User.fetchUser(userName)
+            if(userinfo[0][0].ticket_Assignee != userName){
+                console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`);
+                await User.updateTicketInfo(userName, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID);
                 console.log(`[Info] CSV Line ${dictInDatos}: User data linked successfully.`);
               }
-            });
           }
         }
       }
       resolve();
-    })
   });
 }
 
