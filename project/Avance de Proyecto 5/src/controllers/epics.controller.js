@@ -37,8 +37,10 @@ exports.post_import = async (request, response, next) => {
 async function readCSV(flpath) {
   
   return new Promise(async(resolve, reject) => {
+    
     const data = []
     fs.createReadStream(flpath)
+    
     .pipe(
       parse({
         delimiter: ",",
@@ -46,101 +48,118 @@ async function readCSV(flpath) {
         ltrim: true
       })
     )
+
     .on("data", function (row) {
       data.push(row);
     })
+    
     .on("error", function (error) {
       console.log(error.message);
       reject();
     })
+
     .on("end", async function () {
 
-      for(let dictInDatos = 0; dictInDatos < data.length; dictInDatos++){
-          var dict = data[dictInDatos];
-          const tempTicket = new Ticket({});
-          for(const [tagField, infoField] of Object.entries(dict)){
-            switch (tagField) {
-              case "Issue key":
-                tempTicket.Issue_Key = infoField;
-                break;
-                
-              case "Issue id":
-                tempTicket.Issue_Id = parseInt(infoField);
-                break;
+      let ticket_i = 1;
 
-              case "Summary":
-                tempTicket.Summary = infoField;
-                break;
+      for(let userInfo of data){
+        
+        const tempTicket = new Ticket({});
+        
+        for(const [tagField, infoField] of Object.entries(userInfo)){
+          
+          switch (tagField) {
+            
+            case "Issue key":
+              tempTicket.Issue_Key = infoField;
+              break;
               
-              case "Issue Type":
-                tempTicket.Issue_Type = infoField;
-                break;
+            case "Issue id":
+              tempTicket.Issue_Id = parseInt(infoField);
+              break;
 
-              case "Custom field (Story Points)":
-                if(isNaN(parseFloat(infoField))){
-                  tempTicket.Story_Points = 0;
-                }
-                else{
-                  tempTicket.Story_Points = parseFloat(infoField);
-                }
-                break;
+            case "Summary":
+              tempTicket.Summary = infoField;
+              break;
+            
+            case "Issue Type":
+              tempTicket.Issue_Type = infoField;
+              break;
 
-              case "Status":
-                tempTicket.ticket_Status = infoField;
-                break;
-
-              case "Custom field (Epic Link)":
-                tempTicket.epic_Link = infoField;
-                break;
+            case "Custom field (Story Points)":
               
-              case "Epic Link Summary":
-                tempTicket.epic_Link_Summary = infoField;
-                break;
-                
-              case "Updated":
-                //Cambiar el formato del Jira al estandar ISO
-                const fechaHora = infoField;
-                const fechaHoraArray = fechaHora.split(" ");
-                const fechaArray = fechaHoraArray[0].split("/");
-                const horaArray = fechaHoraArray[1].split(":");
-                const fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;     
-                   
-                if(!isNaN(Date.parse(fechaISO))){
-                  tempTicket.ticket_Update = fechaISO;
-                }
-                else{
-                  const today = new Date();
-                  tempTicket.ticket_Update = today.toISOString();
-                }
-                break;
+              if(isNaN(parseFloat(infoField))){
+                tempTicket.Story_Points = 0;
+              }
 
-              case "Assignee":
-                tempTicket.ticket_Assignee = infoField;
-                break;
+              else{
+                tempTicket.Story_Points = parseFloat(infoField);
+              }
+              break;
 
-              case "Assignee Id":
-                tempTicket.ticket_Assignee_ID = infoField;
-                break;
+            case "Status":
+              tempTicket.ticket_Status = infoField;
+              break;
 
-              case "Labels":
-                tempTicket.ticket_Label = infoField;
-                break;
+            case "Custom field (Epic Link)":
+              tempTicket.epic_Link = infoField;
+              break;
+            
+            case "Epic Link Summary":
+              tempTicket.epic_Link_Summary = infoField;
+              break;
+              
+            case "Updated":
+              //Cambiar el formato del Jira al estandar ISO
+              const fechaHora = infoField;
+              const fechaHoraArray = fechaHora.split(" ");
+              const fechaArray = fechaHoraArray[0].split("/");
+              const horaArray = fechaHoraArray[1].split(":");
+              const fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;     
                   
-              default:
-                console.log("[Warn] CSV Line " +  dictInDatos + ": Column doesn't exist in 'db':");
-                console.log(`${tagField}`);
-                break;
-            }
+              if(!isNaN(Date.parse(fechaISO))){
+                tempTicket.ticket_Update = fechaISO;
+              }
+
+              else{
+                const today = new Date();
+                tempTicket.ticket_Update = today.toISOString();
+              }
+
+              break;
+
+            case "Assignee":
+              tempTicket.ticket_Assignee = infoField;
+              break;
+
+            case "Assignee Id":
+              tempTicket.ticket_Assignee_ID = infoField;
+              break;
+
+            case "Labels":
+              tempTicket.ticket_Label = infoField;
+              break;
+                
+            default:
+              console.log("[Warn] CSV Line " +  dictInDatos + ": Column doesn't exist in 'db':");
+              console.log(`${tagField}`);
+              break;
           }
-
-          await checkEpics(dictInDatos, tempTicket);
-          await checkAssignees(dictInDatos, tempTicket);
-          await tempTicket.save();
-
-          console.log(`[Info] CSV Line ${dictInDatos}: Ticket inserted to 'db' successfully.`);
-          //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
-          await sleep(10);
         }
+
+        await checkEpics(ticket_i, tempTicket);
+        await checkAssignees(ticket_i, tempTicket);
+        duplicateTicket = await checkTickets(ticket_i, tempTicket);
+        if(duplicateTicket == false){
+          await tempTicket.save();
+          console.log(`[Info] CSV Line ${ticket_i}: Ticket inserted to 'db' successfully.`);
+        }
+
+        ticket_i++;
+
+        //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
+        await sleep(10);
+      }
 
       console.log(`[Info] Done! CSV inserted to 'db' successfully.`);
       resolve();
@@ -148,42 +167,75 @@ async function readCSV(flpath) {
   });
 };
 
-async function checkEpics(dictInDatos, tempTicket) {
-  return new Promise(async(resolve, reject) => {
+async function checkTickets(dictInDatos, tempTicket){
 
+  try {
+    
+      tickets = await Ticket.fetchOne(tempTicket.Issue_Id)
+
+      if(tickets[0].length == 1){
+
+        console.log(`[Warn] CSV Line ${dictInDatos}: A ticket with ID '${tempTicket.Issue_Id}' exists. Updating it...`);
+        
+        await Ticket.updateTicket(tempTicket.Issue_Id, tempTicket.Story_Points, tempTicket.ticket_Update, tempTicket.ticket_Status);
+        return(true);
+      }
+
+      else{
+        return(false);
+      }
+    }
+
+    catch (error) {
+      console.log(error);
+    }
+}
+
+async function checkEpics(dictInDatos, tempTicket) {
+
+  try{
     const tempEpic = new Epic({});
     rows = await Epic.fetchOne(tempTicket.epic_Link)
 
     if(rows[0].length == 0){
-      console.log(`[Warn] CSV Line ${dictInDatos}: No 'epic' with Link '${tempTicket.epic_Link}' exists. Attempting to create one.`);
+
+      console.log(`[Warn] CSV Line ${dictInDatos}: No 'epic' with Link '${tempTicket.epic_Link}' exists. Creating one...`);
+      
       tempEpic.epic_Link = tempTicket.epic_Link;
       tempEpic.epic_Link_Summary = tempTicket.epic_Link_Summary;
+      
       await tempEpic.save();
-      console.log(`[Info] CSV Line ${dictInDatos}: Epic created successfully.`);
+
     }
-    resolve();
-  });
+  }
+
+  catch(error) {
+    console.log(error);
+  }
 }
 
 async function checkAssignees(dictInDatos, tempTicket) {
-  return new Promise(async(resolve, reject) => {
-    let usersArray = await User.fetchAllNames()
-    for(let indexInUsersArray = 0; indexInUsersArray < usersArray.length; indexInUsersArray++){
+  
+  try {
+    let users = await User.fetchAllNamesAssignees();
 
-        var objectInfo = usersArray[0][indexInUsersArray];
-        for(const [tagField_userName, userName] of Object.entries(objectInfo)){
-          if(tempTicket.ticket_Assignee == userName){
-            userinfo = await User.fetchUser(userName)
-            if(userinfo[0][0].ticket_Assignee != userName){
-                console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`);
-                await User.updateTicketInfo(userName, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID);
-                console.log(`[Info] CSV Line ${dictInDatos}: User data linked successfully.`);
-              }
-          }
-        }
+    for (let user of users[0]) {
+
+      if(tempTicket.ticket_Assignee == user.user_Name
+        && tempTicket.ticket_Assignee != user.ticket_Assignee) {
+        
+        console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`);
+        
+        await User.updateTicketInfo(
+          user.user_Name, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID
+        );
       }
-      resolve();
-  });
+    }
+  }
+
+  catch (error) {
+    console.log(error);
+  }
 }
 
 function sleep(ms) {
