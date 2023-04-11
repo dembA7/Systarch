@@ -24,12 +24,23 @@ module.exports = class Ticket {
             `, [this.Issue_Key, this.Issue_Id, this.Summary, this.Issue_Type, this.Story_Points, this.ticket_Status, this.epic_Link, this.epic_Link_Summary, this.ticket_Update, this.ticket_Assignee, this.ticket_Assignee_ID, this.ticket_Label]);
     }
 
-    static fetchOne(ticket_Id){
+    static fetchOne(id){
         return db.execute(`
             SELECT * 
             FROM tickets
-            WHERE ticket_Id = ?
-        `, [ticket_Id]);
+            WHERE Issue_Id = ?
+        `, [id]);
+    }
+
+    static updateTicket(Issue_Id, Story_Points, ticket_Update, ticket_Status) {
+        return db.execute(`
+        UPDATE tickets
+        SET
+        ticket_Update = ?,
+        ticket_Status = ?,
+        Story_Points = ?
+        WHERE Issue_Id = ?
+    `, [ticket_Update, ticket_Status, Story_Points, Issue_Id]);
     }
 
     static updateTicket(Issue_Id, Story_Points, ticket_Update, ticket_Status) {
