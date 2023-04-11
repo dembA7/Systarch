@@ -6,4 +6,6 @@ const projectsController = require('../controllers/projects.controller');
 
 router.get('/', projectsController.get_proyectos);
 
+router.get('/crear', projectsController.get_crearProyectos);
+
 module.exports = router;

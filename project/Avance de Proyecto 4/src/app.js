@@ -31,6 +31,12 @@ const fileStorage = multer.diskStorage({
 });
 
 const fileFilter = (request, file, callback) => {
+<<<<<<< HEAD:project/Avance de Proyecto 4/app.js
+    if (file.mimetype == 'text/csv') {
+        callback(null, true);
+    } else {
+        window.alert("Archivo invalido");
+=======
     if (file.originalname.match(/\.csv$/)) {
       request.session.mensaje = '';
       console.log("[Info] A user uploaded a .CSV to 'public' folder successfully.");
@@ -39,6 +45,7 @@ const fileFilter = (request, file, callback) => {
     else {
         request.session.mensaje = 'Formato de archivo no válido, por favor, intenta de nuevo.';
         console.log("[Warn] A user tried to upload an invalid file as a .CSV");
+>>>>>>> 38d5f9132011be1355c181a512e1ab7e4dbbaae3:project/Avance de Proyecto 4/src/app.js
         callback(null, false);
     }
 }
