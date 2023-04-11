@@ -193,7 +193,7 @@ async function checkAssignees(dictInDatos, tempTicket) {
           Linking data...
         `);
         
-        
+
         await User.updateTicketInfo(
           user.user_Name, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID
         );
@@ -227,6 +227,7 @@ async function checkTickets(dictInDatos, tempTicket){
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 
 exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
