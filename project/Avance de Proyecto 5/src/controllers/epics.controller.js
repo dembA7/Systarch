@@ -133,13 +133,21 @@ async function readCSV(flpath) {
             }
           }
 
-          await checkEpics(dictInDatos, tempTicket);
-          await checkAssignees(dictInDatos, tempTicket);
-          await tempTicket.save();
+          try {
+            
+            await checkEpics(dictInDatos, tempTicket);
+            await checkAssignees(dictInDatos, tempTicket);
+            await checkTickets(dictInDatos, tempTicket);
+            await tempTicket.save();
+  
+            console.log(`[Info] CSV Line ${dictInDatos}: Ticket inserted to 'db' successfully.`);
+            //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
+            await sleep(10);
 
-          console.log(`[Info] CSV Line ${dictInDatos}: Ticket inserted to 'db' successfully.`);
-          //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
-          await sleep(10);
+          } catch(error) {
+            console.log(error);
+          }
+
         }
 
       console.log(`[Info] Done! CSV inserted to 'db' successfully.`);
@@ -166,23 +174,52 @@ async function checkEpics(dictInDatos, tempTicket) {
 }
 
 async function checkAssignees(dictInDatos, tempTicket) {
-  return new Promise(async(resolve, reject) => {
-    let usersArray = await User.fetchAllNames()
-    for(let indexInUsersArray = 0; indexInUsersArray < usersArray.length; indexInUsersArray++){
 
-        var objectInfo = usersArray[0][indexInUsersArray];
-        for(const [tagField_userName, userName] of Object.entries(objectInfo)){
-          if(tempTicket.ticket_Assignee == userName){
-            userinfo = await User.fetchUser(userName)
-            if(userinfo[0][0].ticket_Assignee != userName){
-                console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`);
-                await User.updateTicketInfo(userName, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID);
-                console.log(`[Info] CSV Line ${dictInDatos}: User data linked successfully.`);
-              }
-          }
-        }
-      }
+  try {
+
+    let users = await User.fetchAllNames();
+
+    console.log(users[0]);
+  
+    for (let user of users[0]) {
+
+      console.log(user);
+        
+      if(tempTicket.ticket_Assignee == user.user_Name) {
+        
+        console.log(`
+          [Info] CSV Line ${dictInDatos}: 
+          A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. 
+          Linking data...
+        `);
+        
+        await User.updateTicketInfo(
+          user.user_Name, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID
+        );
+        
+      } 
+      
+    }
+
+  } catch(error) {
+    console.log(error);
+  }
+
+}
+
+async function checkTickets(dictInDatos, tempTicket){
+ // Se revisa si el ticket existe, en caso de que si, se modifica su estatus y su fecha.
+  return new Promise(async(resolve, reject) => {
+    rows = await Ticket.fetchOne(tempTicket.Issue_Id)
+    if(rows[0].length == 1){
+      console.log(`[Warn] CSV Line ${dictInDatos}: A ticket with ID '${tempTicket.Issue_Id}' exists. Attempting to update it.`);
+      await Ticket.updateTicket(tempTicket.Issue_Id, tempTicket.Story_Points, tempTicket.ticket_Update, tempTicket.ticket_Status);
+      console.log(`[Info] CSV Line ${dictInDatos}: Ticket updated successfully.`);
       resolve();
+    }
+    else {
+      reject();
+    }
   });
 }
 
