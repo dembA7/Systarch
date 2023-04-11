@@ -1,6 +1,146 @@
 <%- include('includes/head.ejs') %>
 
-<section>
+<!-- ESTILOS -->
+<style>
+
+    /* HEAD */
+
+    #head{
+        padding-top: 1.3em;
+    }
+    #title{
+        margin-left: 2.4em;
+    }
+    h1{
+        font-size: 58px;
+    }
+    #flex{
+        display: flex;
+    }
+    #title, #search, #filter{
+        flex: 1;
+    }
+    #search{
+        padding-top: 10px;
+    }
+    #filter{
+        margin-top: 20px;
+        margin-left: 50px;
+    }
+
+    /* LABELS */
+
+    #key, #summary, #type, #points, #status, #label, #epic, #asignee{
+        flex: 1;
+    }
+    #key{
+        position: relative;
+        left: 40px;
+    }
+    #summary{
+        position: relative;
+        left: 30px;
+    }
+    #type{
+        position: relative;
+        left: 130px;
+    }
+    #points{
+        position: relative;
+        left: 60px;
+    }
+    #label{
+        position: relative;
+        right: 60px;
+    }
+    #epic, #asignee{
+        position: relative;
+        right: 30px;
+    }
+
+    /* TICKETS */
+
+    p{
+        border: 1px solid #e9ecef;
+        border-radius: 40px;
+        background-color: #e9ecef;
+        height: 35px;
+        text-align: center;
+        font-size: 16px;
+        color: #252525;
+        /* margin-left: 5px;
+        margin-right: 5px; */
+    }
+
+</style>
+
+<!-- HEAD -->
+
+<section id="head">
+
+    <div id="flex">
+        <div id="title">
+            <h1 class="fw-light">Tickets</h1>
+        </div>
+        <div id="search">
+            <form class="d-flex" role="search" id="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+        <div id="filter">
+            <a class="btn btn-outline-secondary" type="button" href="?">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+</section>
+
+<!-- LABELS -->
+
+<section id="labels">
+
+    <br>
+
+    <div id="flex">
+        <div id="key">
+            <h3 class="fw-light">Key</h3>
+        </div>
+        <div id="summary">
+            <h3 class="fw-light">Summary</h3>
+        </div>
+        <div id="type">
+            <h3 class="fw-light">Type</h3>
+        </div>
+        <div id="points">
+            <h3 class="fw-light">Points</h3>
+        </div>
+        <div id="status">
+            <h3 class="fw-light">Status</h3>
+        </div>
+        <div id="label">
+            <h3 class="fw-light">Label</h3>
+        </div>
+        <div id="epic">
+            <h3 class="fw-light">Epic</h3>
+        </div>
+        <div id="asignee">
+            <h3 class="fw-light">Asignee</h3>
+        </div>
+    </div>
+
+</section>
+
+<!-- TICKETS -->
+
+<section id="tickets">
+
+    <br>
+
+    
     
 </section>
 
