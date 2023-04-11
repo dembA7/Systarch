@@ -27,7 +27,7 @@ module.exports = class Epic {
     static fetchOne(epic_Link){
         return db.execute(`
             SELECT * 
-            FROM tickets
+            FROM epics
             WHERE epic_Link = ?
         `, [epic_Link]);
     }
