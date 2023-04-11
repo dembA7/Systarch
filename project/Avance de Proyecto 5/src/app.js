@@ -61,10 +61,13 @@ app.use((request, response, next) => {
 // Renders
 const projUsuarios = require('./routes/usuarios.routes');
 const projInicio = require("./routes/dispatch.routes");
-const projEpics = require("./routes/epic.routes")
+const projEpics = require("./routes/epic.routes");
+const projTickets = require("./routes/ticket.routes");
+
 app.use('/usuarios', projUsuarios);
 app.use('/inicio', isAuth, projInicio);
-app.use('/epics', isAuth, projEpics)
+app.use('/epics', isAuth, projEpics);
+app.use('/tickets', isAuth, projTickets);
 
 app.use((request, response, next) => {
     response.render('err404', {
