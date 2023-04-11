@@ -62,10 +62,12 @@ app.use((request, response, next) => {
 const projUsuarios = require('./routes/usuarios.routes');
 const projInicio = require("./routes/dispatch.routes");
 const projEpics = require("./routes/epic.routes");
+const projTickets = require("./routes/ticket.routes");
 const projProyectos = require("./routes/projects.routes");
 app.use('/usuarios', projUsuarios);
 app.use('/inicio', isAuth, projInicio);
 app.use('/epics', isAuth, projEpics);
+app.use('/tickets', isAuth, projTickets);
 app.use('/proyectos', isAuth, projProyectos);
 
 app.use((request, response, next) => {
