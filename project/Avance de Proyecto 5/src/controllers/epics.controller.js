@@ -89,9 +89,47 @@ async function readCSV(flpath) {
         const fechaHora = userInfo.Updated;
         const fechaHoraArray = fechaHora.split(" ");
         const fechaArray = fechaHoraArray[0].split("/");
-        const horaArray = fechaHoraArray[1].split(":");
-        const fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
 
+        if (isNaN(parseInt(fechaArray[1]))){
+
+          const meses = [
+            "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+            "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
+          ];
+          
+          let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase());
+          mesIndex++;
+
+          if (mesIndex < 9){
+            fechaArray[1] = `0${mesIndex}`;
+          }
+
+          else{
+            fechaArray[1] = mesIndex;
+          }
+
+        };
+
+        const horaArray = fechaHoraArray[1].split(":");
+        if (fechaHoraArray[2]){
+          
+          if (fechaHoraArray[2] == 'AM'){
+
+            if (parseInt(horaArray[0])<10){
+
+              horaArray[0] = `0${horaArray[0]}`
+            }
+          }
+          
+          else if (fechaHoraArray[2] == 'PM' && parseInt(horaArray[0]) != 12) {
+            
+            horaArray[0] = parseInt(horaArray[0]) + 12;
+
+          }
+        }
+
+        const fechaISO = `20${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+        
         if (!isNaN(Date.parse(fechaISO))) {
           tempTicket.ticket_Update = fechaISO;
         }
@@ -100,6 +138,7 @@ async function readCSV(flpath) {
           const today = new Date();
           tempTicket.ticket_Update = today.toISOString();
         }
+        
 
         await checkEpics(ticket_i, tempTicket);
         await checkAssignees(ticket_i, tempTicket);
