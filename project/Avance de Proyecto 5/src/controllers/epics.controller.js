@@ -108,6 +108,7 @@ async function readCSV(flpath) {
             fechaArray[1] = mesIndex;
           }
 
+          
         };
 
         const horaArray = fechaHoraArray[1].split(":");
