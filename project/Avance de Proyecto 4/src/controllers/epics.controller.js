@@ -1,7 +1,8 @@
-const Ticket = require('../models/dispatch.model');
+const Ticket = require('../models/tickets.model');
+const Epic = require('../models/epics.model');
+const User = require('../models/usuarios.model');
 const fs = require('fs');
 const { parse } = require("csv-parse");
-let datos = [];
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -9,7 +10,7 @@ exports.get_import = (request, response, next) => {
   response.render('uploadCSV', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
-    mensaje: msg || '',
+    mensaje: msg || ''
   });
 };
 
@@ -20,30 +21,29 @@ exports.post_import = async (request, response, next) => {
   }
 
   else{
-    console.log("Filename: " + request.file.filename)
-    console.log("Savepath: " + request.file.path)
+    console.log("Filename: " + request.file.filename);
+    console.log("Savepath: " + request.file.path);
     
     const flpath = request.file.path;
     await readCSV(flpath);
     
     response.render('viewCSV', {
     isLoggedIn: request.session.isLoggedIn || false,
-    nombre: request.session.nombre || '',
-    dataArray: datos || []
+    nombre: request.session.nombre || ''
     });
   }
 };
 
 async function readCSV(flpath) {
   
-  return new Promise((resolve, reject) => {
+  return new Promise(async(resolve, reject) => {
     const data = []
     fs.createReadStream(flpath)
     .pipe(
       parse({
         delimiter: ",",
         columns: true,
-        ltrim: true,
+        ltrim: true
       })
     )
     .on("data", function (row) {
@@ -51,9 +51,9 @@ async function readCSV(flpath) {
     })
     .on("error", function (error) {
       console.log(error.message);
-      reject()
+      reject();
     })
-    .on("end", function () {
+    .on("end", async function () {
 
       for(let dictInDatos = 0; dictInDatos < data.length; dictInDatos++){
           var dict = data[dictInDatos];
@@ -106,11 +106,11 @@ async function readCSV(flpath) {
                 const fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;     
                    
                 if(!isNaN(Date.parse(fechaISO))){
-                  tempTicket.ticket_Update = fechaISO
+                  tempTicket.ticket_Update = fechaISO;
                 }
                 else{
                   const today = new Date();
-                  tempTicket.ticket_Update = today.toISOString()
+                  tempTicket.ticket_Update = today.toISOString();
                 }
                 break;
 
@@ -123,23 +123,72 @@ async function readCSV(flpath) {
                 break;
 
               case "Labels":
-                tempTicket.ticket_Label = infoField
+                tempTicket.ticket_Label = infoField;
                 break;
                   
               default:
                 console.log("[Warn] CSV Line " +  dictInDatos + ": Column doesn't exist in 'db':");
-                console.log(`${tagField}`)
+                console.log(`${tagField}`);
                 break;
             }
           }
-          console.log("[Info] CSV Line " +  dictInDatos + " inserted to 'db' successfully.")
-          tempTicket.save()
+
+          await checkEpics(dictInDatos, tempTicket);
+          await checkAssignees(dictInDatos, tempTicket);
+          await tempTicket.save();
+
+          console.log(`[Info] CSV Line ${dictInDatos}: Ticket inserted to 'db' successfully.`);
+          //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
+          await sleep(10);
         }
 
-      resolve()
+      console.log(`[Info] Done! CSV inserted to 'db' successfully.`);
+      resolve();
     });
   });
 };
+
+async function checkEpics(dictInDatos, tempTicket) {
+  return new Promise(async(resolve, reject) => {
+
+    const tempEpic = new Epic({});
+    rows = await Epic.fetchOne(tempTicket.epic_Link)
+
+    if(rows[0].length == 0){
+      console.log(`[Warn] CSV Line ${dictInDatos}: No 'epic' with Link '${tempTicket.epic_Link}' exists. Attempting to create one.`);
+      tempEpic.epic_Link = tempTicket.epic_Link;
+      tempEpic.epic_Link_Summary = tempTicket.epic_Link_Summary;
+      await tempEpic.save();
+      console.log(`[Info] CSV Line ${dictInDatos}: Epic created successfully.`);
+    }
+    resolve();
+  });
+}
+
+async function checkAssignees(dictInDatos, tempTicket) {
+  return new Promise(async(resolve, reject) => {
+    let usersArray = await User.fetchAllNames()
+    for(let indexInUsersArray = 0; indexInUsersArray < usersArray.length; indexInUsersArray++){
+
+        var objectInfo = usersArray[0][indexInUsersArray];
+        for(const [tagField_userName, userName] of Object.entries(objectInfo)){
+          if(tempTicket.ticket_Assignee == userName){
+            userinfo = await User.fetchUser(userName)
+            if(userinfo[0][0].ticket_Assignee != userName){
+                console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`);
+                await User.updateTicketInfo(userName, tempTicket.ticket_Assignee, tempTicket.ticket_Assignee_ID);
+                console.log(`[Info] CSV Line ${dictInDatos}: User data linked successfully.`);
+              }
+          }
+        }
+      }
+      resolve();
+  });
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje

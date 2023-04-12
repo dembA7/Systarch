@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-04-2023 a las 08:33:12
+-- Tiempo de generación: 10-04-2023 a las 20:28:44
 -- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Versión de PHP: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,7 +45,8 @@ CREATE TABLE `epics` (
 CREATE TABLE `projects` (
   `project_ID` int(100) NOT NULL,
   `project_Name` varchar(200) NOT NULL,
-  `report_ID` int(100) DEFAULT NULL
+  `report_ID` int(100) DEFAULT NULL,
+  `epic_Link` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -82,14 +83,6 @@ CREATE TABLE `tickets` (
   `ticket_Label` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tickets`
---
-
-INSERT INTO `tickets` (`ticket_Id`, `Issue_Key`, `Issue_Id`, `Summary`, `Issue_Type`, `Story_Points`, `ticket_Status`, `epic_Link`, `epic_Link_Summary`, `ticket_Update`, `ticket_Assignee`, `ticket_Assignee_ID`, `ticket_Label`) VALUES
-(1, 'PART-2355', 24413, 'PartnerMarketsPage.js / fix flaky test', 'Task', 0, 'To Do', 'PART-234', 'Express Tech Excellence', '2023-03-14 16:03:00', 'Kevin Anderson', '62cdf0d01e326fd93012992d', ''),
-(2, 'PART-2355', 24413, 'PartnerMarketsPage.js / fix flaky test', 'Task', 0, 'To Do', 'PART-234', 'Express Tech Excellence', '2023-03-14 16:03:00', 'Kevin Anderson', '62cdf0d01e326fd93012992d', '');
-
 -- --------------------------------------------------------
 
 --
@@ -100,18 +93,20 @@ CREATE TABLE `users` (
   `user_ID` int(100) NOT NULL,
   `user_Password` varchar(150) NOT NULL,
   `user_Name` varchar(150) NOT NULL,
-  `user_Phone` int(10) DEFAULT NULL,
+  `user_Phone` varchar(10) DEFAULT NULL,
   `user_Mail` varchar(100) NOT NULL,
   `user_WeeklyAgilePoints` int(50) DEFAULT NULL,
-  `user_Skill` char(2) DEFAULT NULL
+  `user_Skill` char(2) DEFAULT NULL,
+  `ticket_Assignee` varchar(100) DEFAULT NULL,
+  `ticket_Assignee_ID` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`) VALUES
-(0, '$2a$12$XVRFML.2LtsemV0YWr7OcOd6Cypgb.AFviA1MZkfFgC3DR0RQZ/Dy', 'Diego Vega', 442, 'diego@gmail.com', NULL, '3');
+INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`, `ticket_Assignee`, `ticket_Assignee_ID`) VALUES
+(69420, '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', 'Diego Vega', '4426060404', 'diego@gmail.com', 0, '3', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -173,13 +168,13 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69421;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
