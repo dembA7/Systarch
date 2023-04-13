@@ -32,4 +32,12 @@ module.exports = class Epic {
         `, [epic_Link]);
     }
 
+    static fetchTickets(epic_link){
+        return db.execute(`
+            SELECT *
+            FROM tickets
+            WHERE epic_Link = ?
+        `, [epic_link])
+    }
+
 }

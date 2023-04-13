@@ -240,9 +240,16 @@ exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
   console.log("[Info] A user requested some epic details");
-  response.render('proyectview', {
-    isLoggedIn: request.session.isLoggedIn || false,
-    nombre: request.session.nombre || '',
-    mensaje: msg || '',
-  });
+
+  Epic.fetchTickets(request.params.epic)
+  .then(([rows, fieldData]) =>{
+    response.render('proyectview', {
+      isLoggedIn: request.session.isLoggedIn || false,
+      nombre: request.session.nombre || '',
+      mensaje: msg || '',
+      data: rows
+    });
+  })
+  .catch(err => {console.log(err);});
+  
 };
