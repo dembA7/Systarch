@@ -1,13 +1,18 @@
 const Epic = require('../models/epics.model');
-const User = require('../models/usuarios.model');
 
 exports.get_inicio = (request, response, next) => {
   
-  User.fetchUser()
+  let res = Epic.Progreso('PART-289');
+  console.log(res);
+  Epic.fetchAll()
+  .then(([rows_Epic, fieldData]) => {
     response.render('inicio', {
-    isLoggedIn: request .session.isLoggedIn || false,
-    username: request.session.username || "",
-    titulo: "DispatchHealth",
-
-  }); 
+      isLoggedIn: request .session.isLoggedIn || false,
+      epics: rows_Epic,
+      username: request.session.nombre,
+      titulo: "DispatchHealth",
+      progreso: res,
+    });
+  }).catch(err => console.log(err));
+  
 };

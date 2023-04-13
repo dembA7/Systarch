@@ -10,7 +10,7 @@ router.post('/import', epicsController.post_import);
 
 router.get('/details', epicsController.get_detail);
 
-router.get('/details/:epic', epicsController.get_detail);
+router.get('/details/:epic_Link', epicsController.get_detail);
 
 //router.get('/view', epicsController.get_view);
 

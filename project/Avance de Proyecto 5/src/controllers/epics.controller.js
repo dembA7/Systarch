@@ -241,13 +241,13 @@ exports.get_detail = (request, response, next) => {
   request.session.mensaje = ''
   console.log("[Info] A user requested some epic details");
 
-  Epic.fetchTickets(request.params.epic)
+  Epic.fetchTickets(request.params.epic_Link)
   .then(([rows, fieldData]) =>{
     response.render('proyectview', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
       mensaje: msg || '',
-      data: rows
+      tickets: rows
     });
   })
   .catch(err => {console.log(err);});
