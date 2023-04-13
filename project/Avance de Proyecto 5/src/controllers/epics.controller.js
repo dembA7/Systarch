@@ -42,6 +42,7 @@ async function readCSV(flpath) {
     fs.createReadStream(flpath)
     
     .pipe(
+      
       csv({
         headers: ["Issue key",	"Issue id",	"Summary",	"Issue Type",	"Custom field (Story Points)",	"Status",	"Custom field (Epic Link)",	"Epic Link Summary",	"Updated",	"Assignee",	"Assignee Id",	"Labels"],
         separator: ","
