@@ -61,7 +61,7 @@ module.exports = class Usuario {
         `, [ticket_Assignee, ticket_Assignee_ID, user]);
     }
 
-    static updateAccount(user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints){
+    static updateAccount(user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints, user){
         return db.execute(`
             UPDATE users
             SET 
@@ -69,8 +69,8 @@ module.exports = class Usuario {
             user_Mail = ?,
             user_Phone = ?,
             user_Skill = ?,
-            user_WeeklyAgilePoints = ?,
+            user_WeeklyAgilePoints = ?
             WHERE user_Name = ?
-        `, [user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints, user_Name]);
+        `, [user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints, user]);
     }
 }
