@@ -136,9 +136,11 @@ exports.post_account = (request, response, next) => {
     request.body.user_Mail,
     request.body.user_Phone, 
     request.body.user_Skill, 
-    request.body.user_WeeklyAgilePoints
+    request.body.user_WeeklyAgilePoints,
+    request.session.nombre
   )
   console.log("[Info] A User made changes in its Account.");
+  request.session.nombre = request.body.user_Name;
   response.redirect('/usuarios/account');
   
 };

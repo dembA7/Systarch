@@ -18,8 +18,6 @@
 
         <form action="/usuarios/account/edit" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <form>
-            </form>
             <div class="row">
                 <div class="col-md-4">
                     <br><br><br>
@@ -35,46 +33,46 @@
                     <div class="row g-2">
                         <div class="col-md">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="user_Name" value="<%=userInfo.user_Name%>">
+                                <input type="text" class="form-control" id="user_Name" name="user_Name" value="<%=userInfo.user_Name%>">
                                 <label for="user_Name">Nombre:</label>
                             </div>
                         </div>
                         <div class="col-md">
-                            <form class="form-floating">
-                                <input type="text" class="form-control" id="ticket_Assignee_ID" value="<%=userInfo.ticket_Assignee_ID%>" disabled>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="ticket_Assignee_ID" name="ticket_Assignee_ID" value="<%=userInfo.ticket_Assignee_ID%>" disabled>
                                 <label for="ticket_Assignee_ID">Assignee ID:</label>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <br><br><br>
                     <div class="row g-2">
                         <div class="col-md">
-                            <form class="form-floating">
-                                <input type="email" class="form-control" id="user_Mail" value="<%=userInfo.user_Mail%>">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="user_Mail" name="user_Mail" value="<%=userInfo.user_Mail%>">
                                 <label for="user_Mail">Correo:</label>
-                            </form>
+                            </div>
                         </div>
                         <div class="col-md">
-                            <form class="form-floating">
-                                <input type="text" class="form-control" id="user_Skill" value="<%=userInfo.user_Skill%>">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="user_Skill" name="user_Skill" value="<%=userInfo.user_Skill%>">
                                 <label for="user_Skill">Skill:</label>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <br><br><br>
                     <div class="row g-2">
                         <div class="col-md">
-                            <form class="form-floating">
-                                <input type="tel" class="form-control" id="user_Phone" placeholder="name@example.com" value="<%=userInfo.user_Phone%>">
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" id="user_Phone" name="user_Phone" placeholder="name@example.com" value="<%=userInfo.user_Phone%>">
                                 <label for="user_Phone">Teléfono:</label>
-                            </form>
+                            </div>
                         </div>
                         <div class="col-md">
-                            <form class="form-floating">
-                                <input type="text" class="form-control" id="user_WeeklyAgilePoints" placeholder="name@example.com"
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="user_WeeklyAgilePoints" name="user_WeeklyAgilePoints" placeholder="name@example.com"
                                     value="<%=userInfo.user_WeeklyAgilePoints%>">
                                 <label for="user_WeeklyAgilePoints">WeeklyAP:</label>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <br><br><br><br>
