@@ -63,7 +63,6 @@ async function readCSV(flpath) {
       let ticket_i = 1;
       data = data.slice(1)
       for(let userInfo of data){
-        console.log(userInfo)
         const tempTicket = new Ticket({
           Issue_Key : userInfo["Issue key"],
           Issue_Id : parseInt(userInfo["Issue id"]),
