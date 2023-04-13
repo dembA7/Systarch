@@ -114,14 +114,40 @@ exports.get_account = (request, response, next) => {
   )
 };
 
+exports.edit_account = (request, response, next) => {
+  Usuario.fetchUser(request.session.nombre)
+  .then(([rows, fieldData]) => {
+    if(rows.length == 1){
+      response.render('editAccount', {
+      userInfo: rows[0],
+      isLoggedIn: request.session.isLoggedIn || false
+    })
+    }
+    else{
+      console.log("[ERR] System failed to fetch user account information.")
+    }
+  }
+  )
+};
+
 exports.post_account = (request, response, next) => {
-    console.log("[Info] User used POST in Account.");
-    
+  Usuario.updateAccount(
+    request.body.user_Name,
+    request.body.user_Mail,
+    request.body.user_Phone, 
+    request.body.user_Skill, 
+    request.body.user_WeeklyAgilePoints,
+    request.session.nombre
+  )
+  console.log("[Info] A User made changes in its Account.");
+  request.session.nombre = request.body.user_Name;
+  response.redirect('/usuarios/account');
+  
 };
 
 exports.logout = (request, response, next) => {
     request.session.destroy(() => {
-        console.log("[Info] A user logget out.");
+        console.log("[Info] A user logged out.");
         response.redirect('/usuarios/login');
     });
 };

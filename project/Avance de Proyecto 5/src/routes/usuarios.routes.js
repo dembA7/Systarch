@@ -16,7 +16,9 @@ router.post('/signup', usuariosController.post_signup);
 
 router.get('/account', isAuth, usuariosController.get_account);
 
-router.post('/account', usuariosController.post_account);
+router.get('/account/edit', usuariosController.edit_account);
+
+router.post('/account/edit', usuariosController.post_account);
 
 router.get('/logout', usuariosController.logout);
 
