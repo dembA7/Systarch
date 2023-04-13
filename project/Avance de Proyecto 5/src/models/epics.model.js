@@ -41,7 +41,6 @@ module.exports = class Epic {
     }
 
     static Progreso (epic_Link){      
-        console.log(this.ticketsDone(epic_Link));
         return (this.ticketsDone(epic_Link) / this.ticketsTotal(epic_Link))*100;
     }
 
