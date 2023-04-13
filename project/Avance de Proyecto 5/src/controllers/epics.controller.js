@@ -77,10 +77,6 @@ async function readCSV(flpath) {
           ticket_Label: userInfo.Labels
         });
 
-        if (userInfo.Labels[12]) {
-          ticket_Label = userInfo.Labels[12];
-        }
-        
         //Story Points:
         if (isNaN(parseFloat(userInfo["Custom field (Story Points)"]))) {
           tempTicket.Story_Points = 0;
