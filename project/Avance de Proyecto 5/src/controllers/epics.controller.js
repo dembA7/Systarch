@@ -2,7 +2,7 @@ const Ticket = require('../models/tickets.model');
 const Epic = require('../models/epics.model');
 const User = require('../models/usuarios.model');
 const fs = require('fs');
-const { parse } = require("csv-parse");
+const csv = require("csv-parser");
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -38,14 +38,14 @@ async function readCSV(flpath) {
   
   return new Promise(async(resolve, reject) => {
     
-    const data = []
+    let data = []
     fs.createReadStream(flpath)
     
     .pipe(
-      parse({
-        delimiter: ",",
-        columns: true,
-        ltrim: true
+      
+      csv({
+        headers: ["Issue key",	"Issue id",	"Summary",	"Issue Type",	"Custom field (Story Points)",	"Status",	"Custom field (Epic Link)",	"Epic Link Summary",	"Updated",	"Assignee",	"Assignee Id",	"Labels"],
+        separator: ","
       })
     )
 
@@ -61,7 +61,7 @@ async function readCSV(flpath) {
     .on("end", async function () {
 
       let ticket_i = 1;
-
+      data = data.slice(1)
       for(let userInfo of data){
         const tempTicket = new Ticket({
           Issue_Key : userInfo["Issue key"],
