@@ -240,8 +240,9 @@ exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
   console.log("[Info] A user requested some epic details");
-
-  Epic.fetchTickets(request.params.epic_Link)
+  let id = request.params.epic_Link;
+  
+  Epic.fetchTickets(id)
   .then(([rows, fieldData]) =>{
     response.render('proyectview', {
       isLoggedIn: request.session.isLoggedIn || false,
