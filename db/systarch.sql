@@ -80,6 +80,85 @@ CREATE TABLE `tickets` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `privilegios`
+--
+
+CREATE TABLE `privilegios` (
+  `id` int(10) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `privilegios`
+--
+
+INSERT INTO `privilegios` (`id`, `nombre`) VALUES
+(1, 'crear_usuarios'),
+(2, 'no_hay');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(40) NOT NULL,
+  `descripcion` varchar(400) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'admin', 'crear usuarios'),
+(2, 'user', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol_privilegio`
+--
+
+CREATE TABLE `rol_privilegio` (
+  `idRol` int(11) NOT NULL,
+  `idPrivilegio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `rol_privilegio`
+--
+
+INSERT INTO `rol_privilegio` (`idRol`, `idPrivilegio`) VALUES
+(1, 1),
+(1, 2),
+(2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_rol`
+--
+
+CREATE TABLE `usuario_rol` (
+  `idUsuario` int(11) NOT NULL,
+  `idRol` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `usuario_rol`
+--
+
+INSERT INTO `usuario_rol` (`idUsuario`, `idRol`) VALUES
+(1, 2),
+(2, 2),
+(3, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -101,8 +180,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`, `ticket_Assignee`, `ticket_Assignee_ID`) VALUES
 (1, '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', 'Diego Vega', '4426060404', 'diego@gmail.com', 0, '3', NULL, NULL),
-(2, '$2a$12$.qdoBp6AegC8BgDtdG2/4uimmdrAywI9H37j49drUQK1aaxZevgM2', 'Arturo Cristián Díaz López', '4421054338', 'arturo@outlook.com', 0, '3', NULL, NULL);
-
+(2, '$2a$12$.qdoBp6AegC8BgDtdG2/4uimmdrAywI9H37j49drUQK1aaxZevgM2', 'Arturo Cristián Díaz López', '4421054338', 'arturo@outlook.com', 0, '3', NULL, NULL),
+(3, '$2a$12$.qdoBp6AegC8BgDtdG2/4uimmdrAywI9H37j49drUQK1aaxZevgM2', 'Bernardo Gómez-Romero', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
 --
 -- Indexes for dumped tables
 --
@@ -130,6 +209,25 @@ ALTER TABLE `reports`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`ticket_Id`);
+
+--
+-- Indexes for table `privilegios`
+--
+ALTER TABLE `privilegios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `rol_privilegio`
+--
+ALTER TABLE `rol_privilegio`
+  ADD PRIMARY KEY (`idRol`,`idPrivilegio`),
+  ADD KEY `idPrivilegio` (`idPrivilegio`);
 
 --
 -- Indexes for table `users`
@@ -170,4 +268,22 @@ ALTER TABLE `tickets`
 --
 ALTER TABLE `users`
   MODIFY `user_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `rol_privilegio`
+--
+ALTER TABLE `rol_privilegio`
+  ADD CONSTRAINT `rol_privilegio_id_1` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`),
+  ADD CONSTRAINT `rol_privilegio_id_2` FOREIGN KEY (`idPrivilegio`) REFERENCES `privilegios` (`id`);
+
+--
+-- Filtros para la tabla `usuario_rol`
+--
+ALTER TABLE `usuario_rol`
+  ADD CONSTRAINT `usuario_rol_id_1` FOREIGN KEY (`idUsuario`) REFERENCES `users` (`user_ID`),
+  ADD CONSTRAINT `usuario_rol_id_2` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`);
 COMMIT;
