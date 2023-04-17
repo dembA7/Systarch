@@ -27,10 +27,15 @@ exports.post_import = async (request, response, next) => {
     const flpath = request.file.path;
     await readCSV(flpath);
     
-    response.render('viewCSV', {
-    isLoggedIn: request.session.isLoggedIn || false,
-    nombre: request.session.nombre || ''
+    Epic.Progreso()
+    .then(([rows, fieldData]) => {
+      response.render('inicio', {
+      isLoggedIn: request .session.isLoggedIn || false,
+      epics: rows,
+      username: request.session.nombre,
+      titulo: "DispatchHealth",
     });
+  }).catch(err => console.log(err));
   }
 };
 
