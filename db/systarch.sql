@@ -164,8 +164,8 @@ INSERT INTO `usuario_rol` (`idUsuario`, `idRol`) VALUES
 
 CREATE TABLE `users` (
   `user_ID` int(100) NOT NULL,
-  `user_Password` varchar(150) NOT NULL,
   `user_Name` varchar(150) NOT NULL,
+  `user_Password` varchar(150) NOT NULL,
   `user_Phone` varchar(10) DEFAULT NULL,
   `user_Mail` varchar(100) NOT NULL,
   `user_WeeklyAgilePoints` int(50) DEFAULT NULL,
@@ -178,10 +178,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_ID`, `user_Password`, `user_Name`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`, `ticket_Assignee`, `ticket_Assignee_ID`) VALUES
-(1, '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', 'Diego Vega', '4426060404', 'diego@gmail.com', 0, '3', NULL, NULL),
-(2, '$2a$12$.qdoBp6AegC8BgDtdG2/4uimmdrAywI9H37j49drUQK1aaxZevgM2', 'Arturo Cristián Díaz López', '4421054338', 'arturo@outlook.com', 0, '3', NULL, NULL),
-(3, '$2a$12$.qdoBp6AegC8BgDtdG2/4uimmdrAywI9H37j49drUQK1aaxZevgM2', 'Bernardo Gómez-Romero', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
+INSERT INTO `users` (`user_ID`, `user_Name`, `user_Password`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`, `ticket_Assignee`, `ticket_Assignee_ID`) VALUES
+(1, 'Diego Vega', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4426060404', 'diego@gmail.com', 0, '3', NULL, NULL),
+(2, 'Arturo Cristián Díaz López', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4421054338', 'arturo@outlook.com', 0, '3', NULL, NULL),
+(3, 'Bernardo Gómez-Romero', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
 --
 -- Indexes for dumped tables
 --
