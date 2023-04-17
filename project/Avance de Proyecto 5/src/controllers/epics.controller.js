@@ -27,10 +27,15 @@ exports.post_import = async (request, response, next) => {
     const flpath = request.file.path;
     await readCSV(flpath);
     
-    response.render('viewCSV', {
-    isLoggedIn: request.session.isLoggedIn || false,
-    nombre: request.session.nombre || ''
+    Epic.Progreso()
+    .then(([rows, fieldData]) => {
+      response.render('inicio', {
+      isLoggedIn: request .session.isLoggedIn || false,
+      epics: rows,
+      username: request.session.nombre,
+      titulo: "DispatchHealth",
     });
+  }).catch(err => console.log(err));
   }
 };
 
@@ -240,8 +245,9 @@ exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
   console.log("[Info] A user requested some epic details");
-
-  Epic.fetchTickets(request.params.epic_Link)
+  let id = request.params.epic_Link;
+  
+  Epic.fetchTickets(id)
   .then(([rows, fieldData]) =>{
     response.render('proyectview', {
       isLoggedIn: request.session.isLoggedIn || false,

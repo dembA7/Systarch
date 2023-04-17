@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2023 at 03:51 PM
+-- Generation Time: Apr 14, 2023 at 06:11 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -11,9 +11,44 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Database: `systarch`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spProgreso` (IN `_epic_Link` VARCHAR(30), OUT `progreso` INT)   BEGIN
+  DECLARE total_tickets INT DEFAULT 0;
+  DECLARE total_status INT DEFAULT 0;
+  
+  SELECT COUNT(*) INTO total_tickets FROM tickets WHERE epic_Link = _epic_Link;
+  SELECT COUNT(*) INTO total_status FROM tickets WHERE epic_Link = _epic_Link AND ticket_Status IN ('Done', 'Closed');
+  
+  IF total_tickets > 0 THEN
+    SET progreso = (total_status / total_tickets) * 100;
+  ELSE
+    SET progreso = 0;
+  END IF;
+END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_progreso` (`epic_Link` VARCHAR(30)) RETURNS INT(11)  BEGIN
+    DECLARE progreso INT;
+    CALL spProgreso(epic_Link, @progreso);
+    RETURN @progreso;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -243,7 +278,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `epics`
 --
 ALTER TABLE `epics`
-  MODIFY `epic_ID` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `epic_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `projects`
@@ -261,7 +296,7 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=793;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -40,33 +40,11 @@ module.exports = class Epic {
         `, [epic_link])
     }
 
-    static Progreso (epic_Link){      
-        return (this.ticketsDone(epic_Link) / this.ticketsTotal(epic_Link))*100;
-    }
-
-    static ticketsTotal(epic_Link){
+    static Progreso (){      
         return db.execute(`
-        SELECT COUNT(*) as total_tickets 
-        FROM tickets 
-        WHERE epic_Link = ?
-    `, [epic_Link])
+            SELECT *, get_progreso(epic_Link) AS progreso
+            FROM epics;
+            `);
     }
-
-    static ticketsDone(epic_Link){
-        return db.execute(`
-        SELECT COUNT(*) as total_status 
-        FROM tickets 
-        WHERE epic_Link = ?
-        AND ticket_Status IN ('Done', 'Closed')
-    `, [epic_Link,])
-    }
-
-    // static sumaSP(epic_Link){
-    //     return db.execute(`
-    //         SELECT SUM(Story_Points) as scope
-    //         FROM tickets 
-    //         WHERE epic_Link = ?
-    //     `, [epic_Link])
-    // }
 
 }
