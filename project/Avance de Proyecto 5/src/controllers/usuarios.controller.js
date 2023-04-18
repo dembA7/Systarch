@@ -145,6 +145,12 @@ exports.post_account = (request, response, next) => {
   
 };
 
+exports.timeout = (request, response, next) => {
+    response.render('timeout', {
+      isLoggedIn: request.session.isLoggedIn || false
+    })
+};
+
 exports.logout = (request, response, next) => {
     request.session.destroy(() => {
         console.log("[Info] A user logged out.");

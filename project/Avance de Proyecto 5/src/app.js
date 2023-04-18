@@ -31,11 +31,13 @@ const fileStorage = multer.diskStorage({
 });
 
 const fileFilter = (request, file, callback) => {
+
     if (file.originalname.match(/\.csv$/)) {
       request.session.mensaje = '';
       console.log("[Info] A user uploaded a .CSV to 'public' folder successfully.");
       callback(null, true);
     }
+
     else {
         request.session.mensaje = 'Formato de archivo no válido, por favor, intenta de nuevo.';
         console.log("[Warn] A user tried to upload an invalid file as a .CSV");
@@ -58,12 +60,20 @@ app.use((request, response, next) => {
     next();
 });
 
+app.use(function (error, request, response, next) {
+  if (error.code !== 'EBADCSRFTOKEN') return next(err);
+
+  // Handle CSRF token errors here
+  response.redirect('/usuarios/timeout');
+});
+
 // Renders
 const projUsuarios = require('./routes/usuarios.routes');
 const projInicio = require("./routes/dispatch.routes");
 const projEpics = require("./routes/epic.routes");
 const projTickets = require("./routes/ticket.routes");
 const projProyectos = require("./routes/projects.routes");
+
 app.use('/usuarios', projUsuarios);
 app.use('/inicio', isAuth, projInicio);
 app.use('/epics', isAuth, projEpics);
@@ -71,7 +81,9 @@ app.use('/tickets', isAuth, projTickets);
 app.use('/proyectos', isAuth, projProyectos);
 
 app.use((request, response, next) => {
+
     response.render('err404', {
+
         titulo: 'DispatchHealth: ERR404',
         isLoggedIn: request.session.isLoggedIn || false,
         username: request.session.username || '',

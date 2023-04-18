@@ -29,13 +29,15 @@ exports.post_import = async (request, response, next) => {
     
     Epic.Progreso()
     .then(([rows, fieldData]) => {
+      
       response.render('inicio', {
-      isLoggedIn: request .session.isLoggedIn || false,
-      epics: rows,
-      username: request.session.nombre,
-      titulo: "DispatchHealth",
-    });
-  }).catch(err => console.log(err));
+        isLoggedIn: request .session.isLoggedIn || false,
+        epics: rows,
+        username: request.session.nombre,
+        titulo: "DispatchHealth",
+      });
+    })
+  .catch(err => console.log(err));
   }
 };
 
@@ -67,7 +69,9 @@ async function readCSV(flpath) {
 
       let ticket_i = 1;
       data = data.slice(1)
+
       for(let userInfo of data){
+
         const tempTicket = new Ticket({
           Issue_Key : userInfo["Issue key"],
           Issue_Id : parseInt(userInfo["Issue id"]),
@@ -148,10 +152,14 @@ async function readCSV(flpath) {
 
         await checkEpics(ticket_i, tempTicket);
         await checkAssignees(ticket_i, tempTicket);
+
         duplicateTicket = await checkTickets(ticket_i, tempTicket);
+        
         if(duplicateTicket == false){
+
           await tempTicket.save();
           console.log(`[Info] CSV Line ${ticket_i}: Ticket inserted to 'db' successfully.`);
+          
         }
 
         ticket_i++;
