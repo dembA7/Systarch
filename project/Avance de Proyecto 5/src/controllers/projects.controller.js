@@ -1,13 +1,13 @@
-exports.get_proyectos = (request, response, next) => {
-    response.render('proyectos', {
+exports.get_projects = (request, response, next) => {
+    response.render('projects', {
     isLoggedIn: request .session.isLoggedIn || false,
     username: request.session.username || "",
     titulo: "DispatchHealth",
   });
 };
 
-exports.get_crearProyectos = (request, response, next) => {
-  response.render('crear', {
+exports.get_createProjects = (request, response, next) => {
+  response.render('create', {
   isLoggedIn: request .session.isLoggedIn || false,
   username: request.session.username || "",
   titulo: "DispatchHealth",

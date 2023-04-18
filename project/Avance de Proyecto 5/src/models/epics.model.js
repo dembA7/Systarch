@@ -40,7 +40,7 @@ module.exports = class Epic {
         `, [epic_link])
     }
 
-    static Progreso (){      
+    static Progress (){      
         return db.execute(`
             SELECT *, get_progreso(epic_Link) AS progreso
             FROM epics;

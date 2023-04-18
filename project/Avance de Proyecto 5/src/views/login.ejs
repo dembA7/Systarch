@@ -44,20 +44,20 @@
 
                   <br><br><br><br><br>
 
-                  <p class="fs-4">Iniciar Sesión</p>
+                  <p class="fs-4">Login</p>
 
                   <br>
                   
-                  <form action="/usuarios/login" method="POST">
+                  <form action="/users/login" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="form-floating mb-3">
                       <input type="email" class="form-control" name="userMail" id="userMail" placeholder="name@example.com">
-                      <label for="floatingInput">Correo</label>
+                      <label for="floatingInput">Email</label>
                     </div>
 
                     <div class="form-floating">
                       <input type="password" class="form-control" name="userPass" id="userPass" placeholder="Password">
-                      <label for="floatingPassword">Contraseña</label>
+                      <label for="floatingPassword">Password</label>
                     </div>
                     <br>
                     <% if (mensaje !='' ) { %>
@@ -66,13 +66,13 @@
                       </div>
                     <% } %>
                     <br>
-                    <button class="btn btn-primary" type="submit">Ingresar</button>
+                    <button class="btn btn-primary" type="submit">Sign in</button>
 
                   </form>
 
                   <br><br><br><br>
                   
-                  <p>¿No tienes una cuenta? <a href="signup">¡Crea una!</a></p>
+                  <p>Don't have an account? <a href="signup">Create one!</a></p>
                 </div>
               </div>
             </div>

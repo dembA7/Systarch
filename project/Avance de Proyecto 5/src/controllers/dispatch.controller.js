@@ -1,10 +1,10 @@
 const Epic = require('../models/epics.model');
 
-exports.get_inicio = (request, response, next) => {
+exports.get_homepage = (request, response, next) => {
   
-  Epic.Progreso()
+  Epic.Progress()
   .then(([rows, fieldData]) => {
-    response.render('inicio', {
+    response.render('homepage', {
       isLoggedIn: request .session.isLoggedIn || false,
       epics: rows,
       username: request.session.nombre,

@@ -7,7 +7,7 @@ const csv = require("csv-parser");
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
-  response.render('uploadCSV', {
+  response.render('upload', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
     mensaje: msg || ''
@@ -27,15 +27,17 @@ exports.post_import = async (request, response, next) => {
     const flpath = request.file.path;
     await readCSV(flpath);
     
-    Epic.Progreso()
+    Epic.Progress()
     .then(([rows, fieldData]) => {
-      response.render('inicio', {
-      isLoggedIn: request .session.isLoggedIn || false,
-      epics: rows,
-      username: request.session.nombre,
-      titulo: "DispatchHealth",
-    });
-  }).catch(err => console.log(err));
+      
+      response.render('homepage', {
+        isLoggedIn: request .session.isLoggedIn || false,
+        epics: rows,
+        username: request.session.nombre,
+        titulo: "DispatchHealth",
+      });
+    })
+  .catch(err => console.log(err));
   }
 };
 
@@ -67,7 +69,9 @@ async function readCSV(flpath) {
 
       let ticket_i = 1;
       data = data.slice(1)
+
       for(let userInfo of data){
+
         const tempTicket = new Ticket({
           Issue_Key : userInfo["Issue key"],
           Issue_Id : parseInt(userInfo["Issue id"]),
@@ -148,10 +152,14 @@ async function readCSV(flpath) {
 
         await checkEpics(ticket_i, tempTicket);
         await checkAssignees(ticket_i, tempTicket);
+
         duplicateTicket = await checkTickets(ticket_i, tempTicket);
+        
         if(duplicateTicket == false){
+
           await tempTicket.save();
           console.log(`[Info] CSV Line ${ticket_i}: Ticket inserted to 'db' successfully.`);
+          
         }
 
         ticket_i++;
@@ -249,7 +257,7 @@ exports.get_detail = (request, response, next) => {
   
   Epic.fetchTickets(id)
   .then(([rows, fieldData]) =>{
-    response.render('proyectview', {
+    response.render('epicDetail', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
       mensaje: msg || '',
