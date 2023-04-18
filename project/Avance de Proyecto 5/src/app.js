@@ -61,7 +61,7 @@ app.use((request, response, next) => {
 });
 
 app.use(function (error, request, response, next) {
-  if (error.code !== 'EBADCSRFTOKEN') return next(err);
+  if (error.code !== 'EBADCSRFTOKEN') return next(error);
 
   // Handle CSRF token errors here
   response.redirect('/users/timeout');
