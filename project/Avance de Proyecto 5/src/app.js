@@ -39,7 +39,7 @@ const fileFilter = (request, file, callback) => {
     }
 
     else {
-        request.session.mensaje = 'Formato de archivo no válido, por favor, intenta de nuevo.';
+        request.session.mensaje = 'Invalid file extension. Please, try again.';
         console.log("[Warn] A user tried to upload an invalid file as a .CSV");
         callback(null, false);
     }
@@ -64,21 +64,21 @@ app.use(function (error, request, response, next) {
   if (error.code !== 'EBADCSRFTOKEN') return next(err);
 
   // Handle CSRF token errors here
-  response.redirect('/usuarios/timeout');
+  response.redirect('/users/timeout');
 });
 
 // Renders
-const projUsuarios = require('./routes/usuarios.routes');
-const projInicio = require("./routes/dispatch.routes");
-const projEpics = require("./routes/epic.routes");
-const projTickets = require("./routes/ticket.routes");
-const projProyectos = require("./routes/projects.routes");
+const dispatchUsers = require('./routes/users.routes');
+const dispatchHomepage = require("./routes/dispatch.routes");
+const dispatchEpics = require("./routes/epic.routes");
+const dispatchTickets = require("./routes/ticket.routes");
+const dispatchProjects = require("./routes/projects.routes");
 
-app.use('/usuarios', projUsuarios);
-app.use('/inicio', isAuth, projInicio);
-app.use('/epics', isAuth, projEpics);
-app.use('/tickets', isAuth, projTickets);
-app.use('/proyectos', isAuth, projProyectos);
+app.use('/users', dispatchUsers);
+app.use('/homepage', isAuth, dispatchHomepage);
+app.use('/epics', isAuth, dispatchEpics);
+app.use('/tickets', isAuth, dispatchTickets);
+app.use('/projects', isAuth, dispatchProjects);
 
 app.use((request, response, next) => {
 

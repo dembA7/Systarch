@@ -7,7 +7,7 @@ const csv = require("csv-parser");
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
-  response.render('uploadCSV', {
+  response.render('upload', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
     mensaje: msg || ''
@@ -27,10 +27,10 @@ exports.post_import = async (request, response, next) => {
     const flpath = request.file.path;
     await readCSV(flpath);
     
-    Epic.Progreso()
+    Epic.Progress()
     .then(([rows, fieldData]) => {
       
-      response.render('inicio', {
+      response.render('homepage', {
         isLoggedIn: request .session.isLoggedIn || false,
         epics: rows,
         username: request.session.nombre,
@@ -257,7 +257,7 @@ exports.get_detail = (request, response, next) => {
   
   Epic.fetchTickets(id)
   .then(([rows, fieldData]) =>{
-    response.render('proyectview', {
+    response.render('epicDetail', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
       mensaje: msg || '',

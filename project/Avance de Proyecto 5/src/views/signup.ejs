@@ -10,27 +10,31 @@
         #mensaje{
           color: red;
         }
+        #createBtn{
+          margin-top: 25px;
+          text-align: center;
+        }
       </style>
 
-        <h1>Crea una cuenta</h1>
+        <h1>Create an account</h1>
 
         <br><br>
 
-        <form action="/usuarios/signup" method="POST">
+        <form action="/users/signup" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="row g-2">
 
             <div class="col-md">
               <div class="form-floating">
                 <input type="text" class="form-control" id="userName" name="userName" placeholder="Bernardo Gómez" required>
-                <label for="floatingInputGrid">Nombre Completo</label>
+                <label for="floatingInputGrid">Full name</label>
               </div>
             </div>
 
             <div class="col-md">
               <div class="form-floating" id="userSkill" name="userSkill">
                 <select class="form-select" id="floatingSelectGrid" required>
-                  <option value="1">Selecciona una opción...</option>
+                  <option value="1">Select a skil...</option>
                   <option value="2">Back End</option>
                   <option value="3">Front End</option>
                 </select>
@@ -47,14 +51,14 @@
             <div class="col-md">
               <div class="form-floating">
                 <input type="email" class="form-control" id="userMail" name="userMail" placeholder="name@example.com" required>
-                <label for="floatingInputGrid">Correo Electrónico</label>
+                <label for="floatingInputGrid">Email</label>
               </div>
             </div>
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="password" class="form-control" id="userPass" name="userPass" placeholder="A1234567890" required>
-                <label for="floatingInputGrid">Contraseña</label>
+                <input type="tel" class="form-control" id="userCel" name="userCel" placeholder="4421234567" required>
+                <label for="floatingInputGrid">Phone</label>
               </form>
             </div>
 
@@ -66,15 +70,15 @@
 
             <div class="col-md">
               <div class="form-floating">
-                <input type="tel" class="form-control" id="userCel" name="userCel" placeholder="4421234567" required>
-                <label for="floatingInputGrid">Teléfono</label>
+                <input type="password" class="form-control" id="userPass" name="userPass" placeholder="4421234567" required>
+                <label for="floatingInputGrid">Password</label>
               </div>
             </div>
 
             <div class="col-md">
               <div class="form-floating">
                 <input type="password" class="form-control" id="userConfPass" name="userConfPass" placeholder="A1234567890" required>
-                <label for="floatingInputGrid">Confirmar Contraseña</label>
+                <label for="floatingInputGrid">Confirm Password</label>
               </form>
             </div>
 
@@ -87,7 +91,9 @@
             </div>
           <% } %>
           <br>
-          <button class="btn btn-primary" type="submit">Crear</button>
+          <div id="createBtn">
+            <button class="btn btn-primary" type="submit" style="width: 125px;">Create</button>
+          </div>
           
         </form> 
  

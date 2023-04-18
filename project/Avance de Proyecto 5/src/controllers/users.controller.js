@@ -1,4 +1,4 @@
-const Usuario = require('../models/usuarios.model');
+const User = require('../models/usuarios.model');
 const bcrypt = require('bcryptjs');
 
 exports.get_login = (request, response, next) => {
@@ -7,7 +7,7 @@ exports.get_login = (request, response, next) => {
   request.session.mensaje  = '';
 
   if (request.session.isLoggedIn){
-    response.render('inicio',{
+    response.render('homepage',{
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
     });
@@ -24,7 +24,7 @@ exports.get_login = (request, response, next) => {
 
 exports.post_login = (request, response, next) => {
 
-    Usuario.fetchOne(request.body.userMail)
+    User.fetchOne(request.body.userMail)
       .then(([rows, fieldData]) => {
         if (rows.length == 1) {
           bcrypt
@@ -35,21 +35,21 @@ exports.post_login = (request, response, next) => {
                 request.session.nombre = rows[0].user_Name;
                 return request.session.save((err) => {
                   console.log("[Info] A user logged in successfully.")
-                  response.redirect("/../inicio");
+                  response.redirect("/../homepage");
                 });
               } 
               else {
-                request.session.mensaje = "Usuario y/o contraseña incorrectos.";
+                request.session.mensaje = "Wrong username or password.";
                 console.log("[WARN] A user failed to login.")
-                response.redirect("/usuarios/login");
+                response.redirect("/users/login");
               }
             })
             .catch((error) => console.log(error));
         }
         else {
-          request.session.mensaje = "Usuario y/o contraseña incorrectos.";
+          request.session.mensaje = "Wrong username or password.";
           console.log("[WARN] A user failed to login.")
-          response.redirect("/usuarios/login");
+          response.redirect("/users/login");
         }
       })
       .catch((error) => {
@@ -71,18 +71,18 @@ exports.get_signup = (request, response, next) => {
 exports.post_signup = (request, response, next) => {
   const phone = request.body.userCel.replace(/\s+/g, '');
   if(isNaN(parseInt(phone)) || phone.length != 10){
-    request.session.mensaje = '[Advertencia] El teléfono debe ser un número de 10 dígitos.';
-    response.redirect('/usuarios/signup');
+    request.session.mensaje = 'Phone number must be 10 digits long.';
+    response.redirect('/users/signup');
   }
 
   else if (request.body.userPass != request.body.userConfPass){
-    request.session.mensaje = '[Advertencia] Las contraseñas no coinciden.';
-    response.redirect('/usuarios/signup');
+    request.session.mensaje = 'Passwords dont match.';
+    response.redirect('/users/signup');
   }
   
   else{
     console.log("[Info] User created successfully.");
-    const usuario = new Usuario({
+    const user = new User({
       userName: request.body.userName || "Anonimo",
       userPass: request.body.userPass || "12345",
       userMail: request.body.userMail || "anon@gmail.com",
@@ -91,21 +91,25 @@ exports.post_signup = (request, response, next) => {
       userWeekAp: 0
     });
 
-    usuario.save()
+    user.save()
     .then(([rows, fieldData]) => {
-        response.redirect('/usuarios/login');
-    }).catch((error) => {console.log(error)});
+        response.redirect('/users/login');
+    })
+
+    .catch((error) => {
+      console.log(error)
+    });
   }
 };
 
 exports.get_account = (request, response, next) => {
-  Usuario.fetchUser(request.session.nombre)
+  User.fetchUser(request.session.nombre)
   .then(([rows, fieldData]) => {
     if(rows.length == 1){
       response.render('account', {
-      userInfo: rows[0],
-      isLoggedIn: request.session.isLoggedIn || false
-    })
+        userInfo: rows[0],
+        isLoggedIn: request.session.isLoggedIn || false
+      })
     }
     else{
       console.log("[ERR] System failed to fetch user account information.")
@@ -115,7 +119,7 @@ exports.get_account = (request, response, next) => {
 };
 
 exports.edit_account = (request, response, next) => {
-  Usuario.fetchUser(request.session.nombre)
+  User.fetchUser(request.session.nombre)
   .then(([rows, fieldData]) => {
     if(rows.length == 1){
       response.render('editAccount', {
@@ -131,7 +135,7 @@ exports.edit_account = (request, response, next) => {
 };
 
 exports.post_account = (request, response, next) => {
-  Usuario.updateAccount(
+  User.updateAccount(
     request.body.user_Name,
     request.body.user_Mail,
     request.body.user_Phone, 
@@ -141,7 +145,7 @@ exports.post_account = (request, response, next) => {
   )
   console.log("[Info] A User made changes in its Account.");
   request.session.nombre = request.body.user_Name;
-  response.redirect('/usuarios/account');
+  response.redirect('/users/account');
   
 };
 
@@ -154,6 +158,6 @@ exports.timeout = (request, response, next) => {
 exports.logout = (request, response, next) => {
     request.session.destroy(() => {
         console.log("[Info] A user logged out.");
-        response.redirect('/usuarios/login');
+        response.redirect('/users/login');
     });
 };
