@@ -43,4 +43,20 @@ module.exports = class Ticket {
     `, [ticket_Update, ticket_Status, Story_Points, Issue_Id]);
     }
 
+    //Aún no pruebo el método de viewTicket, esperemos que funcione (si ves este comentario es porque no funcionó.)
+
+    static viewTicket(){
+        return db.execute(`
+        SELECT Issue_Key AS "Key", 
+        Summary AS Summary, 
+        Issue_Type AS Type, 
+        Story_Points AS Points, 
+        ticket_Status AS "Status", 
+        ticket_Label AS Label, 
+        epic_Link AS Epic, 
+        ticket_Assignee AS Assignee
+        FROM tickets;
+        `,);
+    }
+
 }
