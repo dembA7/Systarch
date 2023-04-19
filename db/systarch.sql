@@ -49,6 +49,11 @@ END$$
 
 DELIMITER ;
 
+--
+-- Si la db marca error con los stored procedures o con las functions, ejecuta este código:
+-- sudo /Applications/XAMPP/bin/mysql_upgrade  
+--
+
 -- --------------------------------------------------------
 
 --
@@ -321,3 +326,4 @@ ALTER TABLE `usuario_rol`
   ADD CONSTRAINT `usuario_rol_id_1` FOREIGN KEY (`idUsuario`) REFERENCES `users` (`user_ID`),
   ADD CONSTRAINT `usuario_rol_id_2` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`);
 COMMIT;
+
