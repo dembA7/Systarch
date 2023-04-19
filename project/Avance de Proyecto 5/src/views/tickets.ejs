@@ -115,7 +115,6 @@
 <section id="labels">
 
     <br>
-
 <div class="container">
     <div class="row">
         <div class="col">
@@ -131,6 +130,21 @@
         <div class="col">
             <div id="type">
                 <h3 class="fw-light">Type</h3>
+
+                <!--Este código debería funcionar, espero poder resolverlo pronto.-->
+
+                <% ticket.forEach(ticket => { %>
+                    <tr>
+                      <td><%= ticket.Key %></td>
+                      <td><%= ticket.Summary %></td>
+                      <td><%= ticket.Type %></td>
+                      <td><%= ticket.Points %></td>
+                      <td><%= ticket.Status %></td>
+                      <td><%= ticket.Label %></td>
+                      <td><%= ticket.Epic %></td>
+                      <td><%= ticket.Assignee %></td>
+                    </tr>
+                  <% }); %>
             </div>
         </div>
         <div class="col">
