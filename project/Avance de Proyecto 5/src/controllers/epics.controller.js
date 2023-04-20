@@ -16,7 +16,7 @@ exports.get_import = (request, response, next) => {
 
 exports.post_import = async (request, response, next) => {
 
-  if(request.session.mensaje == 'Invalid file extension. Please, try again.') {
+  if(request.session.mensaje == 'Invalid file extension. Please, try again.'){
     response.redirect('/epics/import');
   }
 
@@ -80,6 +80,8 @@ async function readCSV(flpath) {
           ticket_Status : userInfo.Status,
           epic_Link : userInfo["Custom field (Epic Link)"],
           epic_Link_Summary : userInfo["Epic Link Summary"],
+          ticket_Assignee :  userInfo.Assignee || null,
+          ticket_Assignee_ID : userInfo["Assignee Id"] || null,
           ticket_Assignee :  userInfo.Assignee || null,
           ticket_Assignee_ID : userInfo["Assignee Id"] || null,
           ticket_Label: userInfo.Labels
