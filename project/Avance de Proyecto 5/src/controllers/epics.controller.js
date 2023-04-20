@@ -233,9 +233,6 @@ async function checkAssignees(dictInDatos, tempTicket) {
       if(tempTicket.ticket_Assignee_ID != null
         && tempTicket.ticket_Assignee != null
         && tempTicket.ticket_Assignee == user.user_Name
-      if(tempTicket.ticket_Assignee_ID != null
-        && tempTicket.ticket_Assignee != null
-        && tempTicket.ticket_Assignee == user.user_Name
         && tempTicket.ticket_Assignee != user.ticket_Assignee) {
         
         console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`);
