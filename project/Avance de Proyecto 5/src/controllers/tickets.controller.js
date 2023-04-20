@@ -2,17 +2,19 @@ const Ticket = require('../models/tickets.model');
 
 
 exports.get_ticket = (request, response, next) => {
-  response.render('tickets', {
+  return Ticket.viewTicket()
+  .then(([tickets]) => {
+    console.log("Requested tickets details")
+    response.render('tickets', {
       isLoggedIn: request.session.isLoggedIn || false,
-      nombre: request.session.nombre || ''
+      nombre: request.session.nombre || '',
+      tickets: tickets
+    });  
+  })
+  .catch(error => {
+    console.log(error);
+    next(error);
   });
 }
-exports.viewTicket = (req, res) => {
-Ticket.viewTicket()
-  .then(([tickets]) => {
-    res.render('tickets', { tickets: tickets });
-  })
-  .catch(err => console.log(err));
-};
 
 
