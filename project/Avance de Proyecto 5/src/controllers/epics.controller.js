@@ -140,7 +140,15 @@ async function readCSV(flpath) {
           }
         }
 
-        const fechaISO = `20${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+        let fechaISO = '';
+
+        if(parseInt(fechaArray[2]) < 100){
+          fechaISO = `20${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+        }
+
+        else{
+          fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+        }
         
         if (!isNaN(Date.parse(fechaISO))) {
           tempTicket.ticket_Update = fechaISO;
