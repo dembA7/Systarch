@@ -33,9 +33,22 @@ exports.post_login = (request, response, next) => {
               if (doMatch) {
                 request.session.isLoggedIn = true;
                 request.session.nombre = rows[0].user_Name;
-                return request.session.save((err) => {
-                  console.log("[Info] A user logged in successfully.")
-                  response.redirect("/../homepage");
+                User.fetchprivilegios(rows[0].user_Name)
+                .then(([consulta_privilegios, fieldData]) => {
+                  //console.log(consulta_privilegios);
+                  const privilegios = [];
+
+                  for (let privilegio of consulta_privilegios) {
+                    privilegios.push(privilegio.nombre);
+                  }
+
+                  request.session.privilegios = privilegios;
+                  //console.log(request.session.privilegios);
+
+                  return request.session.save((err) => {
+                    //console.log("[Info] A user logged in successfully.")
+                    response.redirect("/../homepage");
+                  });
                 });
               } 
               else {
@@ -93,7 +106,7 @@ exports.post_signup = (request, response, next) => {
 
     user.save()
     .then(([rows, fieldData]) => {
-        response.redirect('/users/login');
+        response.redirect('/homepage');
     })
 
     .catch((error) => {
@@ -108,7 +121,8 @@ exports.get_account = (request, response, next) => {
     if(rows.length == 1){
       response.render('account', {
         userInfo: rows[0],
-        isLoggedIn: request.session.isLoggedIn || false
+        isLoggedIn: request.session.isLoggedIn || false,
+        privilegios: request.session.privilegios || [],
       })
     }
     else{
