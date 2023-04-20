@@ -28,7 +28,16 @@
         margin-left: 50px;
     }
 
-    /* LABELS */
+    /*
+    
+    Decidí comentar el código de labels ya que rompe la visualización de la página, pero en caso de que se busque implementar una mejora al respecto más adelante,
+    el código de la grid es estable, el código de LABELS de abajo es el encargado de modificarlo.
+
+    */
+
+/*
+
+    LABELS 
 
     #key, #summary, #type, #points, #status, #label, #epic, #asignee{
         flex: 1;
@@ -57,6 +66,8 @@
         position: relative;
         right: 30px;
     }
+
+*/
 
     /* TICKETS */
 
@@ -104,31 +115,67 @@
 <section id="labels">
 
     <br>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="key">
+                <h3 class="fw-light">Key</h3>
+            </div>
+        </div>
+        <div class="col">
+            <div id="summary">
+                <h3 class="fw-light">Summary</h3>
+            </div>
+        </div>
+        <div class="col">
+            <div id="type">
+                <h3 class="fw-light">Type</h3>
 
-    <div id="flex">
-        <div id="key">
-            <h3 class="fw-light">Key</h3>
+                <!--Código que se conecta con el controlador.-->
+
+                <% /* %>
+
+                    <% ticket.forEach(ticket => { %>
+                    <tr>
+                      <td><%= ticket.Key %></td>
+                      <td><%= ticket.Summary %></td>
+                      <td><%= ticket.Type %></td>
+                      <td><%= ticket.Points %></td>
+                      <td><%= ticket.Status %></td>
+                      <td><%= ticket.Label %></td>
+                      <td><%= ticket.Epic %></td>
+                      <td><%= ticket.Assignee %></td>
+                    </tr>
+                  <% }); %>
+
+                <% */ %>
+
+            </div>
         </div>
-        <div id="summary">
-            <h3 class="fw-light">Summary</h3>
+        <div class="col">
+            <div id="points">
+                <h3 class="fw-light">Points</h3>
+            </div>
         </div>
-        <div id="type">
-            <h3 class="fw-light">Type</h3>
+        <div class="col">
+            <div id="status">
+                <h3 class="fw-light">Status</h3>
+            </div>
         </div>
-        <div id="points">
-            <h3 class="fw-light">Points</h3>
+        <div class="col">
+            <div id="label">
+                <h3 class="fw-light">Label</h3>
+            </div>
         </div>
-        <div id="status">
-            <h3 class="fw-light">Status</h3>
+        <div class="col">
+            <div id="epic">
+                <h3 class="fw-light">Epic</h3>
+            </div>
         </div>
-        <div id="label">
-            <h3 class="fw-light">Label</h3>
-        </div>
-        <div id="epic">
-            <h3 class="fw-light">Epic</h3>
-        </div>
-        <div id="asignee">
-            <h3 class="fw-light">Asignee</h3>
+        <div class="col">
+            <div id="asignee">
+                <h3 class="fw-light">Asignee</h3>
+            </div>
         </div>
     </div>
 

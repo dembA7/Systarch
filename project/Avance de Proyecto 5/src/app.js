@@ -51,6 +51,7 @@ app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('csvUplo
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+
 // CSRF Protection
 const csrfProtection = csrf();
 app.use(csrfProtection);
@@ -61,7 +62,7 @@ app.use((request, response, next) => {
 });
 
 app.use(function (error, request, response, next) {
-  if (error.code !== 'EBADCSRFTOKEN') return next(error);
+  if (error.code !== 'EBADCSRFTOKEN') return next(err);
 
   // Handle CSRF token errors here
   response.redirect('/users/timeout');
@@ -89,5 +90,6 @@ app.use((request, response, next) => {
         username: request.session.username || '',
     });
 });
+
 
 app.listen(3000);

@@ -11,7 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -20,6 +19,42 @@ SET time_zone = "+00:00";
 --
 -- Database: `systarch`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spProgreso` (IN `_epic_Link` VARCHAR(30), OUT `progreso` INT)   BEGIN
+  DECLARE total_tickets INT DEFAULT 0;
+  DECLARE total_status INT DEFAULT 0;
+  
+  SELECT COUNT(*) INTO total_tickets FROM tickets WHERE epic_Link = _epic_Link;
+  SELECT COUNT(*) INTO total_status FROM tickets WHERE epic_Link = _epic_Link AND ticket_Status IN ('Done', 'Closed');
+  
+  IF total_tickets > 0 THEN
+    SET progreso = (total_status / total_tickets) * 100;
+  ELSE
+    SET progreso = 0;
+  END IF;
+END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_progreso` (`epic_Link` VARCHAR(30)) RETURNS INT(11)  BEGIN
+    DECLARE progreso INT;
+    CALL spProgreso(epic_Link, @progreso);
+    RETURN @progreso;
+END$$
+
+DELIMITER ;
+
+--
+-- Si la db marca error con los stored procedures o con las functions, ejecuta este código:
+-- sudo /Applications/XAMPP/bin/mysql_upgrade  
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `epics`
@@ -291,3 +326,4 @@ ALTER TABLE `usuario_rol`
   ADD CONSTRAINT `usuario_rol_id_1` FOREIGN KEY (`idUsuario`) REFERENCES `users` (`user_ID`),
   ADD CONSTRAINT `usuario_rol_id_2` FOREIGN KEY (`idRol`) REFERENCES `roles` (`id`);
 COMMIT;
+
