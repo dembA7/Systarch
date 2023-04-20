@@ -82,6 +82,8 @@ async function readCSV(flpath) {
           epic_Link_Summary : userInfo["Epic Link Summary"],
           ticket_Assignee :  userInfo.Assignee || null,
           ticket_Assignee_ID : userInfo["Assignee Id"] || null,
+          ticket_Assignee :  userInfo.Assignee || null,
+          ticket_Assignee_ID : userInfo["Assignee Id"] || null,
           ticket_Label: userInfo.Labels
         });
 
@@ -228,6 +230,9 @@ async function checkAssignees(dictInDatos, tempTicket) {
 
     for (let user of users[0]) {
 
+      if(tempTicket.ticket_Assignee_ID != null
+        && tempTicket.ticket_Assignee != null
+        && tempTicket.ticket_Assignee == user.user_Name
       if(tempTicket.ticket_Assignee_ID != null
         && tempTicket.ticket_Assignee != null
         && tempTicket.ticket_Assignee == user.user_Name
