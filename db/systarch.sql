@@ -220,7 +220,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_ID`, `user_Name`, `user_Password`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`, `ticket_Assignee`, `ticket_Assignee_ID`) VALUES
 (1, 'Diego Vega', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4426060404', 'diego@gmail.com', 0, '3', NULL, NULL),
 (2, 'Arturo Cristián Díaz López', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4421054338', 'arturo@outlook.com', 0, '3', NULL, NULL),
-(3, 'Bernardo Gómez-Romero', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
+(3, 'Bernardo Gomez-Romero', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
 --
 -- Indexes for dumped tables
 --

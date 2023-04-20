@@ -112,6 +112,10 @@
 
 <!-- LABELS -->
 
+<!--
+
+<% /* %>
+
 <section id="labels">
 
     <br>
@@ -120,67 +124,120 @@
         <div class="col">
             <div id="key">
                 <h3 class="fw-light">Key</h3>
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"><td><%= ticket.Key %></td></h4>
+                <% }); %>
             </div>
         </div>
         <div class="col">
             <div id="summary">
                 <h3 class="fw-light">Summary</h3>
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"> <td><%= ticket.Summary %></td></h4>
+                <% }); %>
             </div>
         </div>
         <div class="col">
             <div id="type">
                 <h3 class="fw-light">Type</h3>
-
-                <!--Código que se conecta con el controlador.-->
-
-                <% /* %>
-
-                    <% ticket.forEach(ticket => { %>
-                    <tr>
-                      <td><%= ticket.Key %></td>
-                      <td><%= ticket.Summary %></td>
-                      <td><%= ticket.Type %></td>
-                      <td><%= ticket.Points %></td>
-                      <td><%= ticket.Status %></td>
-                      <td><%= ticket.Label %></td>
-                      <td><%= ticket.Epic %></td>
-                      <td><%= ticket.Assignee %></td>
-                    </tr>
-                  <% }); %>
-
-                <% */ %>
-
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"><td><%= ticket.Type %></td></h4>  
+                <% }); %>   
             </div>
         </div>
         <div class="col">
             <div id="points">
                 <h3 class="fw-light">Points</h3>
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"><td><%= ticket.Points %></td></h4>
+                <% }); %>
             </div>
         </div>
         <div class="col">
             <div id="status">
                 <h3 class="fw-light">Status</h3>
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"> <td><%= ticket.Status %></td></h4>
+                <% }); %>
             </div>
         </div>
         <div class="col">
             <div id="label">
                 <h3 class="fw-light">Label</h3>
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"><td><%= ticket.Label %></td></h4>
+                <% }); %>
             </div>
         </div>
         <div class="col">
             <div id="epic">
                 <h3 class="fw-light">Epic</h3>
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"><td><%= ticket.Epic %></td></h4>
+                <% }); %>
             </div>
         </div>
         <div class="col">
             <div id="asignee">
                 <h3 class="fw-light">Asignee</h3>
+                <br>
+                <% tickets.forEach(ticket => { %>
+                <h4 class="small"><%= ticket.Assignee %></h4>
+                <% }); %>
+                
             </div>
         </div>
     </div>
+    <% */ %>
 
-</section>
+    -->
 
+    <style>
+        .table-col {
+            max-width: 200px; /* Establecer un ancho máximo de 200 píxeles para cada columna */
+            overflow: hidden; /* Ocultar el contenido que sobrepase el ancho máximo */
+            text-overflow: ellipsis; /* Mostrar puntos suspensivos al final del contenido que se ocultó */
+            white-space: nowrap; /* Impedir que el contenido se ajuste automáticamente al ancho de la columna */
+        }
+    </style>
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Summary</th>
+                <th>Type</th>
+                <th>Points</th>
+                <th>Status</th>
+                <th>Label</th>
+                <th>Epic</th>
+                <th>Assignee</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% tickets.forEach(ticket => { %>
+            <tr>
+                <td class="table-col"><%= ticket.Key %></td>
+                <td class="table-col"><%= ticket.Summary %></td>
+                <td class="table-col"><%= ticket.Type %></td>
+                <td class="table-col"><%= ticket.Points %></td>
+                <td class="table-col"><%= ticket.Status %></td>
+                <td class="table-col"><%= ticket.Label %></td>
+                <td class="table-col"><%= ticket.Epic %></td>
+                <td class="table-col"><%= ticket.Assignee %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+    
 <!-- TICKETS -->
 
 <section id="tickets">
