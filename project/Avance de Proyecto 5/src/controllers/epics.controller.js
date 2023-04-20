@@ -80,8 +80,8 @@ async function readCSV(flpath) {
           ticket_Status : userInfo.Status,
           epic_Link : userInfo["Custom field (Epic Link)"],
           epic_Link_Summary : userInfo["Epic Link Summary"],
-          ticket_Assignee :  userInfo.Assignee,
-          ticket_Assignee_ID : userInfo["Assignee Id"],
+          ticket_Assignee :  userInfo.Assignee || null,
+          ticket_Assignee_ID : userInfo["Assignee Id"] || null,
           ticket_Label: userInfo.Labels
         });
 
@@ -228,7 +228,9 @@ async function checkAssignees(dictInDatos, tempTicket) {
 
     for (let user of users[0]) {
 
-      if(tempTicket.ticket_Assignee == user.user_Name
+      if(tempTicket.ticket_Assignee_ID != null
+        && tempTicket.ticket_Assignee != null
+        && tempTicket.ticket_Assignee == user.user_Name
         && tempTicket.ticket_Assignee != user.ticket_Assignee) {
         
         console.log(`[Info] CSV Line ${dictInDatos}: A user from 'db' matches ticket Assignee '${tempTicket.ticket_Assignee}'. Linking data...`);
