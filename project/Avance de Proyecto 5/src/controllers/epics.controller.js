@@ -16,7 +16,7 @@ exports.get_import = (request, response, next) => {
 
 exports.post_import = async (request, response, next) => {
 
-  if(request.session.mensaje == 'Formato de archivo no válido, por favor, intenta de nuevo.'){
+  if(request.session.mensaje == 'Invalid file extension. Please, try again.') {
     response.redirect('/epics/import');
   }
 
