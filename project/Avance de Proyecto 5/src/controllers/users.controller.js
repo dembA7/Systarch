@@ -35,7 +35,7 @@ exports.post_login = (request, response, next) => {
                 request.session.nombre = rows[0].user_Name;
                 User.fetchprivilegios(rows[0].user_Name)
                 .then(([consulta_privilegios, fieldData]) => {
-                  console.log(consulta_privilegios);
+                  //console.log(consulta_privilegios);
                   const privilegios = [];
 
                   for (let privilegio of consulta_privilegios) {
@@ -43,10 +43,10 @@ exports.post_login = (request, response, next) => {
                   }
 
                   request.session.privilegios = privilegios;
-                  console.log(request.session.privilegios);
+                  //console.log(request.session.privilegios);
 
                   return request.session.save((err) => {
-                    console.log("[Info] A user logged in successfully.")
+                    //console.log("[Info] A user logged in successfully.")
                     response.redirect("/../homepage");
                   });
                 });
