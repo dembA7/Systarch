@@ -88,24 +88,24 @@
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <h3 class="fw-light">Assigned Epics</h3>
                     
-                    <% if (epicsSelected.length> 0) {%>
+                    <% if (epicsSelected.length > 0) {%>
                     
-                        <select class="form-select" id="delEpic" name="delEpic" size=<%=(epicsSelected.length + 1) %>>
+                        <select class="form-select" id="delEpic" name="delEpic" size=8>
                     
                             <%for (i in epicsSelected) {%>
-        
-                                    <option value=<%= epicsSelected[i]%>x>
-                                        <%= epicsSelected[i]%>
+                                <% if (epicsSelected[i] != null) {%>
+                                    <option>
+                                        <%= epicsSelected[i].epic_Link %>:<%= epicsSelected[i].epic_Link_Summary%>
                                     </option>
-                    
-                                    <%}%>
+                                <%}%>
+                            <%}%>
                     
                         </select>
                     
                         <br>
                         <button class="btn btn-danger" type="submit">Remove</button>
                     
-                        <%}%>
+                    <%}%>
 
                 </form>
             </div>
