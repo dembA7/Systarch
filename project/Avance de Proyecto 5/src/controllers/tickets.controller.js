@@ -7,7 +7,6 @@ exports.get_ticket = (request, response, next) => {
       nombre: request.session.nombre || ''
   });
 }
-
 exports.viewTicket = (req, res) => {
 Ticket.viewTicket()
   .then(([tickets]) => {
