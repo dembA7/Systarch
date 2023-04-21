@@ -47,4 +47,10 @@ module.exports = class Epic {
             `);
     }
 
+    static fetchBurnupData(epic_link){
+        return db.execute(`
+            SELECT get_sprints(?) AS sprints;
+        `, [epic_link])
+    }
+
 }

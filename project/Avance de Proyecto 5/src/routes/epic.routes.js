@@ -4,6 +4,8 @@ const router = express.Router();
 
 const epicsController = require('../controllers/epics.controller');
 
+router.get('/dashboard/:id', epicsController.get_Burnup)
+
 router.get('/import', epicsController.get_import);
 
 router.post('/import', epicsController.post_import);
