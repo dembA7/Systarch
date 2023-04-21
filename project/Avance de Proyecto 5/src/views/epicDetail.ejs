@@ -1,0 +1,120 @@
+<%- include('includes/head.ejs') %>
+    <br>
+    <input type="hidden" id="epic_Link" value="<%= tickets[0].epic_Link %>">
+    <div>
+
+
+      <!--Dentro de este div no se debe mover nada, está hecho para que automáticamente se acomode el despliegue dependiendo de
+          como esté acomodada la ventana. Es un ajuste automático. Todo lo relacionado a los datos debe moverse en el js-->
+          <button style="margin-left: 15px;" onclick="window.location.href='../../inicio'" class="btn btn-secondary float-right">Regresar</button>
+          <div class="d-flex justify-content-between align-items-center px-4">
+            <p class="mr-auto mb-0"><h1>Dashboard</h1></p></div>      
+          <div class="d-flex justify-content-between align-items-center px-4">
+                  <p class="mr-auto mb-0"><h2><%= tickets[0].epic_Link_Summary %></h2></p>
+                    <p class="mr-auto mb-0"><h2></h2></p>
+                  <p class="ml-auto mb-0"><h4>
+                    <figure>
+                      <figcaption>Miembros del equipo</figcaption>
+                    <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
+                    
+                    </figure>
+                  </h4></p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center px-5">
+
+                  <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
+    
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+                  
+              </div>
+              </div>
+    </div> 
+    <script>
+    window.addEventListener('load', () => {
+        // Función que manda petición asíncrona cuando se carga o recarga la pag
+        let id = document.getElementById("epic_Link").value;
+        console.log("Epic link = " + id);
+        fetch('/epics/dashboard/' + id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(result => {
+            return result.json(); 
+        }).then(datas => {
+            let miCanvas=document.getElementById("Burnup").getContext("2d");
+            
+            let _sprints = [];  
+            for (let i = 0; i < Math.ceil(datas.tickets[0].sprints); i++) {
+                _sprints.push(i);
+            }
+
+            const data = {
+                type:'line',
+                data:{
+                    labels: _sprints,
+                    datasets:[
+                        {
+                            label: "Scope",
+                            data:[67,67,67,67,67,72,75, 75],
+                            backgroundColor:['rgb(0,0,0,.10)'],
+                            borderColor:['rgb(0,0,0)'],
+                            borderWidth: 3
+                        },
+                        {   
+                            label: "Goal",
+                            data:[0,11,21,32,43,54,64,75],
+                            backgroundColor:['rgb(40, 40, 222,.20)'],
+                            borderColor:['rgb(40, 40, 222)'],
+                            borderWidth: 2
+                        },
+                        {
+                            label:"Done",
+                            data:[0,4,12,15,33,38,58,75],
+                            backgroundColor:['rgb(25, 250, 0,.30)'],
+                            borderColor:['rgb(25, 250, 0)'],
+                            borderWidth: 2,
+                            borderCapStyle: 'round',
+                        }
+                    
+                        
+                    ]
+                },
+                options:{
+                    plugins:{
+                        legend: {position:'bottom',}
+                    },
+                    scales:{
+                        y:{
+                            beginAtZero:true
+                        },
+                        x:{
+                            grid: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Sprint',
+                                color: 'black',
+                                font: {
+                                    size: 20,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                    }
+                }
+            }
+
+            var chart = new Chart(miCanvas, data)
+
+        }).catch(err =>{console.log(err);});
+
+
+        
+
+})
+
+    
+    </script>
+    <%- include('includes/foot.ejs') %>

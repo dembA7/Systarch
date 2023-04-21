@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+  
+  <title>
+    DispatchHealth
+  </title>
+
+  <style>
+    section {
+      margin: 0 auto;
+      max-width: 85em;
+      line-height: 1.5;
+      padding: 4em 1em;
+    }
+    .login-img{
+      width: 100%; 
+      height: 700px; 
+      object-fit: cover;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="row">
+    <div id="left" class="col-sm-6">
+      <div class="position-relative">
+        <div class="position-absolute top-0 start-50 translate-middle-x">
+          <div class="container-fluid">
+
+            <br><br><br>
+            <img src="data:image/png;base64,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" alt="Logo" width="550" height="60" class="d-inline-block align-text-top">
+            <div class="container text-center">
+              <div class="row">
+                <div class="col">
+
+                  <br><br><br><br><br>
+
+                  <p class="fs-4">Login</p>
+
+                  <br>
+                  
+                  <form action="/users/login" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control" name="userMail" id="userMail" placeholder="name@example.com">
+                      <label for="floatingInput">Email</label>
+                    </div>
+
+                    <div class="form-floating">
+                      <input type="password" class="form-control" name="userPass" id="userPass" placeholder="Password">
+                      <label for="floatingPassword">Password</label>
+                    </div>
+                    <br>
+                    <% if (mensaje !='' ) { %>
+                      <div>
+                        <%= mensaje %>
+                      </div>
+                    <% } %>
+                    <br>
+                    <button class="btn btn-primary" type="submit">Sign in</button>
+
+                  </form>
+
+                  <br><br><br><br>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!--Este div es el de la foto de la derecha, finalmente funciona-->
+      <img src="https://assets.dispatchhealth.com/dims4/default/9e1d2d5/2147483647/strip/false/crop/5507x4406+0+0/resize/1486x1189!/quality/90/?url=https%3A%2F%2Fdispatch-health-production-web.s3.amazonaws.com%2Fbrightspot%2F27%2Ffa%2F8dfbecbc4f7f9a11d17086963f4b%2Fdispatchhealth-patient-adult-welcome-2-0978.jpg" alt="Descripción de la imagen" class="login-img">
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+<%- include('includes/foot.ejs') %>
