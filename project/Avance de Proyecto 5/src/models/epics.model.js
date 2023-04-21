@@ -53,4 +53,12 @@ module.exports = class Epic {
         `, [epic_link])
     }
 
+    static updateProjectID(epic_link, projectID){      
+        return db.execute(`
+            UPDATE epics
+            SET
+            project_ID = ?
+            WHERE epic_Link = ?
+            `,[projectID, epic_link]);
+    }
 }

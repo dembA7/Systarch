@@ -1,4 +1,5 @@
 const Epic = require('../models/epics.model');
+const Project = require('../models/project.model');
 exports.get_projects = (request, response, next) => {
 
   response.render('projects', {
@@ -12,32 +13,29 @@ exports.get_projects = (request, response, next) => {
 };
 
 exports.get_createProjects = async (request, response, next) => {
+  const message = request.session.mensaje;
+  request.session.mensaje = '';
   epics = await Epic.fetchAll()
 
   if (!request.session.epicsSelected){
 
-      console.log("epicsSelected vacios")
-      request.session.epicsSelected = [];
+    request.session.epicsSelected = [];
 
-    }
+  }
 
-    else if(request.session.epicsSelected.length > 0){
+  else if(request.session.epicsSelected.length > 0){
 
-      epics[0] = await removeFromEpics(request.session.epicsSelected, epics[0]);
+    epics[0] = await removeFromEpics(request.session.epicsSelected, epics[0]);
       
-    }
-    
-    console.log("Epics filtrados:")
-    console.log(epics[0])
-    console.log("Epics seleccionados:")
-    console.log(request.session.epicsSelected)
+  }
 
     response.render('create', {
       isLoggedIn: request.session.isLoggedIn || false,
       username: request.session.username || "",
       titulo: "DispatchHealth",
       epics: epics[0] || [],
-      epicsSelected: request.session.epicsSelected
+      epicsSelected: request.session.epicsSelected,
+      mensaje: message
       
     });
 };
@@ -52,7 +50,6 @@ async function removeFromEpics(selected, epics){
         && selected[object2]
         && selected[object2].epic_ID == epics[object1].epic_ID){
 
-          console.log(`Match, borrando...`)
           epics.splice(object1, 1);
 
           await removeFromEpics(selected, epics);
@@ -95,6 +92,7 @@ exports.postAdd_createProjects = async(request, response, next) => {
 exports.postRemove_createProjects = (request, response, next) => {
 
   if (request.body.delEpic){
+
     const delProj = request.body.delEpic.split(":");
 
     for (i in request.session.epicsSelected){
@@ -113,3 +111,57 @@ exports.postRemove_createProjects = (request, response, next) => {
   
   response.redirect("/projects/create")
 };
+
+exports.post_createProjects = async (request, response, next) => {
+
+  projName = request.body.projName
+
+  if(request.session.epicsSelected.length < 1){
+
+    request.session.mensaje = "Please select at least one Epic from the list.";
+    response.redirect('/projects/create');
+  }
+
+  else{
+
+    const project = new Project({
+      name: projName
+    });
+
+    projectFetched = await Project.fetchOne(projName)
+
+    if(projectFetched[0].length >= 1){
+
+      request.session.mensaje = "A Project with that name already exists.";
+      response.redirect('/projects/create');
+
+    }
+
+    else{
+      console.log(`[Info] Creating a new project: '${projName}'`)
+      await project.save()
+      await updateEpicProjectID(request.session.epicsSelected, projName)
+
+      request.session.epicsSelected = [];
+      response.redirect('/projects/');
+
+    }
+  }
+};
+
+async function updateEpicProjectID(epicsSelected, projName){
+
+  for(i in epicsSelected){
+
+    if(epicsSelected[i].project_ID == null){
+
+      console.log(`[Info] Epic ${epicsSelected[i].epic_Link} doesn't have a projectID. Adding it...`)
+      
+      projectFetched = await Project.fetchOne(projName)
+      
+      Epic.updateProjectID(epicsSelected[i].epic_Link, projectFetched[0][0].project_ID)
+
+    }
+    
+  }
+}
