@@ -240,6 +240,7 @@ exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
   console.log("[Info] A user requested some epic details");
+  
   let id = request.params.epic_Link;
   
   Epic.fetchTickets(id)
@@ -248,7 +249,7 @@ exports.get_detail = (request, response, next) => {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
       mensaje: msg || '',
-      tickets: rows
+      tickets: rows,
     });
   })
   .catch(err => {console.log(err);});
