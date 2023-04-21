@@ -1,12 +1,15 @@
 const Epic = require('../models/epics.model');
 const Project = require('../models/project.model');
-exports.get_projects = (request, response, next) => {
+exports.get_projects = async (request, response, next) => {
+
+  projects = await Project.fetchAll()
 
   response.render('projects', {
 
   isLoggedIn: request .session.isLoggedIn || false,
   username: request.session.username || "",
-  titulo: "DispatchHealth"
+  titulo: "DispatchHealth",
+  projects: projects[0] || []
 
   });
 
