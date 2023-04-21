@@ -82,6 +82,13 @@
         /* margin-left: 5px;
         margin-right: 5px; */
     }
+    h1{
+        margin-bottom: 35px;
+    }
+    .table-responsive{
+        margin-left: 3em;
+        margin-right: 3em;
+    }
 
 </style>
 
@@ -211,7 +218,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Key</th>
+                <th id="key">Key</th>
                 <th>Summary</th>
                 <th>Type</th>
                 <th>Points</th>
@@ -224,7 +231,7 @@
         <tbody>
             <% tickets.forEach(ticket => { %>
             <tr>
-                <td class="table-col"><%= ticket.Key %></td>
+                <td class="table-col" id="key"><%= ticket.Key %></td>
                 <td class="table-col"><%= ticket.Summary %></td>
                 <td class="table-col"><%= ticket.Type %></td>
                 <td class="table-col"><%= ticket.Points %></td>
