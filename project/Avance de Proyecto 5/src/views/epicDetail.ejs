@@ -3,31 +3,33 @@
 
     <div>
 
-    <!--Dentro de este div no se debe mover nada, está hecho para que automáticamente se acomode el despliegue dependiendo de
-        como esté acomodada la ventana. Es un ajuste automático. Todo lo relacionado a los datos debe moverse en el js-->
-        <a style="margin-left: 15px;" href='/inicio/' class="btn btn-secondary float-right">Regresar</a>
-        <div class="d-flex justify-content-between align-items-center px-4">
-            <p class="mr-auto mb-0"><h1>Dashboard</h1></p>
-        </div>      
-        <div class="d-flex justify-content-between align-items-center px-4">
-            <p class="mr-auto mb-0"><h2><%= tickets[0].epic_Link_Summary %></h2></p>
-            <!-- <p class="mr-auto mb-0"><h2></h2></p> PAXI ESTO DE QUE SIRVE?!
-            <p class="ml-auto mb-0"><h4> -->
-            <figure>
-                <figcaption>Miembros del equipo</figcaption>
-            <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
-            </figure>
-            </h4></p>
-        </div>
-        <div class="d-flex justify-content-between align-items-center px-5" id="epic_Link" data-epicLink="<%= epic_Link %>">
-            <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
-        </div>
-    </div>
+      <!--Dentro de este div no se debe mover nada, está hecho para que automáticamente se acomode el despliegue dependiendo de
+          como esté acomodada la ventana. Es un ajuste automático. Todo lo relacionado a los datos debe moverse en el js-->
+          <button style="margin-left: 15px;" onclick="window.location.href='../../inicio'" class="btn btn-secondary float-right">Regresar</button>
+          <div class="d-flex justify-content-between align-items-center px-4">
+            <p class="mr-auto mb-0"><h1>Dashboard</h1></p></div>      
+          <div class="d-flex justify-content-between align-items-center px-4">
+                  <p class="mr-auto mb-0"><h2><%= tickets[0].epic_Link_Summary %></h2></p>
+                    <p class="mr-auto mb-0"><h2></h2></p>
+                  <p class="ml-auto mb-0"><h4>
+                    <figure>
+                      <figcaption>Miembros del equipo</figcaption>
+                    <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
+                    
+                    </figure>
+                  </h4></p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center px-5">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+                  <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
     
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+                  
+              </div>
+              </div>
+    </div> 
     <script>
-        let miCanvas=document.getElementById("Burnup").getContext("2d");
+    let miCanvas=document.getElementById("Burnup").getContext("2d");
     
     const data = {
         type:'line',
@@ -39,15 +41,14 @@
                     data:[67,67,67,67,67,72,75, 75],
                     backgroundColor:['rgb(0,0,0,.10)'],
                     borderColor:['rgb(0,0,0)'],
-                    borderWidth: 3,
-                    tension: 0.1
+                    borderWidth: 3
                 },
                 {   
                     label: "Goal",
                     data:[0,11,21,32,43,54,64,75],
                     backgroundColor:['rgb(40, 40, 222,.20)'],
                     borderColor:['rgb(40, 40, 222)'],
-                    borderWidth: 2,
+                    borderWidth: 2
                 },
                 {
                     label:"Done",
@@ -56,7 +57,6 @@
                     borderColor:['rgb(25, 250, 0)'],
                     borderWidth: 2,
                     borderCapStyle: 'round',
-                    tension: 0.15
                 }
             
                 
@@ -87,7 +87,8 @@
             }
         }
     }
+
     var chart = new Chart(miCanvas, data)
     </script>
-
-    <%- include('includes/foot.ejs') %> 
+    <!-- <%- include('includes/chart.ejs')%> -->
+    <%- include('includes/foot.ejs') %>

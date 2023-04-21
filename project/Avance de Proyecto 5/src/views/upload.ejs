@@ -30,7 +30,7 @@
 <br>
 <section id="title">
     <div>
-        <h1 class="fw-light">Importa datos</h1>
+        <h1 class="fw-light">Import data</h1>
     </div>
 </section>
 
@@ -46,13 +46,13 @@
 
 <section id="form">
     <div class="h3">
-        <h3>Ingresa el archivo .csv para generar un epic.</h3>
+        <h3>Insert .csv file to generate an epic.</h3>
     </div>
     <div class="container d-flex justify-content-center align-items-center" id="form">
         <form action="/epics/import" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <br><br>
-            <input class="form-control form-control-lg" type="file" id="csvUploaded" name="csvUploaded" required/>
+            <input class="form-control form-control-lg" type="file" id="csvUploaded" name="csvUploaded" required accept=".csv"/>
             <br>
 
             <% if (mensaje !='' ) { %>
@@ -61,7 +61,7 @@
                 </div><br>
             <% } %>
                 
-            <button class="btn btn-primary" type="submit">Importar</button>
+            <button class="btn btn-primary" type="submit">Import</button>
         </form>
     </div>
 </section>

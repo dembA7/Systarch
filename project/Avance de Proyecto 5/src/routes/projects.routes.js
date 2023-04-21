@@ -4,8 +4,10 @@ const router = express.Router();
 
 const projectsController = require('../controllers/projects.controller');
 
-router.get('/', projectsController.get_proyectos);
+router.get('/', projectsController.get_projects);
 
-router.get('/crear', projectsController.get_crearProyectos);
+router.get('/create', projectsController.get_createProjects);
+router.post('/create', projectsController.postAdd_createProjects);
+router.post('/create/r', projectsController.postRemove_createProjects);
 
-module.exports = router;
+module.exports = router;    
