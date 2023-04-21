@@ -146,7 +146,7 @@ exports.post_createProjects = async (request, response, next) => {
       await updateEpicProjectID(request.session.epicsSelected, projName)
 
       request.session.epicsSelected = [];
-      response.redirect('/projects/');
+      response.redirect('/projects');
 
     }
   }
