@@ -49,58 +49,75 @@
             return result.json(); 
         }).then(datas => {
             let miCanvas = document.getElementById("Burnup").getContext("2d");
-            // Calcula los sprints (por semana) que habrán como eje x de la gráfica
-            let _sprints = [];  
-            for (let i = 0; i < Math.ceil(datas.tickets[0].sprints); i++) {
+            // Calcula los sprints (por semana) 
+            let _sprints = [];
+            for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints); i++) {
                 _sprints.push(i);
             }
-            let ticket_Updates = [];
-            for(let i = 0; i < datas.tickets.length; i++){
-                ticket_Updates.push(datas.tickets[i].ticket_Update);
-            }
-            ticket_Updates.push(datas.tickets[0].created_at);
-            // console.log(ticket_Updates);
-            // Función para encontrar el índice de la fecha mínima entre
-            // las updates por ticket y la created_at del epic correspondiente
-            function findMinTimestampIndex(dataArray) {
-                let minIndex = 0;
-                let minTimestamp = new Date(dataArray[0]).getTime();
-                for (let i = 1; i < dataArray.length; i++) {
-                    let currentTimestamp = new Date(dataArray[i]).getTime();
-                    if (currentTimestamp < minTimestamp) {
-                        minIndex = i;
-                        minTimestamp = currentTimestamp;
-                    }
-                }
-                return minIndex;
-            }
-            let sprint_0 = ticket_Updates[findMinTimestampIndex(ticket_Updates)];
-            const scope = {
-                0: [],
-                1: [],
-                2: [],
-                3: [],
-                4: [],
-                5: [],
-                6: [],
-                7: [],
-                8: [],
-                9: []
-            };
-        
-            console.log(scope);
-            let j = 0;
-            // console.log(sprint_0);
-            ticket_Updates.pop();
-            for(let ticket_Update of ticket_Updates){
-                let current_Up = new Date(ticket_Update).getTime();
-                let calculo = Math.round((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7));
-                console.log("[Dev] Semanas: " + calculo);
-                scope[calculo].push(j);
-                j++;
-                }
-            console.log(_sprints);
             if(_sprints.length > 1){
+                // Hacer un arreglo con todas las fechas de Update por ticket
+                let ticket_Updates = [];
+                for(let i = 0; i < datas.tickets.length; i++){
+                    ticket_Updates.push(datas.tickets[i].ticket_Update);
+                }; // Añadir al arreglo la fecha de creación del epic de los tickets
+                   // para usarlo como la mínima fecha (hasta que sea actualizada manualmente por usuario)
+                ticket_Updates.push(datas.tickets[0].created_at);
+
+                // console.log(ticket_Updates);
+                // Función para encontrar el índice de la fecha mínima entre
+                // las updates por ticket y la created_at del epic correspondiente
+                function findMinTimestampIndex(dataArray) {
+                    let minIndex = 0;
+                    let minTimestamp = new Date(dataArray[0]).getTime();
+                    for (let i = 1; i < dataArray.length; i++) {
+                        let currentTimestamp = new Date(dataArray[i]).getTime();
+                        if (currentTimestamp < minTimestamp) {
+                            minIndex = i;
+                            minTimestamp = currentTimestamp;
+                        }
+                    }
+                    return minIndex;
+                }
+                // Asignar a sprint_0 la fecha más baja
+                let sprint_0 = ticket_Updates[findMinTimestampIndex(ticket_Updates)];
+                
+                // Crear el objeto scope con un atributo por sprint
+                const scope = {};
+                for(let sprint of _sprints){
+                    scope[sprint] = [];
+                }
+
+                let j = 0;
+                
+                // Eliminar created_at del epic correspondiente para calcular los tickets
+                // que habrá por sprint usando únicamente fechas de creación de tickets
+                ticket_Updates.pop();
+
+                // Calcular los tickets que hay por sprint y asociarlos, por índice a su sprint correspondiente
+                for(let ticket_Update of ticket_Updates){
+                    let current_Up = new Date(ticket_Update).getTime();
+                    let calculo = Math.round((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7));
+                    // console.log("[Dev] Sprints: " + calculo);
+                    scope[calculo].push(j);
+                    j++;
+                    }
+                console.log(scope);
+            
+                // console.log(scope[0][0]);
+                // console.log(datas.tickets[scope[0][0]]);
+                // console.log(datas.tickets[scope[0][0]].Story_Points);
+
+                scopes = [];
+                // Función de sumatoria para calcular Story Points (SP) por sprint
+                for(let _scopes in scope){
+                    let suma = 0;
+                    for(let i = 0; i < scope[_scopes].length;i++){ 
+                        suma += datas.tickets[scope[_scopes][i]].Story_Points;
+                    }
+                    scopes.push(suma);
+                }
+
+                // console.log(scopes);
                 const data = {
                     type:'line',
                     data:{
@@ -108,7 +125,7 @@
                         datasets:[
                             {
                                 label: "Scope",
-                                data:[67,67,67,67,67,72,75, 75],
+                                data: scopes,
                                 backgroundColor:['rgb(0,0,0,.10)'],
                                 borderColor:['rgb(0,0,0)'],
                                 borderWidth: 3
