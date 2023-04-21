@@ -138,9 +138,8 @@ exports.post_createProjects = async (request, response, next) => {
     }
 
     else{
-
+      console.log(`[Info] Creating a new project: '${projName}'`)
       await project.save()
-      await console.log(request.session.epicsSelected)
       await updateEpicProjectID(request.session.epicsSelected, projName)
 
       request.session.epicsSelected = [];
@@ -156,7 +155,7 @@ async function updateEpicProjectID(epicsSelected, projName){
 
     if(epicsSelected[i].project_ID == null){
 
-      console.log(`Epic ${epicsSelected[i].epic_Link} doesn't have a projectID. Adding it...`)
+      console.log(`[Info] Epic ${epicsSelected[i].epic_Link} doesn't have a projectID. Adding it...`)
       
       projectFetched = await Project.fetchOne(projName)
       
