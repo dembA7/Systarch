@@ -1,17 +1,21 @@
 const Epic = require('../models/epics.model');
 exports.get_projects = (request, response, next) => {
-    response.render('projects', {
-    isLoggedIn: request .session.isLoggedIn || false,
-    username: request.session.username || "",
-    titulo: "DispatchHealth",
+
+  response.render('projects', {
+
+  isLoggedIn: request .session.isLoggedIn || false,
+  username: request.session.username || "",
+  titulo: "DispatchHealth"
+
   });
+
 };
 
-exports.get_createProjects = (request, response, next) => {
-  Epic.fetchAll()
-  .then((epics) => {
+exports.get_createProjects = async (request, response, next) => {
+  epics = await Epic.fetchAll()
 
-    if (!request.session.epicsSelected){
+  if (!request.session.epicsSelected){
+
       console.log("epicsSelected vacios")
       request.session.epicsSelected = [];
 
@@ -19,23 +23,15 @@ exports.get_createProjects = (request, response, next) => {
 
     else if(request.session.epicsSelected.length > 0){
 
-      console.log(request.session.epicsSelected)
-
-      for (object1 in epics[0]){
-
-        for (object2 in request.session.epicsSelected){
-
-          if(request.session.epicsSelected[object2] != null
-          && request.session.epicsSelected[object2].epic_ID == epics[0][object1].epic_ID){
-
-              delete epics[0][object1];
-              break;
-              
-          }
-        }
-      }
+      epics[0] = await removeFromEpics(request.session.epicsSelected, epics[0]);
+      
     }
     
+    console.log("Epics filtrados:")
+    console.log(epics[0])
+    console.log("Epics seleccionados:")
+    console.log(request.session.epicsSelected)
+
     response.render('create', {
       isLoggedIn: request.session.isLoggedIn || false,
       username: request.session.username || "",
@@ -44,47 +40,76 @@ exports.get_createProjects = (request, response, next) => {
       epicsSelected: request.session.epicsSelected
       
     });
-  })
 };
+
+async function removeFromEpics(selected, epics){
+
+  for (object1 in epics){
+
+    for (object2 in selected){
+
+      if(epics[object1]
+        && selected[object2]
+        && selected[object2].epic_ID == epics[object1].epic_ID){
+
+          console.log(`Match, borrando...`)
+          epics.splice(object1, 1);
+
+          await removeFromEpics(selected, epics);
+      }
+
+    }
+
+  }
+  
+  return epics;
+}
 
 exports.postAdd_createProjects = async(request, response, next) => {
 
-  console.log("Post de Add");
-  const addProj = request.body.selEpic.split(":");
-  console.log(addProj)
-  let add;
-  epics = await Epic.fetchAll();
+  if(request.body.selEpic != "NULL"){
 
-  for(object in epics[0]){
+    const addProj = request.body.selEpic.split(":");
+    let add;
+    epics = await Epic.fetchAll();
 
-    if(addProj[0] == epics[0][object].epic_Link
-      && addProj[1] == epics[0][object].epic_Link_Summary){
+    for(object in epics[0]){
 
-      console.log("Añadiendo epic a lista")
-      add = epics[0][object];
+      if(addProj[0] == epics[0][object].epic_Link
+        && addProj[1] == epics[0][object].epic_Link_Summary){
+
+        add = epics[0][object];
+
+      }
+
     }
+
+    request.session.epicsSelected.push(add)
+
   }
 
-  request.session.epicsSelected.push(add)
   response.redirect("/projects/create");
+
 };
 
 exports.postRemove_createProjects = (request, response, next) => {
-  console.log("Post de Remove");
-  
+
   if (request.body.delEpic){
     const delProj = request.body.delEpic.split(":");
+
     for (i in request.session.epicsSelected){
 
-      if(request.session.epicsSelected[i] != null
-        && request.session.epicsSelected[i].epic_Link == delProj[0]
+      if(request.session.epicsSelected[i].epic_Link == delProj[0]
         && request.session.epicsSelected[i].epic_Link_Summary == delProj[1]){
 
-          delete request.session.epicsSelected[i]
+          request.session.epicsSelected.splice(i, 1)
           break;
 
       }
+
     }
+
   }
+  
   response.redirect("/projects/create")
 };
