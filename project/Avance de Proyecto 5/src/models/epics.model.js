@@ -49,8 +49,11 @@ module.exports = class Epic {
 
     static fetchBurnupData(epic_link){
         return db.execute(`
-            SELECT get_sprints(?) AS sprints;
-        `, [epic_link])
+            SELECT t.Story_Points, t.ticket_Update, e.created_at, get_sprints(?) AS sprints
+            FROM epics e, tickets t
+            WHERE e.epic_Link = t.epic_Link
+            AND e.epic_Link = ?;
+        `, [epic_link, epic_link]) 
     }
 
 }
