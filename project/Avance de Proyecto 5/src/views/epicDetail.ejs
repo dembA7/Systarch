@@ -3,10 +3,13 @@
     <input type="hidden" id="epic_Link" value="<%= tickets[0].epic_Link %>">
     <div>
 
-
       <!--Dentro de este div no se debe mover nada, está hecho para que automáticamente se acomode el despliegue dependiendo de
           como esté acomodada la ventana. Es un ajuste automático. Todo lo relacionado a los datos debe moverse en el js-->
-        <a style="margin-left: 15px;" href='/homepage' class="btn btn-secondary float-right">Regresar</a>
+        <a style="margin-left: 15px;" href='/homepage' class="btn btn-secondary float-right">Return
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+        </a>
         <div class="d-flex justify-content-between align-items-center px-4">
             <p class="mr-auto mb-0"><h1>Dashboard</h1></p>
         </div>      
@@ -16,8 +19,9 @@
             <p class="ml-auto mb-0">
                 <h4>
                     <figure>
-                        <figcaption>Miembros del equipo</figcaption>
-                        <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
+                      <figcaption>Team members</figcaption>
+                    <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
+                    
                     </figure>
                 </h4>
             </p>
@@ -50,14 +54,12 @@
             for (let i = 0; i < Math.ceil(datas.tickets[0].sprints); i++) {
                 _sprints.push(i);
             }
-
             let ticket_Updates = [];
             for(let i = 0; i < datas.tickets.length; i++){
                 ticket_Updates.push(datas.tickets[i].ticket_Update);
             }
             ticket_Updates.push(datas.tickets[0].created_at);
             // console.log(ticket_Updates);
-
             // Función para encontrar el índice de la fecha mínima entre
             // las updates por ticket y la created_at del epic correspondiente
             function findMinTimestampIndex(dataArray) {
@@ -72,9 +74,7 @@
                 }
                 return minIndex;
             }
-
             let sprint_0 = ticket_Updates[findMinTimestampIndex(ticket_Updates)];
-
             const scope = {
                 0: [],
                 1: [],
@@ -99,7 +99,6 @@
                 scope[calculo].push(j);
                 j++;
                 }
-
             console.log(_sprints);
             if(_sprints.length > 1){
                 const data = {
@@ -167,19 +166,14 @@
                         }
                     }
                 }
-
                 var chart = new Chart(miCanvas, data)
             } else {
                 document.getElementById("no-data").innerHTML = '<h1> No hay suficientes datos para graficar </h1>';
             }
-
         }).catch(err =>{console.log(err);});
-
-
         
-
 })
-
     
     </script>
+    <!-- <%- include('includes/chart.ejs')%> -->
     <%- include('includes/foot.ejs') %>
