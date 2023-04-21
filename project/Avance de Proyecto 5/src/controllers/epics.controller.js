@@ -293,3 +293,15 @@ exports.get_Burnup = (request, response, next) => {
   });
 
 };
+
+exports.get_SearchEpic = (request, response, next) => {
+
+  Epic.find(request.params.valorBusqueda)
+    .then(([rows, fieldData]) => {
+        response.status(200).json({epics: rows});
+    })
+    .catch(error => {
+        console.log(error);
+        response.status(500).json({message: "Internal Server Error"});
+    });
+}
