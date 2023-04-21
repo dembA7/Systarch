@@ -46,30 +46,68 @@
     </section>
 
     <section id="body">
+    
         <div id="flex">
             <div id="nombre">
-                
+        
                 <h3 class="fw-light">Name</h3>
-
-                <input class="form-control" type="text" placeholder="Enter the name of the project..." aria-label="default input example" style="width: 600px;">
-
+        
+                <input class="form-control" type="text" placeholder="Enter the name of the project..."
+                    aria-label="default input example" style="width: 600px;">
+        
                 <br><br><br><br>
 
-                <h3 class="fw-light">Asign Epics</h3>
-                <select class="form-select" type="text" placeholder="Select the epics here...." aria-label="default input example" style="width: 600px;">
-                    <option selected>Select the epics here...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
+                <form action="/projects/create" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <h3 class="fw-light">Assign Epics</h3>
 
-            </div>
+                    <select class="form-select" id="selEpic" name="selEpic" type="text" placeholder="Select the epics here...."
+                        aria-label="default input example" style="width: 600px;">
+                        
+                        <option selected value="NULL">Select the epics here...</option>
+                        
+                        <% if (epics.length> 0) {%>
+                            <%for (i in epics) {%>
+                                <option>
+                                    <%= epics[i].epic_Link %>:<%= epics[i].epic_Link_Summary%>
+                                </option>
+                            <%}%>
+                        <%}%>
 
-            <div id="crearProyecto">
+                    </select>
+
+                    <button class="btn btn-primary" type="submit">Add</button>
+
+                </form>
                 
-                <h3 class="fw-light">Assigned Epics</h3>
-                <input class="form-control" type="text" placeholder="" aria-label="default input example" style="width: 600px; height: 300px;">
+            </div>
+        
+            <div id="crearProyecto">
 
+                <form action="/projects/create/r" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <h3 class="fw-light">Assigned Epics</h3>
+                    
+                    <% if (epicsSelected.length > 0) {%>
+                    
+                        <select class="form-select" id="delEpic" name="delEpic" size=8>
+                    
+                            <%for (i in epicsSelected) {%>
+                                <% if (epicsSelected[i] != null) {%>
+                                    <option>
+                                        <%= epicsSelected[i].epic_Link %>:<%= epicsSelected[i].epic_Link_Summary%>
+                                    </option>
+                                <%}%>
+                            <%}%>
+                    
+                        </select>
+                    
+                        <br>
+                        <button class="btn btn-danger" type="submit">Remove</button>
+                    
+                    <%}%>
+
+                </form>
             </div>
         </div>
     </section>
