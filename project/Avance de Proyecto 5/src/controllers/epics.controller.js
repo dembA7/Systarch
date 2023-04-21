@@ -3,6 +3,7 @@ const Epic = require('../models/epics.model');
 const User = require('../models/usuarios.model');
 const fs = require('fs');
 const csv = require("csv-parser");
+const { response } = require('express');
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -278,4 +279,17 @@ exports.get_detail = (request, response, next) => {
   })
   .catch(err => {console.log(err);});
   
+};
+
+exports.get_Burnup = (request, response, next) => {
+  
+  Epic.fetchBurnupData(request.params.id)
+  .then(([rows, fieldData]) => {
+    response.status(200).json({tickets: rows});
+  })
+  .catch(err => {
+    console.log(err);
+    response.status(500).json({message: "Internal Server Error"});
+  });
+
 };
