@@ -47,6 +47,22 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_progreso` (`epic_Link` VARCHAR(3
     RETURN @progreso;
 END$$
 
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_Sprints`(`_epic_Link` VARCHAR(30)) RETURNS float
+BEGIN
+  DECLARE total_points FLOAT(11,2) DEFAULT 0;
+  DECLARE total_teamAP FLOAT(11,2) DEFAULT 0;
+  DECLARE progreso FLOAT(11,2) DEFAULT 0;
+  
+  SELECT SUM(t.Story_Points) INTO total_points FROM tickets t WHERE epic_Link = _epic_Link;
+  SELECT SUM(DISTINCT u.user_WeeklyAgilePoints) INTO total_teamAP FROM users u, tickets t WHERE u.ticket_Assignee_ID = t.ticket_Assignee_ID AND t.epic_Link = _epic_Link;
+
+  IF total_teamAP > 0 THEN
+    SET progreso = (total_points / total_teamAP);
+  ELSE
+    SET progreso = 0;
+  END IF;
+  RETURN progreso;
+END$$
 DELIMITER ;
 
 --
