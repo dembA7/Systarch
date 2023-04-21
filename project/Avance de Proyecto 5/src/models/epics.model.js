@@ -47,4 +47,13 @@ module.exports = class Epic {
             `);
     }
 
+    static updateProjectID(epic_link, projectID){      
+        return db.execute(`
+            UPDATE epics
+            SET
+            project_ID = ?
+            WHERE epic_Link = ?
+            `,[projectID, epic_link]);
+    }
+
 }
