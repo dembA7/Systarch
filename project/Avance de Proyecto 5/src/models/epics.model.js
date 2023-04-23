@@ -61,4 +61,13 @@ module.exports = class Epic {
             WHERE epic_Link = ?
             `,[projectID, epic_link]);
     }
+
+    static find(valorBusqueda) {
+        return db.execute(`
+            SELECT epic_Link, epic_Link_Summary  
+            FROM epics
+            WHERE (epic_Link LIKE ? OR epic_Link_Summary LIKE ?)
+        `, [ '%' + valorBusqueda + '%', '%' + valorBusqueda + '%', ]
+        );
+    }
 }
