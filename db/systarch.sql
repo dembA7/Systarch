@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-04-2023 a las 07:31:35
+-- Tiempo de generación: 24-04-2023 a las 07:38:23
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -48,8 +48,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `get_progreso` (`epic_Link` VARCHAR(3
     RETURN @progreso;
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_Sprints`(`_epic_Link` VARCHAR(30)) RETURNS float
-BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_Sprints` (`_epic_Link` VARCHAR(30)) RETURNS FLOAT  BEGIN
   DECLARE total_points FLOAT(11,2) DEFAULT 0;
   DECLARE total_teamAP FLOAT(11,2) DEFAULT 0;
   DECLARE progreso FLOAT(11,2) DEFAULT 0;
@@ -64,6 +63,7 @@ BEGIN
   END IF;
   RETURN progreso;
 END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -182,6 +182,7 @@ CREATE TABLE `tickets` (
   `epic_Link` varchar(30) NOT NULL,
   `epic_Link_Summary` varchar(400) NOT NULL,
   `ticket_Update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ticket_Created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `ticket_Assignee` varchar(100) DEFAULT NULL,
   `ticket_Assignee_ID` varchar(200) DEFAULT NULL,
   `ticket_Label` varchar(300) DEFAULT NULL
@@ -212,7 +213,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_ID`, `user_Name`, `user_Password`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`, `ticket_Assignee`, `ticket_Assignee_ID`) VALUES
 (1, 'Diego Vega', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4426060404', 'diego@gmail.com', 0, '3', NULL, NULL),
 (2, 'Arturo Cristián Díaz López', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4421054338', 'arturo@outlook.com', 0, '3', NULL, NULL),
-(3, 'Bernardo Gómez-Romero', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
+(3, 'Bernardo Gomez-Romero', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
 
 -- --------------------------------------------------------
 
