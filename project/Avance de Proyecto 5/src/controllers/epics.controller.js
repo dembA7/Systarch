@@ -285,7 +285,17 @@ exports.get_Burnup = (request, response, next) => {
   
   Epic.fetchBurnupData(request.params.id)
   .then(([rows, fieldData]) => {
-    response.status(200).json({tickets: rows});
+    Epic.fetchBurnupDone(request.params.id)
+    .then(([done, fieldData]) => {
+      response.status(200).json({
+        tickets: rows,
+        done: done
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).json({message: "Internal Server Error"});
+    });
   })
   .catch(err => {
     console.log(err);

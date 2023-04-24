@@ -48,13 +48,20 @@
         }).then(result => {
             return result.json(); 
         }).then(datas => {
-            let miCanvas = document.getElementById("Burnup").getContext("2d");
+        
+        // SPRINTS 
+
             // Calcula los sprints (por semana) 
             let _sprints = [];
-            for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints); i++) {
+            for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints)+1; i++) {
                 _sprints.push(i);
             }
+            
+            // Validar si la gráfica tendrá sentido (Mínimo 2 sprints)
             if(_sprints.length > 1){
+        
+        // SCOPE
+
                 // Hacer un arreglo con todas las fechas de Update por ticket
                 let ticket_Updates = [];
                 for(let i = 0; i < datas.tickets.length; i++){
@@ -63,7 +70,6 @@
                    // para usarlo como la mínima fecha (hasta que sea actualizada manualmente por usuario)
                 ticket_Updates.push(datas.tickets[0].created_at);
 
-                // console.log(ticket_Updates);
                 // Función para encontrar el índice de la fecha mínima entre
                 // las updates por ticket y la created_at del epic correspondiente
                 function findMinTimestampIndex(dataArray) {
@@ -78,46 +84,67 @@
                     }
                     return minIndex;
                 }
+
                 // Asignar a sprint_0 la fecha más baja
                 let sprint_0 = ticket_Updates[findMinTimestampIndex(ticket_Updates)];
                 
-                // Crear el objeto scope con un atributo por sprint
-                const scope = {};
+                // Crear el objeto scope con un atributo por sprint para 'mapear' los datos
+                const scope = {}; 
                 for(let sprint of _sprints){
                     scope[sprint] = [];
                 }
 
-                let j = 0;
-                
-                // Eliminar created_at del epic correspondiente para calcular los tickets
-                // que habrá por sprint usando únicamente fechas de creación de tickets
+                // Eliminar created_at para calcular los tickets
+                // que habrá por sprint y que no se considere la fecha de creación
                 ticket_Updates.pop();
-
+                let j = 0;
                 // Calcular los tickets que hay por sprint y asociarlos, por índice a su sprint correspondiente
                 for(let ticket_Update of ticket_Updates){
                     let current_Up = new Date(ticket_Update).getTime();
-                    let calculo = Math.round((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7));
-                    // console.log("[Dev] Sprints: " + calculo);
+                    // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
+                    let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
                     scope[calculo].push(j);
                     j++;
                     }
-                console.log(scope);
-            
-                // console.log(scope[0][0]);
-                // console.log(datas.tickets[scope[0][0]]);
-                // console.log(datas.tickets[scope[0][0]].Story_Points);
+                scope[0] = scope[1];
 
                 scopes = [];
-                // Función de sumatoria para calcular Story Points (SP) por sprint
+                // Función para calcular Story Points (SP) por sprint
                 for(let _scopes in scope){
                     let suma = 0;
                     for(let i = 0; i < scope[_scopes].length;i++){ 
                         suma += datas.tickets[scope[_scopes][i]].Story_Points;
                     }
                     scopes.push(suma);
-                }
+                } console.log(scopes);
 
-                // console.log(scopes);
+        // GOAL
+                
+                let goal = [];
+                for(let i = 0; i <= _sprints.length; i++){
+                    goal[i] = ((datas.tickets[0].totalSP / (_sprints.length-1))*i);
+                } console.log(goal);
+        
+        // DONE
+
+                const done = [0];
+                for(let finished of datas.done){
+                    let current_Up = new Date(finished.ticket_Update).getTime();
+                    // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
+                    console.log((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7));
+                    let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
+                    done[calculo] = done[calculo] || 0;
+                    done[calculo] += finished.Story_Points;
+                }; 
+                
+                for(let i = 0;i<done.length;i++){
+                    if(done[i] === undefined)
+                        done[i] = done[i-1];
+                }
+                
+                console.log(done);
+
+                let miCanvas = document.getElementById("Burnup").getContext("2d");
                 const data = {
                     type:'line',
                     data:{
@@ -132,14 +159,14 @@
                             },
                             {   
                                 label: "Goal",
-                                data:[0,11,21,32,43,54,64,75],
+                                data: goal,
                                 backgroundColor:['rgb(40, 40, 222,.20)'],
                                 borderColor:['rgb(40, 40, 222)'],
                                 borderWidth: 2
                             },
                             {
                                 label:"Done",
-                                data:[0,4,12,15,33,38,58,75],
+                                data: done,
                                 backgroundColor:['rgb(25, 250, 0,.30)'],
                                 borderColor:['rgb(25, 250, 0)'],
                                 borderWidth: 2,
