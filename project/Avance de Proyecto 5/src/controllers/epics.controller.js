@@ -247,7 +247,6 @@ exports.get_SearchEpic = (request, response, next) => {
 
 async function dateToISO(date){
   //Updated: Cambiar el formato del Jira al estandar ISO
-  
   const fechaHora = date;
   const fechaHoraArray = fechaHora.split(" ");
   const fechaArray = fechaHoraArray[0].split("-");
@@ -259,8 +258,7 @@ async function dateToISO(date){
       "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
     ];
     
-    let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase());
-    mesIndex++;
+    let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase() + 1);
 
     if (mesIndex < 9){
       fechaArray[1] = `0${mesIndex}`;
@@ -268,39 +266,17 @@ async function dateToISO(date){
 
     else{
       fechaArray[1] = mesIndex;
-    }
-
-    
+    }    
   };
 
-  const horaArray = fechaHoraArray[1].split(":");
-  if (fechaHoraArray[2]){
-    
-    if (fechaHoraArray[2] == 'AM'){
-
-      if (parseInt(horaArray[0])<10){
-
-        horaArray[0] = `0${horaArray[0]}`
-      }
-    }
-    
-    else if (fechaHoraArray[2] == 'PM' && parseInt(horaArray[0]) != 12) {
-      
-      horaArray[0] = parseInt(horaArray[0]) + 12;
-
-    }
-  }
-
-  let fechaISO = '';
-
   if(parseInt(fechaArray[2]) < 100){
-    fechaISO = `20${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+    fechaArray[2] = `20${fechaArray[2]}`
   }
 
-  else{
-    fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
-  }
+  const horaArray = fechaHoraArray[1].split(":");
   
+  fechaISO = new Date(fechaArray[2], fechaArray[1]-1, fechaArray[0], horaArray[0], horaArray[1], 0, 0)
+
   if (!isNaN(Date.parse(fechaISO))) {
     return fechaISO;
   }
