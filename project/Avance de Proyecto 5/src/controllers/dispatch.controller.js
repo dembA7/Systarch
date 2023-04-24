@@ -8,7 +8,7 @@ exports.get_homepage = (request, response, next) => {
       isLoggedIn: request .session.isLoggedIn || false,
       epics: rows,
       username: request.session.nombre,
-      titulo: "DispatchHealth",
+      titulo: "DispatchHealth"
     });
   }).catch(err => console.log(err));
   

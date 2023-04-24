@@ -52,7 +52,7 @@ async function readCSV(flpath) {
     .pipe(
       
       csv({
-        headers: ["Issue key",	"Issue id",	"Summary",	"Issue Type",	"Custom field (Story Points)",	"Status",	"Custom field (Epic Link)",	"Epic Link Summary",	"Updated",	"Assignee",	"Assignee Id",	"Labels"],
+        headers: ["Issue key",	"Issue id",	"Summary",	"Issue Type",	"Custom field (Story Points)",	"Status",	"Custom field (Epic Link)",	"Epic Link Summary",	"Updated", "Created", "Assignee",	"Assignee Id",	"Labels1",	"Labels2", "Labels3", "Labels4"],
         separator: ","
       })
     )
@@ -85,7 +85,6 @@ async function readCSV(flpath) {
           ticket_Assignee_ID : userInfo["Assignee Id"] || null,
           ticket_Assignee :  userInfo.Assignee || null,
           ticket_Assignee_ID : userInfo["Assignee Id"] || null,
-          ticket_Label: userInfo.Labels
         });
 
         //Story Points:
@@ -97,69 +96,9 @@ async function readCSV(flpath) {
           tempTicket.Story_Points = parseFloat(userInfo["Custom field (Story Points)"]);
         }
 
-        //Updated: Cambiar el formato del Jira al estandar ISO
-        const fechaHora = userInfo.Updated;
-        const fechaHoraArray = fechaHora.split(" ");
-        const fechaArray = fechaHoraArray[0].split("/");
-
-        if (isNaN(parseInt(fechaArray[1]))){
-
-          const meses = [
-            "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-            "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
-          ];
-          
-          let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase());
-          mesIndex++;
-
-          if (mesIndex < 9){
-            fechaArray[1] = `0${mesIndex}`;
-          }
-
-          else{
-            fechaArray[1] = mesIndex;
-          }
-
-          
-        };
-
-        const horaArray = fechaHoraArray[1].split(":");
-        if (fechaHoraArray[2]){
-          
-          if (fechaHoraArray[2] == 'AM'){
-
-            if (parseInt(horaArray[0])<10){
-
-              horaArray[0] = `0${horaArray[0]}`
-            }
-          }
-          
-          else if (fechaHoraArray[2] == 'PM' && parseInt(horaArray[0]) != 12) {
-            
-            horaArray[0] = parseInt(horaArray[0]) + 12;
-
-          }
-        }
-
-        let fechaISO = '';
-
-        if(parseInt(fechaArray[2]) < 100){
-          fechaISO = `20${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
-        }
-
-        else{
-          fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
-        }
-        
-        if (!isNaN(Date.parse(fechaISO))) {
-          tempTicket.ticket_Update = fechaISO;
-        }
-
-        else {
-          const today = new Date();
-          tempTicket.ticket_Update = today.toISOString();
-        }
-        
+        tempTicket.ticket_Update = await dateToISO(userInfo.Updated);
+        tempTicket.ticket_Created = await dateToISO(userInfo.Created);
+        tempTicket.ticket_Label = await checkLabels(userInfo.Labels1, userInfo.Labels2, userInfo.Labels3, userInfo.Labels4)
 
         await checkEpics(ticket_i, tempTicket);
         await checkAssignees(ticket_i, tempTicket);
@@ -167,7 +106,7 @@ async function readCSV(flpath) {
         duplicateTicket = await checkTickets(ticket_i, tempTicket);
         
         if(duplicateTicket == false){
-
+          
           await tempTicket.save();
           console.log(`[Info] CSV Line ${ticket_i}: Ticket inserted to 'db' successfully.`);
           
@@ -304,4 +243,88 @@ exports.get_SearchEpic = (request, response, next) => {
         console.log(error);
         response.status(500).json({message: "Internal Server Error"});
     });
+}
+
+async function dateToISO(date){
+  //Updated: Cambiar el formato del Jira al estandar ISO
+  
+  const fechaHora = date;
+  const fechaHoraArray = fechaHora.split(" ");
+  const fechaArray = fechaHoraArray[0].split("-");
+
+  if (isNaN(parseInt(fechaArray[1]))){
+
+    const meses = [
+      "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+      "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
+    ];
+    
+    let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase());
+    mesIndex++;
+
+    if (mesIndex < 9){
+      fechaArray[1] = `0${mesIndex}`;
+    }
+
+    else{
+      fechaArray[1] = mesIndex;
+    }
+
+    
+  };
+
+  const horaArray = fechaHoraArray[1].split(":");
+  if (fechaHoraArray[2]){
+    
+    if (fechaHoraArray[2] == 'AM'){
+
+      if (parseInt(horaArray[0])<10){
+
+        horaArray[0] = `0${horaArray[0]}`
+      }
+    }
+    
+    else if (fechaHoraArray[2] == 'PM' && parseInt(horaArray[0]) != 12) {
+      
+      horaArray[0] = parseInt(horaArray[0]) + 12;
+
+    }
+  }
+
+  let fechaISO = '';
+
+  if(parseInt(fechaArray[2]) < 100){
+    fechaISO = `20${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+  }
+
+  else{
+    fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+  }
+  
+  if (!isNaN(Date.parse(fechaISO))) {
+    return fechaISO;
+  }
+
+  else {
+    const today = new Date();
+    return today.toISOString();
+  }
+}
+
+async function checkLabels(Labels1, Labels2, Labels3, Labels4){
+  if(Labels1 == "part/Backend" || Labels1 == "part/Frontend"){
+    return Labels1;
+  }
+  else if(Labels2 == "part/Backend" || Labels2 == "part/Frontend"){
+    return Labels2;
+  }
+  else if(Labels3 == "part/Backend" || Labels3 == "part/Frontend"){
+    return Labels3;
+  }
+  else if(Labels4 == "part/Backend" || Labels4 == "part/Frontend"){
+    return Labels4;
+  }
+  else{
+    return "";
+  }
 }
