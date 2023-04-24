@@ -1,3 +1,4 @@
+const { request, response } = require('express');
 const User = require('../models/usuarios.model');
 const bcrypt = require('bcryptjs');
 
@@ -161,6 +162,12 @@ exports.post_account = (request, response, next) => {
   request.session.nombre = request.body.user_Name;
   response.redirect('/users/account');
   
+};
+
+exports.get_totalUsers = (request, response, next) => {
+    response.render('viewusers', {
+      isLoggedIn: request.session.isLoggedIn || false
+    });
 };
 
 exports.timeout = (request, response, next) => {
