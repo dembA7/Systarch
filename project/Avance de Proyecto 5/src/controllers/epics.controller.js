@@ -249,7 +249,21 @@ async function dateToISO(date){
   //Updated: Cambiar el formato del Jira al estandar ISO
   const fechaHora = date;
   const fechaHoraArray = fechaHora.split(" ");
-  const fechaArray = fechaHoraArray[0].split("-");
+  
+  try{
+    try{
+      const fechaArray = fechaHoraArray[0].split("-");
+    }
+    catch{}
+    try{
+      const fechaArray = fechaHoraArray[0].split("/");
+    }
+    catch{}
+  }
+
+  catch(error){
+    console.log(error)
+  }
 
   if (isNaN(parseInt(fechaArray[1]))){
 
