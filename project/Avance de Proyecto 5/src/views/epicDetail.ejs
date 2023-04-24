@@ -1,40 +1,59 @@
 <%- include('includes/head.ejs') %>
-    <br>
 
-    <div>
-
-      <!--Dentro de este div no se debe mover nada, está hecho para que automáticamente se acomode el despliegue dependiendo de
-          como esté acomodada la ventana. Es un ajuste automático. Todo lo relacionado a los datos debe moverse en el js-->
-          <button style="margin-left: 15px;" onclick="window.location.href='../../homepage'" class="btn btn-outline-secondary float-right">Return
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
-            </svg>  
-          </button>
-          <div class="d-flex justify-content-between align-items-center px-4">
-            <p class="mr-auto mb-0"><h1>Dashboard</h1></p></div>      
-          <div class="d-flex justify-content-between align-items-center px-4">
-                  <p class="mr-auto mb-0"><h2><%= tickets[0].epic_Link_Summary %></h2></p>
-                    <p class="mr-auto mb-0"><h2></h2></p>
-                  <p class="ml-auto mb-0"><h4>
-                    <figure>
-                      <figcaption>Team members</figcaption>
-                    <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
-                    
-                    </figure>
-                  </h4></p>
-                </div>
-                <div class="d-flex justify-content-between align-items-center px-5">
-
-                  <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            h1{
+                margin-top: 1em;
+                margin-left: 1em;
+                font-size: 58px;
+            }
+            #flex{
+                display: flex;
+            }
+            #team{
+                position: absolute;
+                right: 0;
+                margin-right: 75px;
+                margin-top: 45px;
+            }
+            #backButton{
+                margin-top: 15px;
+                margin-left: 15px;
+            }
+        </style>
+    </head>
     
-                  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-                  
-              </div>
-              </div>
-    </div> 
-    <script>
-    let miCanvas=document.getElementById("Burnup").getContext("2d");
-    
+
+
+<section id="head">
+    <div id="flex">
+        <div id="title">
+            <h1 class="fw-light"><%= tickets[0].epic_Link_Summary %></h1>
+        </div>
+        <div id="team">
+            <figure>
+                <h4>Team members</h4>
+                <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
+            </figure>
+        </div>
+    </div>
+</section>
+
+<section id="body">
+    <div id="burnupId">
+        <div class="d-flex justify-content-between align-items-center px-5">
+            <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+        </div>
+    </div>
+</section>
+
+<script>
+    let miCanvas = document.getElementById("Burnup").getContext("2d");
+
     const data = {
         type:'line',
         data:{
@@ -44,21 +63,21 @@
                     label: "Scope",
                     data:[67,67,67,67,67,72,75, 75],
                     backgroundColor:['rgb(0,0,0,.10)'],
-                    borderColor:['rgb(0,0,0)'],
+                    borderColor:['rgb(51, 53, 56)'],
                     borderWidth: 3
                 },
                 {   
                     label: "Goal",
                     data:[0,11,21,32,43,54,64,75],
                     backgroundColor:['rgb(40, 40, 222,.20)'],
-                    borderColor:['rgb(40, 40, 222)'],
+                    borderColor:['rgb(56, 110, 218)'],
                     borderWidth: 2
                 },
                 {
                     label:"Done",
                     data:[0,4,12,15,33,38,58,75],
                     backgroundColor:['rgb(25, 250, 0,.30)'],
-                    borderColor:['rgb(25, 250, 0)'],
+                    borderColor:['rgb(47, 180, 45)'],
                     borderWidth: 2,
                     borderCapStyle: 'round',
                 }
@@ -93,6 +112,7 @@
     }
 
     var chart = new Chart(miCanvas, data)
-    </script>
-    <!-- <%- include('includes/chart.ejs')%> -->
-    <%- include('includes/foot.ejs') %>
+</script>
+
+<!-- <%- include('includes/chart.ejs')%> -->
+<%- include('includes/foot.ejs') %>

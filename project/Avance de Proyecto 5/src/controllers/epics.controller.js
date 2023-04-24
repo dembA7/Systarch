@@ -204,7 +204,7 @@ function sleep(ms) {
 exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
-  console.log("[Info] A user requested some epic details");
+  // console.log("[Info] A user requested some epic details.");
   let id = request.params.epic_Link;
   
   Epic.fetchTickets(id)
