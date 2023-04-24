@@ -29,11 +29,8 @@
         <div class="d-flex justify-content-between align-items-center px-5" id="no-data">
 
             <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
-
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-            
-        </div>
-    </div>
+        </div>        
     </div> 
     <script>
     window.addEventListener('load', () => {
@@ -62,16 +59,16 @@
         
         // SCOPE
 
-                // Hacer un arreglo con todas las fechas de Update por ticket
+                // Hacer un arreglo con todas las fechas de Created por ticket
                 let ticket_Updates = [];
                 for(let i = 0; i < datas.tickets.length; i++){
-                    ticket_Updates.push(datas.tickets[i].ticket_Update);
+                    ticket_Updates.push(datas.tickets[i].ticket_Created);
                 }; // Añadir al arreglo la fecha de creación del epic de los tickets
                    // para usarlo como la mínima fecha (hasta que sea actualizada manualmente por usuario)
                 ticket_Updates.push(datas.tickets[0].created_at);
 
                 // Función para encontrar el índice de la fecha mínima entre
-                // las updates por ticket y la created_at del epic correspondiente
+                // las creates por ticket y la created_at del epic correspondiente
                 function findMinTimestampIndex(dataArray) {
                     let minIndex = 0;
                     let minTimestamp = new Date(dataArray[0]).getTime();
@@ -90,40 +87,63 @@
                 
                 // Crear el objeto scope con un atributo por sprint para 'mapear' los datos
                 const scope = {}; 
-                for(let sprint of _sprints){
-                    scope[sprint] = [];
+                for(let i = 0; i<_sprints.length; i++){
+                    scope[i] = [];
                 }
 
                 // Eliminar created_at para calcular los tickets
                 // que habrá por sprint y que no se considere la fecha de creación
                 ticket_Updates.pop();
                 let j = 0;
+                    error_scope = false;
                 // Calcular los tickets que hay por sprint y asociarlos, por índice a su sprint correspondiente
-                for(let ticket_Update of ticket_Updates){
+                
+                    for(let ticket_Update of ticket_Updates){
                     let current_Up = new Date(ticket_Update).getTime();
                     // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
                     let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
+                    console.log(calculo);
+                    if(calculo >= _sprints.length){
+                        console.warn("Scope incalculable");
+                        document.getElementById("no-data").innerHTML = '<h1> Tickets agregados en tiempos fuera de sprints esperados! </h1>';
+                        error_scope = true
+                        break;
+                    }
                     scope[calculo].push(j);
                     j++;
-                    }
-                scope[0] = scope[1];
+                    };
 
                 scopes = [];
-                // Función para calcular Story Points (SP) por sprint
-                for(let _scopes in scope){
-                    let suma = 0;
-                    for(let i = 0; i < scope[_scopes].length;i++){ 
-                        suma += datas.tickets[scope[_scopes][i]].Story_Points;
+
+                if(!error_scope){
+
+                    scope[0] = scope[1];
+                    
+                    // Función para calcular Story Points (SP) por sprint
+                    for(let _scopes in scope){
+                        let suma = 0;
+                        for(let i = 0; i < scope[_scopes].length;i++){                             
+                            suma += datas.tickets[scope[_scopes][i]].Story_Points;
+                        }
+                        scopes.push(suma);
+                        if(scopes[_scopes-1] !== undefined && _scopes > 1){
+                            scopes[_scopes] += scopes[_scopes-1];
+                        }
+                    } 
+                } 
+                else {
+                    for(let i = 0; i < _sprints.length;i++){
+                        scopes[i] = datas.tickets[i].totalSP;
                     }
-                    scopes.push(suma);
-                } console.log(scopes);
+                }
+                
 
         // GOAL
                 
                 let goal = [];
                 for(let i = 0; i <= _sprints.length; i++){
                     goal[i] = ((datas.tickets[0].totalSP / (_sprints.length-1))*i);
-                } console.log(goal);
+                };
         
         // DONE
 
@@ -131,20 +151,19 @@
                 for(let finished of datas.done){
                     let current_Up = new Date(finished.ticket_Update).getTime();
                     // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
-                    console.log((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7));
                     let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
                     done[calculo] = done[calculo] || 0;
                     done[calculo] += finished.Story_Points;
                 }; 
                 
-                for(let i = 0;i<done.length;i++){
-                    if(done[i] === undefined)
-                        done[i] = done[i-1];
-                }
-                
-                console.log(done);
+                let done_ = [0];
+                for(let i = 1; i<done.length; i++){
+                    done_[i] = done_[i-1];
+                    if(done[i] !== undefined)
+                        done_[i] += done[i];
+                };
 
-                let miCanvas = document.getElementById("Burnup").getContext("2d");
+                let miCanvas = document.getElementById("Burnup").getContext("2d");                
                 const data = {
                     type:'line',
                     data:{
@@ -166,7 +185,7 @@
                             },
                             {
                                 label:"Done",
-                                data: done,
+                                data: done_,
                                 backgroundColor:['rgb(25, 250, 0,.30)'],
                                 borderColor:['rgb(25, 250, 0)'],
                                 borderWidth: 2,
