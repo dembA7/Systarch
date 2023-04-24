@@ -6,4 +6,6 @@ const dispatchController = require('../controllers/dispatch.controller');
 
 router.get('/', dispatchController.get_homepage);
 
+router.get('/buscar/:id', dispatchController.get_buscar);
+
 module.exports = router;

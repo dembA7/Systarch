@@ -13,4 +13,13 @@ exports.get_homepage = (request, response, next) => {
   }).catch(err => console.log(err));
   
 
-}; 
+};
+
+exports.get_buscar = (request, response, next) => {
+  Epic.find(request.params.id)
+  .then(([epic_consulta, fieldData]) => {
+    if(epic_consulta.length == 1){
+      const epic = new Epic
+    }
+  })
+}
