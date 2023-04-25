@@ -251,56 +251,34 @@ async function dateToISO(date){
   const fechaHoraArray = fechaHora.split(" ");
   let fechaArray;
   
-  try{
+  if(fechaHoraArray[0].includes("-")){
 
     fechaArray = fechaHoraArray[0].split("-");
 
   }
 
-  catch(error){
+  else if(fechaHoraArray[0].includes("/")){
 
-    console.log(error)
-
-    try{
-
-      fechaArray = fechaHoraArray[0].split("/");
-       
-    }
-
-    catch(error){
-
-      console.log(error)
-
-    }
+    fechaArray = fechaHoraArray[0].split("/");
 
   }
-    
 
   if (isNaN(parseInt(fechaArray[1]))){
-
-    const meses = [
-      "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-      "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
-    ];
     
-    let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase() + 1);
+    const fechaMes = new Date(`${fechaArray[1]} 1, ${fechaArray[2]}`);
+    fechaArray[1] = fechaMes.getMonth() + 1;
 
-    if (mesIndex < 9){
-      fechaArray[1] = `0${mesIndex}`;
-    }
-
-    else{
-      fechaArray[1] = mesIndex;
-    }    
   };
 
   if(parseInt(fechaArray[2]) < 100){
+
     fechaArray[2] = `20${fechaArray[2]}`
+
   }
 
   const horaArray = fechaHoraArray[1].split(":");
   
-  fechaISO = new Date(fechaArray[2], fechaArray[1]-1, fechaArray[0], horaArray[0], horaArray[1], 0, 0)
+  fechaISO = new Date(fechaArray[2], fechaArray[1] - 1, fechaArray[0], horaArray[0], horaArray[1], 0, 0)
 
   if (!isNaN(Date.parse(fechaISO))) {
     return fechaISO;
