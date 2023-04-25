@@ -24,6 +24,9 @@
                 right: 0;
                 margin-right: 45px;
             }
+            h3{
+                margin-top: 25px;
+            }
         </style>
     </head>
     
@@ -32,7 +35,7 @@
 <section id="head">
     <div id="flex">
         <div id="title">
-            <h1 class="fw-light"><%= tickets[0].epic_Link_Summary %></h1>
+            <h1 class="fw-light" id="title"><%= tickets[0].epic_Link_Summary %></h1>
         </div>
         <div id="team">
             <figure>
@@ -64,68 +67,199 @@
 </section>
 
 
-<script>
-    let miCanvas = document.getElementById("Burnup").getContext("2d");
-
-    const data = {
-        type:'line',
-        data:{
-            labels:[0,1,2,3,4,5,6,7],
-            datasets:[
-                {
-                    label: "Scope",
-                    data:[67,67,67,67,67,72,75, 75],
-                    backgroundColor:['rgb(0,0,0,.10)'],
-                    borderColor:['rgb(51, 53, 56)'],
-                    borderWidth: 3
-                },
-                {   
-                    label: "Goal",
-                    data:[0,11,21,32,43,54,64,75],
-                    backgroundColor:['rgb(40, 40, 222,.20)'],
-                    borderColor:['rgb(56, 110, 218)'],
-                    borderWidth: 2
-                },
-                {
-                    label:"Done",
-                    data:[0,4,12,15,33,38,58,75],
-                    backgroundColor:['rgb(25, 250, 0,.30)'],
-                    borderColor:['rgb(47, 180, 45)'],
-                    borderWidth: 2,
-                    borderCapStyle: 'round',
-                }
-            
-                
-            ]
-        },
-        options:{
-            plugins:{
-                legend: {position:'bottom',}
-            },
-            scales:{
-                y:{
-                    beginAtZero:true
-                },
-                x:{
-                    grid: {
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Sprint',
-                        color: 'black',
-                        font: {
-                            size: 20,
-                            weight: 'bold'
+    <script>
+    window.addEventListener('load', () => {
+        // Función que manda petición asíncrona cuando se carga o recarga la pag
+        let id = document.getElementById("epic_Link").value;
+        
+        fetch('/epics/dashboard/' + id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(result => {
+            return result.json(); 
+        }).then(datas => {
+        
+        // SPRINTS 
+            // Calcula los sprints (por semana) 
+            let _sprints = [];
+            for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints)+1; i++) {
+                _sprints.push(i);
+            }
+            console.log(_sprints);
+            // Validar si la gráfica tendrá sentido (Mínimo 2 sprints)
+            if(_sprints.length > 1){
+        
+        // SCOPE
+                // Hacer un arreglo con todas las fechas de Created por ticket
+                let ticket_Updates = [];
+                for(let i = 0; i < datas.tickets.length; i++){
+                    ticket_Updates.push(datas.tickets[i].ticket_Created);
+                }; // Añadir al arreglo la fecha de creación del epic de los tickets
+                   // para usarlo como la mínima fecha (hasta que sea actualizada manualmente por usuario)
+                ticket_Updates.push(datas.tickets[0].created_at);
+                // Función para encontrar el índice de la fecha mínima entre
+                // las creates por ticket y la created_at del epic correspondiente
+                function findMinTimestampIndex(dataArray) {
+                    let minIndex = 0;
+                    let minTimestamp = new Date(dataArray[0]).getTime();
+                    for (let i = 1; i < dataArray.length; i++) {
+                        let currentTimestamp = new Date(dataArray[i]).getTime();
+                        if (currentTimestamp < minTimestamp) {
+                            minIndex = i;
+                            minTimestamp = currentTimestamp;
                         }
                     }
-                },
+                    return minIndex;
+                }
+                // Asignar a sprint_0 la fecha más baja
+                let sprint_0 = ticket_Updates[findMinTimestampIndex(ticket_Updates)];
+                
+                // Crear el objeto scope con un atributo por sprint para 'mapear' los datos
+                const scope = {}; 
+                for(let i = 0; i<_sprints.length; i++){
+                    scope[i] = [];
+                }
+                // Eliminar created_at para calcular los tickets
+                // que habrá por sprint y que no se considere la fecha de creación
+                ticket_Updates.pop();
+                let j = 0;
+                    error_scope = false;
+                // Calcular los tickets que hay por sprint y asociarlos, por índice a su sprint correspondiente
+                
+                    for(let ticket_Update of ticket_Updates){
+                    let current_Up = new Date(ticket_Update).getTime();
+                    // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
+                    let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
+                    if(calculo >= _sprints.length){
+                        console.warn("Not possible to calculate scope.");
+                        document.getElementById("no-data").innerHTML = '<h3 class="fw-light"> Tickets are out of expected date. </h3>';
+                        error_scope = true
+                        break;
+                    }
+                    scope[calculo].push(j);
+                    j++;
+                    };
+                scopes = [];
+                if(!error_scope){
+                    scope[0] = scope[1];
+                    
+                    // Función para calcular Story Points (SP) por sprint
+                    for(let _scopes in scope){
+                        let suma = 0;
+                        for(let i = 0; i < scope[_scopes].length;i++){                             
+                            suma += datas.tickets[scope[_scopes][i]].Story_Points;
+                        }
+                        scopes.push(suma);
+                        if(scopes[_scopes-1] !== undefined && _scopes > 1){
+                            scopes[_scopes] += scopes[_scopes-1];
+                        }
+                    } 
+                } 
+                else {
+                    for(let i = 0; i < _sprints.length;i++){
+                        scopes[i] = datas.tickets[i].totalSP;
+                    }
+                }
+                
+        // GOAL
+                
+                let goal = [];
+                for(let i = 0; i <= _sprints.length; i++){
+                    goal[i] = ((datas.tickets[0].totalSP / (_sprints.length-1))*i);
+                };
+        
+        // DONE
+                const done = [0];
+                for(let finished of datas.done){
+                    let current_Up = new Date(finished.ticket_Update).getTime();
+                    // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
+                    let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
+                    done[calculo] = done[calculo] || 0;
+                    done[calculo] += finished.Story_Points;
+                }; 
+                
+                let done_ = [0];
+                for(let i = 1; i<done.length; i++){
+                    done_[i] = done_[i-1];
+                    if(done[i] !== undefined)
+                        done_[i] += done[i];
+                };
+                let miCanvas = document.getElementById("Burnup").getContext("2d");                
+                const data = {
+                    type:'line',
+                    data:{
+                        labels: _sprints,
+                        datasets:[
+                            {
+                                label: "Scope",
+                                data: scopes,
+                                backgroundColor:['rgb(0,0,0,.10)'],
+                                borderColor:['rgb(0,0,0)'],
+                                borderWidth: 3
+                            },
+                            {   
+                                label: "Goal",
+                                data: goal,
+                                backgroundColor:['rgb(40, 40, 222,.20)'],
+                                borderColor:['rgb(40, 40, 222)'],
+                                borderWidth: 2
+                            },
+                            {
+                                label:"Done",
+                                data: done_,
+                                backgroundColor:['rgb(25, 250, 0,.30)'],
+                                borderColor:['rgb(25, 250, 0)'],
+                                borderWidth: 2,
+                                borderCapStyle: 'round',
+                            }
+                        
+                            
+                        ]
+                    },
+                    options:{
+                        plugins:{
+                            legend: {position:'bottom',}
+                        },
+                        scales:{
+                            y:{
+                                beginAtZero:true,
+                                title: {
+                                    display: true,
+                                    text: 'Story Points',
+                                    color: 'black',
+                                    font: {
+                                        size: 20,
+                                        weight: 'bold'
+                                    }
+                                }
+                            },
+                            x:{
+                                grid: {
+                                    display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Sprint',
+                                    color: 'black',
+                                    font: {
+                                        size: 20,
+                                        weight: 'bold'
+                                    }
+                                }
+                            },
+                        }
+                    }
+                }
+                var chart = new Chart(miCanvas, data)
+            } else {
+                document.getElementById("no-data").innerHTML = '<h1> No hay suficientes datos para graficar </h1>';
             }
-        }
-    }
-
-    var chart = new Chart(miCanvas, data)
-</script>
-
-<!-- <%- include('includes/chart.ejs')%> -->
-<%- include('includes/foot.ejs') %>
+        }).catch(err =>{console.log(err);});
+        
+})
+    
+    </script>
+    <!-- <%- include('includes/chart.ejs')%> -->
+    <%- include('includes/foot.ejs') %>

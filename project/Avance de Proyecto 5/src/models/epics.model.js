@@ -49,8 +49,22 @@ module.exports = class Epic {
 
     static fetchBurnupData(epic_link){
         return db.execute(`
-            SELECT get_sprints(?) AS sprints;
-        `, [epic_link])
+        SELECT t.Story_Points, t.ticket_Created, e.created_at,
+        get_sprints(?) AS sprints,
+        (SELECT SUM(Story_Points) FROM tickets WHERE epic_Link = ?) AS totalSP
+        FROM epics e, tickets t
+        WHERE e.epic_Link = t.epic_Link
+        AND e.epic_Link = ?;
+    `, [epic_link, epic_link, epic_link]) 
+    }
+
+    static fetchBurnupDone(epic_Link){
+        return db.execute(`
+        SELECT t.ticket_Update, t.Story_Points 
+        FROM tickets t 
+        WHERE t.ticket_Status IN ('DONE','CLOSED') 
+        AND t.epic_Link = ?
+        `,[epic_Link])
     }
 
     static updateProjectID(epic_link, projectID){      
@@ -64,7 +78,7 @@ module.exports = class Epic {
 
     static find(valorBusqueda) {
         return db.execute(`
-            SELECT *, get_progreso(epic_Link) AS progreso
+            SELECT epic_Link, epic_Link_Summary, get_progreso(epic_Link) AS progreso
             FROM epics
             WHERE (epic_Link LIKE ? OR epic_Link_Summary LIKE ?)
         `, [ '%' + valorBusqueda + '%', '%' + valorBusqueda + '%', ]
