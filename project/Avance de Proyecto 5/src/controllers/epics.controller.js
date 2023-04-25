@@ -253,20 +253,20 @@ async function dateToISO(date){
   
   if(fechaHoraArray[0].includes("-")){
 
-    fechaHoraArray[0].split("-");
+    fechaArray = fechaHoraArray[0].split("-");
 
   }
 
   else if(fechaHoraArray[0].includes("/")){
 
-    fechaHoraArray[0].split("/");
+    fechaArray = fechaHoraArray[0].split("/");
 
   }
 
   if (isNaN(parseInt(fechaArray[1]))){
     
     const fechaMes = new Date(`${fechaArray[1]} 1, ${fechaArray[2]}`);
-    fechaArray[1] = fechaMes.getMonth() + 1;
+    fechaArray[1] = fechaMes.getMonth() + 2;
 
   };
 
@@ -278,7 +278,7 @@ async function dateToISO(date){
 
   const horaArray = fechaHoraArray[1].split(":");
   
-  fechaISO = new Date(fechaArray[2], fechaArray[1], fechaArray[0], horaArray[0], horaArray[1], 0, 0)
+  fechaISO = new Date(fechaArray[2], fechaArray[1] - 1, fechaArray[0], horaArray[0], horaArray[1], 0, 0)
 
   if (!isNaN(Date.parse(fechaISO))) {
     return fechaISO;
