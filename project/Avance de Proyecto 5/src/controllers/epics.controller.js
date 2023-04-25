@@ -266,7 +266,7 @@ async function dateToISO(date){
   if (isNaN(parseInt(fechaArray[1]))){
     
     const fechaMes = new Date(`${fechaArray[1]} 1, ${fechaArray[2]}`);
-    fechaArray[1] = fechaMes.getMonth() + 2;
+    fechaArray[1] = fechaMes.getMonth() + 1;
 
   };
 
