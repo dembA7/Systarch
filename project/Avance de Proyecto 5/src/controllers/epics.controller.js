@@ -11,7 +11,8 @@ exports.get_import = (request, response, next) => {
   response.render('upload', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
-    mensaje: msg || ''
+    mensaje: msg || '',
+    privilegios: request.session.privilegios || [],
   });
 };
 
@@ -213,7 +214,8 @@ exports.get_detail = (request, response, next) => {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
       mensaje: msg || '',
-      tickets: rows
+      tickets: rows,
+      privilegios: request.session.privilegios || [],
     });
   })
   .catch(err => {console.log(err);});

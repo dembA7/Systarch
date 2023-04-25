@@ -90,6 +90,7 @@ app.use((request, response, next) => {
         titulo: 'DispatchHealth: ERR404',
         isLoggedIn: request.session.isLoggedIn || false,
         username: request.session.username || '',
+        privilegios: request.session.privilegios || [],
     });
 });
 

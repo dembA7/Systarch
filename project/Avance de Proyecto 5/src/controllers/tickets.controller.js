@@ -8,7 +8,8 @@ exports.get_ticket = (request, response, next) => {
     response.render('tickets', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
-      tickets: tickets
+      tickets: tickets,
+      privilegios: request.session.privilegios || [],
     });  
   })
   .catch(error => {
