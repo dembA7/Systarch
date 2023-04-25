@@ -16,10 +16,15 @@ exports.get_homepage = (request, response, next) => {
 };
 
 exports.get_buscar = (request, response, next) => {
-  Epic.find(request.params.id)
+  Epic.find(request.params.valorBusqueda) 
   .then(([epic_consulta, fieldData]) => {
-    if(epic_consulta.length == 1){
-      const epic = new Epic
-    }
+    response.status(200).json({
+      epics: epic_consulta,
+      isLoggedIn: request.session.isLoggedIn || false
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    response.status(500).json({message: "Internal Server Error"});
   })
 }
