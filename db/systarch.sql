@@ -176,7 +176,7 @@ CREATE TABLE `tickets` (
   `Issue_Key` varchar(100) NOT NULL,
   `Issue_Id` int(30) NOT NULL,
   `Summary` varchar(400) NOT NULL,
-  `Issue_Type` char(10) NOT NULL,
+  `Issue_Type` char(50) NOT NULL,
   `Story_Points` float DEFAULT NULL,
   `ticket_Status` varchar(50) NOT NULL,
   `epic_Link` varchar(30) NOT NULL,
