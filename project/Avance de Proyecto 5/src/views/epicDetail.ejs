@@ -24,6 +24,9 @@
                 right: 0;
                 margin-right: 45px;
             }
+            h3{
+                margin-top: 25px;
+            }
         </style>
     </head>
     <input type="hidden" id="epic_Link" value="<%= tickets[0].epic_Link %>">    
@@ -32,7 +35,7 @@
 <section id="head">
     <div id="flex">
         <div id="title">
-            <h1 class="fw-light"><%= tickets[0].epic_Link_Summary %></h1>
+            <h1 class="fw-light" id="title"><%= tickets[0].epic_Link_Summary %></h1>
         </div>
         <div id="team">
             <figure>
@@ -129,8 +132,8 @@
                     // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
                     let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
                     if(calculo >= _sprints.length){
-                        console.warn("Scope incalculable");
-                        document.getElementById("no-data").innerHTML = '<h1> Tickets agregados en tiempos fuera de sprints esperados! </h1>';
+                        console.warn("Not possible to calculate scope.");
+                        document.getElementById("no-data").innerHTML = '<h3 class="fw-light"> Tickets are out of expected date. </h3>';
                         error_scope = true
                         break;
                     }
