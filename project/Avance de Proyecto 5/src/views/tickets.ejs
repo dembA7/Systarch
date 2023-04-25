@@ -63,8 +63,8 @@
         </div>
         <div id="search">
             <form class="d-flex" role="search" id="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input id="Buscar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success">Search</button>
             </form>
         </div>
         <div class="dropdown" id="filter">
@@ -84,7 +84,6 @@
 </section>
 
 <!-- LABELS -->
-
 
     <style>
         .table-col {
@@ -111,7 +110,7 @@
                 <th>Assignee</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="results">
             <% tickets.forEach(ticket => { %>
             <tr>
                 <td class="table-col" id="key"><%= ticket.Key %></td>
@@ -141,14 +140,44 @@
       <a class="dropdown-item" href="#">Something else here</a>
     </div>
   </div>
-    
-<!-- TICKETS -->
 
-<section id="tickets">
+  <script>
+    document.getElementById("Buscar").onkeyup = () => {
+    const valorBusqueda = document.getElementById("Buscar").value;
+    console.log(valorBusqueda);
 
-    <br>
+    fetch('/tickets/' + valorBusqueda, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(result => {
+        return result.json();
+    }).then(data => {
+        
+        let respuesta = "";
 
+        data.tickets.forEach(ticket => {
+            respuesta += '<tr>';
+                respuesta += '<td class="table-col" id="key">' + ticket.Key + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Summary + '">' + ticket.Summary + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Type + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Points + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Status + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Label + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Epic + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Created + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Updated + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Assignee + '</td>';
+            respuesta += '</tr>';
+        });
 
-</section>
+        document.getElementById("results").innerHTML = respuesta;
+
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    </script>
 
 <%- include('includes/foot.ejs') %>
