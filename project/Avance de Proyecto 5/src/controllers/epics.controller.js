@@ -205,7 +205,7 @@ function sleep(ms) {
 exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
-  console.log("[Info] A user requested some epic details");
+  // console.log("[Info] A user requested some epic details.");
   let id = request.params.epic_Link;
   
   Epic.fetchTickets(id)
@@ -258,9 +258,69 @@ exports.get_SearchEpic = (request, response, next) => {
 
 async function dateToISO(date){
   //Updated: Cambiar el formato del Jira al estandar ISO
-  const fecha = moment(date, 'DD/MMM/YY hh:mm A');
-  const fechaISO = fecha.toISOString();
-  return fechaISO;
+  const fechaHora = date;
+  const fechaHoraArray = fechaHora.split(" ");
+  let fechaArray;
+  
+  try{
+
+    fechaArray = fechaHoraArray[0].split("-");
+
+  }
+
+  catch(error){
+
+    console.log(error)
+
+    try{
+
+      fechaArray = fechaHoraArray[0].split("/");
+       
+    }
+
+    catch(error){
+
+      console.log(error)
+
+    }
+
+  }
+    
+
+  if (isNaN(parseInt(fechaArray[1]))){
+
+    const meses = [
+      "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+      "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
+    ];
+    
+    let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase() + 1);
+
+    if (mesIndex < 9){
+      fechaArray[1] = `0${mesIndex}`;
+    }
+
+    else{
+      fechaArray[1] = mesIndex;
+    }    
+  };
+
+  if(parseInt(fechaArray[2]) < 100){
+    fechaArray[2] = `20${fechaArray[2]}`
+  }
+
+  const horaArray = fechaHoraArray[1].split(":");
+  
+  fechaISO = new Date(fechaArray[2], fechaArray[1]-1, fechaArray[0], horaArray[0], horaArray[1], 0, 0)
+
+  if (!isNaN(Date.parse(fechaISO))) {
+    return fechaISO;
+  }
+
+  else {
+    const today = new Date();
+    return today.toISOString();
+  }
 }
 
 async function checkLabels(Labels1, Labels2, Labels3, Labels4){
