@@ -84,6 +84,7 @@
             overflow: hidden; /* Ocultar el contenido que sobrepase el ancho máximo */
             text-overflow: ellipsis; /* Mostrar puntos suspensivos al final del contenido que se ocultó */
             white-space: nowrap; /* Impedir que el contenido se ajuste automáticamente al ancho de la columna */
+            cursor: ponter; 
         }
     </style>
     <div class="table-responsive">
@@ -106,7 +107,7 @@
             <% tickets.forEach(ticket => { %>
             <tr>
                 <td class="table-col" id="key"><%= ticket.Key %></td>
-                <td class="table-col"><%= ticket.Summary %></td>
+                <td class="table-col" content="<%= ticket.Summary %>"><%= ticket.Summary %></td>
                 <td class="table-col"><%= ticket.Type %></td>
                 <td class="table-col"><%= ticket.Points %></td>
                 <td class="table-col"><%= ticket.Status %></td>
@@ -120,6 +121,16 @@
         </tbody>
     </table>
 </div>
+
+// Script para mostrar el contenido completo al pasar el mouse por encima
+$('.table-col').on('mouseenter', function() {
+  var $this = $(this);
+  if (this.offsetWidth < this.scrollWidth && !$this.attr('title')) {
+    // Verifica si el contenido está recortado
+    $this.attr('title', $this.text()); // Añade el texto completo como valor del atributo title
+  }
+});
+
     
 <!-- TICKETS -->
 
@@ -127,7 +138,7 @@
 
     <br>
 
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
 </section>
 
