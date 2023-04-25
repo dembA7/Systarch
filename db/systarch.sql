@@ -78,7 +78,8 @@ CREATE TABLE `epics` (
   `epic_Link_Summary` varchar(400) NOT NULL,
   `user_ID` int(100) DEFAULT NULL,
   `ticket_ID` int(100) DEFAULT NULL,
-  `project_ID` int(100) DEFAULT NULL
+  `project_ID` int(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
