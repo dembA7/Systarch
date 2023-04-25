@@ -168,10 +168,14 @@ exports.post_account = (request, response, next) => {
 };
 
 exports.get_totalUsers = (request, response, next) => {
+  User.fetchAllUsers()
+  .then(([rows, fieldData]) => {
     response.render('viewusers', {
+      users: rows,
       isLoggedIn: request.session.isLoggedIn || false,
       privilegios: request.session.privilegios || [],
     });
+  })
 };
 
 exports.timeout = (request, response, next) => {
