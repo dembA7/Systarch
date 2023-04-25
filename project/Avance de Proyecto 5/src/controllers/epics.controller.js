@@ -204,7 +204,7 @@ function sleep(ms) {
 exports.get_detail = (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
-  console.log("[Info] A user requested some epic details");
+  // console.log("[Info] A user requested some epic details.");
   let id = request.params.epic_Link;
   
   Epic.fetchTickets(id)
@@ -224,7 +224,17 @@ exports.get_Burnup = (request, response, next) => {
   
   Epic.fetchBurnupData(request.params.id)
   .then(([rows, fieldData]) => {
-    response.status(200).json({tickets: rows});
+    Epic.fetchBurnupDone(request.params.id)
+    .then(([done, fieldData]) => {
+      response.status(200).json({
+        tickets: rows,
+        done: done
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).json({message: "Internal Server Error"});
+    });
   })
   .catch(err => {
     console.log(err);
@@ -247,60 +257,39 @@ exports.get_SearchEpic = (request, response, next) => {
 
 async function dateToISO(date){
   //Updated: Cambiar el formato del Jira al estandar ISO
-  
   const fechaHora = date;
   const fechaHoraArray = fechaHora.split(" ");
-  const fechaArray = fechaHoraArray[0].split("-");
+  let fechaArray;
+  
+  if(fechaHoraArray[0].includes("-")){
+
+    fechaArray = fechaHoraArray[0].split("-");
+
+  }
+
+  else if(fechaHoraArray[0].includes("/")){
+
+    fechaArray = fechaHoraArray[0].split("/");
+
+  }
 
   if (isNaN(parseInt(fechaArray[1]))){
-
-    const meses = [
-      "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-      "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"
-    ];
     
-    let mesIndex = meses.findIndex(mes => mes.toLowerCase() === fechaArray[1].toLowerCase());
-    mesIndex++;
+    const fechaMes = new Date(`${fechaArray[1]} 1, ${fechaArray[2]}`);
+    fechaArray[1] = fechaMes.getMonth() + 1;
 
-    if (mesIndex < 9){
-      fechaArray[1] = `0${mesIndex}`;
-    }
-
-    else{
-      fechaArray[1] = mesIndex;
-    }
-
-    
   };
 
-  const horaArray = fechaHoraArray[1].split(":");
-  if (fechaHoraArray[2]){
-    
-    if (fechaHoraArray[2] == 'AM'){
-
-      if (parseInt(horaArray[0])<10){
-
-        horaArray[0] = `0${horaArray[0]}`
-      }
-    }
-    
-    else if (fechaHoraArray[2] == 'PM' && parseInt(horaArray[0]) != 12) {
-      
-      horaArray[0] = parseInt(horaArray[0]) + 12;
-
-    }
-  }
-
-  let fechaISO = '';
-
   if(parseInt(fechaArray[2]) < 100){
-    fechaISO = `20${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
+
+    fechaArray[2] = `20${fechaArray[2]}`
+
   }
 
-  else{
-    fechaISO = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}T${horaArray[0]}:${horaArray[1]}:00`;
-  }
+  const horaArray = fechaHoraArray[1].split(":");
   
+  fechaISO = new Date(fechaArray[2], fechaArray[1] - 1, fechaArray[0], horaArray[0], horaArray[1], 0, 0)
+
   if (!isNaN(Date.parse(fechaISO))) {
     return fechaISO;
   }

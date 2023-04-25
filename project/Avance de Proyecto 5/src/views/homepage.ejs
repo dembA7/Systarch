@@ -278,9 +278,9 @@
                     <% for (let epic of epics) { %>
                         <div id="epic">
                             <div id="progressContainer" style="width: 40%" class="item">
-                                <div id="progressBar">
+                                <div id="progressBar">  
                                     <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">
-                                        <div class="progress-bar bg-success" style="width:<%= epic.progreso %>%"></div>
+                                        <div class="progress-bar bg-success" style="width:<%= epic.progreso %>%; color: rgb(175, 221, 175);"><%= epic.progreso %>%</div>
                                     </div>
                                 </div>
                             </div>
