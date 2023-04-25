@@ -13,18 +13,13 @@ exports.get_homepage = (request, response, next) => {
   }).catch(err => console.log(err));
   
 
-}; 
-
-exports.search = (request, response, next) => {
-
-  Epic.find(request.params.valorBusqueda)
-  .then(([rows]) => {
-        response.status(200).json({epics: rows});
-    })
-
-  .catch(error => {
-      console.log(error);
-      response.status(500).json({message: "Internal Server Error"});
-  });
-
 };
+
+exports.get_buscar = (request, response, next) => {
+  Epic.find(request.params.id)
+  .then(([epic_consulta, fieldData]) => {
+    if(epic_consulta.length == 1){
+      const epic = new Epic
+    }
+  })
+}
