@@ -67,27 +67,54 @@
                 <button class="btn btn-outline-success">Search</button>
             </form>
         </div>
+
+        <!--El dropdown casi listo-->
+
         <div class="dropdown" id="filter">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor">
                 <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
                 </svg>
             </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="?filtro=opcion1">Opción 1</a>
-                    <a class="dropdown-item" href="?filtro=opcion2">Opción 2</a>
-                </div>
-            </div>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="?filtro=opcion2">Created ↑</a></li>
+                <li><a class="dropdown-item" href="?filtro=opcion2">Created ↓</a></li>
+                <li><a class="dropdown-item" href="?filtro=opcion1">Updated ↑</a></li>
+                <li><a class="dropdown-item" href="?filtro=opcion2">Updated ↓</a></li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item dropdown-toggle" href="#">Status</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="?filtro=opcion1.1">To Do</a></li>
+                        <li><a class="dropdown-item" href="?filtro=opcion1.2">In Progress</a></li>
+                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Code Review</a></li>
+                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Quality Review</a></li>
+                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Release Ready</a></li>
+                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Done</a></li>
+                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Closed</a></li>
+                        <li><a class="dropdown-item" href="?filtro=opcion1.2">canceled</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-    </div>
-
+        
+        <style>
+            .dropdown-submenu:hover .dropdown-menu {
+                display: block;
+            }
+        
+            .dropdown-submenu>.dropdown-menu {
+                margin-left: 100%;
+                transform: translate(-50%,0);
+            }
+        </style>
+        
 </section>
 
 <!-- LABELS -->
 
     <style>
         .table-col {
-            max-width: 200px; /* Establecer un ancho máximo de 200 píxeles para cada columna */
+            max-width: 125px; /* Establecer un ancho máximo de 200 píxeles para cada columna */
             overflow: hidden; /* Ocultar el contenido que sobrepase el ancho máximo */
             text-overflow: ellipsis; /* Mostrar puntos suspensivos al final del contenido que se ocultó */
             white-space: nowrap; /* Impedir que el contenido se ajuste automáticamente al ancho de la columna */
@@ -110,6 +137,7 @@
                 <th>Assignee</th>
             </tr>
         </thead>
+
         <tbody id="results">
             <% tickets.forEach(ticket => { %>
             <tr>
@@ -117,12 +145,12 @@
                 <td class="table-col" title="<%= ticket.Summary %>"><%= ticket.Summary %></td>
                 <td class="table-col"><%= ticket.Type %></td>
                 <td class="table-col"><%= ticket.Points %></td>
-                <td class="table-col"><%= ticket.Status %></td>
+                <td class="table-col" title="<%= ticket.Status %>"><%= ticket.Status %></td>
                 <td class="table-col"><%= ticket.Label %></td>
-                <td class="table-col"><%= ticket.Epic %></td>
-                <td class="table-col"><%= ticket.Created %></td>
-                <td class="table-col"><%= ticket.Updated %></td>
-                <td class="table-col"><%= ticket.Assignee %></td>
+                <td class="table-col" title="<%= ticket.Epic %>"><%= ticket.Epic %></td>
+                <td class="table-col" title="<%= ticket.Created %>"><%= ticket.Created %></td>
+                <td class="table-col" title="<%= ticket.Updated %>"><%= ticket.Updated %></td>
+                <td class="table-col" title="<%= ticket.Assignee %>"><%= ticket.Assignee %></td>
             </tr>
             <% }); %>
         </tbody>
@@ -130,7 +158,7 @@
     
 </div>
 
-  <script>
+<script>
     document.getElementById("Buscar").onkeyup = () => {
     const valorBusqueda = document.getElementById("Buscar").value;
     console.log(valorBusqueda);
@@ -152,12 +180,12 @@
                 respuesta += '<td class="table-col" title="' + ticket.Summary + '">' + ticket.Summary + '</td>';
                 respuesta += '<td class="table-col">' + ticket.Type + '</td>';
                 respuesta += '<td class="table-col">' + ticket.Points + '</td>';
-                respuesta += '<td class="table-col">' + ticket.Status + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Status + '">' + ticket.Status + '</td>';
                 respuesta += '<td class="table-col">' + ticket.Label + '</td>';
-                respuesta += '<td class="table-col">' + ticket.Epic + '</td>';
-                respuesta += '<td class="table-col">' + ticket.Created + '</td>';
-                respuesta += '<td class="table-col">' + ticket.Updated + '</td>';
-                respuesta += '<td class="table-col">' + ticket.Assignee + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Epic + '">' + ticket.Epic + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Created + '">' + ticket.Created + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Updated + '">' + ticket.Updated + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Assignee + '">' + ticket.Assignee + '</td>';
             respuesta += '</tr>';
         });
 
@@ -167,6 +195,6 @@
             console.log(err);
         });
     }
-    </script>
+</script>
 
 <%- include('includes/foot.ejs') %>
