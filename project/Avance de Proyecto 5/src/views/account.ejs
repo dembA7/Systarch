@@ -10,10 +10,6 @@
                 margin-left: 1em;
                 font-size: 76px;
             }
-            #create_user {
-                margin-top: 7em;
-                margin-left: -10em;
-            }
         </style>
         <div class="row">
             <div class="col-md-10">
@@ -21,11 +17,6 @@
                 <h1 class="fw-light">
                     <%= userInfo.user_Name %>
                 </h1>
-            </div>
-            <div class="col-md-2">
-                <% if (privilegios.indexOf('crear_usuarios') >= 0) { %>
-                    <a id="create_user" class="btn btn-outline-primary" type="button" href="/users/totalusers">View users</a>
-                <% } %>
             </div>
         </div>
         <div class="row">

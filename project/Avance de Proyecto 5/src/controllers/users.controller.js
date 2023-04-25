@@ -11,6 +11,7 @@ exports.get_login = (request, response, next) => {
     response.render('homepage',{
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
+      privilegios: request.session.privilegios || [],
     });
   }
 
@@ -78,7 +79,8 @@ exports.get_signup = (request, response, next) => {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
       mensaje: request.session.mensaje || '',
-      csrfToken: request.csrfToken()
+      csrfToken: request.csrfToken(),
+      privilegios: request.session.privilegios || [],
     });
 };
 
@@ -139,7 +141,8 @@ exports.edit_account = (request, response, next) => {
     if(rows.length == 1){
       response.render('editAccount', {
       userInfo: rows[0],
-      isLoggedIn: request.session.isLoggedIn || false
+      isLoggedIn: request.session.isLoggedIn || false,
+      privilegios: request.session.privilegios || [],
     })
     }
     else{
@@ -166,13 +169,15 @@ exports.post_account = (request, response, next) => {
 
 exports.get_totalUsers = (request, response, next) => {
     response.render('viewusers', {
-      isLoggedIn: request.session.isLoggedIn || false
+      isLoggedIn: request.session.isLoggedIn || false,
+      privilegios: request.session.privilegios || [],
     });
 };
 
 exports.timeout = (request, response, next) => {
     response.render('timeout', {
-      isLoggedIn: request.session.isLoggedIn || false
+      isLoggedIn: request.session.isLoggedIn || false,
+      privilegios: request.session.privilegios || [],
     })
 };
 
