@@ -54,7 +54,8 @@ module.exports = class Ticket {
         Story_Points AS Points, 
         ticket_Status AS "Status", 
         ticket_Label AS Label, 
-        epic_Link AS Epic, 
+        epic_Link_Summary AS Epic, 
+        DATE_FORMAT(ticket_Created, '%e %b %Y %H:%i') AS Created,
         DATE_FORMAT(ticket_Update, '%e %b %Y %H:%i') AS Updated,
         ticket_Assignee AS Assignee
         FROM tickets;
