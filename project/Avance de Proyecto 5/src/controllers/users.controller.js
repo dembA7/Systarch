@@ -109,7 +109,7 @@ exports.post_signup = (request, response, next) => {
 
     user.save()
     .then(([rows, fieldData]) => {
-        response.redirect('/homepage');
+        response.redirect('/users/totalusers');
     })
 
     .catch((error) => {

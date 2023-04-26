@@ -9,6 +9,9 @@
             width: 50%;
             margin-left: 25%;
         }
+        #create {
+            margin-left: 42%;
+        }
     </style>
 
 <br>
@@ -20,6 +23,7 @@
 <br>
 <section id="content">
     <h3 class="fw-light">Select a user:</h3>
+    <p class="fw-light">Double click on a user to edit</p>
     <form id="formUser" method="POST">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <select class="form-select" id="selUser" size=8>
@@ -30,7 +34,8 @@
             <%}%>
         </select>
     </form>
-
+    <br>
+    <a id="create" type="button" class="btn btn-success" href="/users/signup">Create a user</a>
     <script>
         const select = document.getElementById('selUser');
         select.addEventListener('dblclick', () => {
