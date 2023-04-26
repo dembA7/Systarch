@@ -11,6 +11,7 @@ exports.get_login = (request, response, next) => {
     response.render('homepage',{
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
+      privilegios: request.session.privilegios || [],
     });
   }
 
@@ -78,7 +79,8 @@ exports.get_signup = (request, response, next) => {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
       mensaje: request.session.mensaje || '',
-      csrfToken: request.csrfToken()
+      csrfToken: request.csrfToken(),
+      privilegios: request.session.privilegios || [],
     });
 };
 
@@ -107,7 +109,7 @@ exports.post_signup = (request, response, next) => {
 
     user.save()
     .then(([rows, fieldData]) => {
-        response.redirect('/homepage');
+        response.redirect('/users/totalusers');
     })
 
     .catch((error) => {
@@ -139,7 +141,8 @@ exports.edit_account = (request, response, next) => {
     if(rows.length == 1){
       response.render('editAccount', {
       userInfo: rows[0],
-      isLoggedIn: request.session.isLoggedIn || false
+      isLoggedIn: request.session.isLoggedIn || false,
+      privilegios: request.session.privilegios || [],
     })
     }
     else{
@@ -165,14 +168,25 @@ exports.post_account = (request, response, next) => {
 };
 
 exports.get_totalUsers = (request, response, next) => {
+  User.fetchAllUsers()
+  .then(([rows, fieldData]) => {
     response.render('viewusers', {
-      isLoggedIn: request.session.isLoggedIn || false
+      users: rows,
+      isLoggedIn: request.session.isLoggedIn || false,
+      privilegios: request.session.privilegios || [],
     });
+  })
+};
+
+exports.post_totalUsers = (request, response, next) => {
+  console.log("Creo que funciono");
+  response.redirect('/users/account');
 };
 
 exports.timeout = (request, response, next) => {
     response.render('timeout', {
-      isLoggedIn: request.session.isLoggedIn || false
+      isLoggedIn: request.session.isLoggedIn || false,
+      privilegios: request.session.privilegios || [],
     })
 };
 

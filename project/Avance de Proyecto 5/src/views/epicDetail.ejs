@@ -29,8 +29,8 @@
             }
         </style>
     </head>
-    <input type="hidden" id="epic_Link" value="<%= tickets[0].epic_Link %>">    
-
+    <!-- NO QUITAR ESTE INPUT, ES PARA TOMAR EL VALOR DEL EPIC ID -->
+    <input type="hidden" id="epic_Link" value="<%= tickets[0].epic_Link %>"> 
 
 <section id="head">
     <div id="flex">
@@ -65,6 +65,7 @@
     </div>
     <br><br><br><br>
 </section>
+
 
     <script>
     window.addEventListener('load', () => {

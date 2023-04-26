@@ -49,13 +49,13 @@ module.exports = class Epic {
 
     static fetchBurnupData(epic_link){
         return db.execute(`
-            SELECT t.Story_Points, t.ticket_Created, e.created_at,
-            get_sprints(?) AS sprints,
-            (SELECT SUM(Story_Points) FROM tickets WHERE epic_Link = ?) AS totalSP
-            FROM epics e, tickets t
-            WHERE e.epic_Link = t.epic_Link
-            AND e.epic_Link = ?;
-        `, [epic_link, epic_link, epic_link]) 
+        SELECT t.Story_Points, t.ticket_Created, e.created_at,
+        get_sprints(?) AS sprints,
+        (SELECT SUM(Story_Points) FROM tickets WHERE epic_Link = ?) AS totalSP
+        FROM epics e, tickets t
+        WHERE e.epic_Link = t.epic_Link
+        AND e.epic_Link = ?;
+    `, [epic_link, epic_link, epic_link]) 
     }
 
     static fetchBurnupDone(epic_Link){

@@ -55,22 +55,29 @@
 
 <section id="head">
 
+    
+
     <div id="flex">
         <div id="title">
             <h1 class="fw-light">Tickets</h1>
         </div>
         <div id="search">
             <form class="d-flex" role="search" id="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input id="Buscar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success">Search</button>
             </form>
         </div>
-        <div id="filter">
-            <a class="btn btn-outline-secondary" type="button" href="?">
+        <div class="dropdown" id="filter">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
-                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
                 </svg>
-            </a>
+            </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="?filtro=opcion1">Opción 1</a>
+                    <a class="dropdown-item" href="?filtro=opcion2">Opción 2</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -86,9 +93,10 @@
             white-space: nowrap; /* Impedir que el contenido se ajuste automáticamente al ancho de la columna */
         }
     </style>
+
     <div class="table-responsive">
-    <table class="table">
-        <thead>
+    <table class="table table-striped">
+        <tthead>
             <tr>
                 <th id="key">Key</th>
                 <th>Summary</th>
@@ -97,36 +105,68 @@
                 <th>Status</th>
                 <th>Label</th>
                 <th>Epic</th>
+                <th>Created</th>
                 <th>Updated</th>
                 <th>Assignee</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="results">
             <% tickets.forEach(ticket => { %>
             <tr>
                 <td class="table-col" id="key"><%= ticket.Key %></td>
-                <td class="table-col"><%= ticket.Summary %></td>
+                <td class="table-col" title="<%= ticket.Summary %>"><%= ticket.Summary %></td>
                 <td class="table-col"><%= ticket.Type %></td>
                 <td class="table-col"><%= ticket.Points %></td>
                 <td class="table-col"><%= ticket.Status %></td>
                 <td class="table-col"><%= ticket.Label %></td>
                 <td class="table-col"><%= ticket.Epic %></td>
+                <td class="table-col"><%= ticket.Created %></td>
                 <td class="table-col"><%= ticket.Updated %></td>
                 <td class="table-col"><%= ticket.Assignee %></td>
             </tr>
             <% }); %>
         </tbody>
     </table>
+    
 </div>
-    
-<!-- TICKETS -->
 
-<section id="tickets">
+  <script>
+    document.getElementById("Buscar").onkeyup = () => {
+    const valorBusqueda = document.getElementById("Buscar").value;
+    console.log(valorBusqueda);
 
-    <br>
+    fetch('/tickets/' + valorBusqueda, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(result => {
+        return result.json();
+    }).then(data => {
+        
+        let respuesta = "";
 
-    
-    
-</section>
+        data.tickets.forEach(ticket => {
+            respuesta += '<tr>';
+                respuesta += '<td class="table-col" id="key">' + ticket.Key + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Summary + '">' + ticket.Summary + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Type + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Points + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Status + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Label + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Epic + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Created + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Updated + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Assignee + '</td>';
+            respuesta += '</tr>';
+        });
+
+        document.getElementById("results").innerHTML = respuesta;
+
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    </script>
 
 <%- include('includes/foot.ejs') %>

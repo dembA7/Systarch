@@ -8,7 +8,8 @@ exports.get_ticket = (request, response, next) => {
     response.render('tickets', {
       isLoggedIn: request.session.isLoggedIn || false,
       nombre: request.session.nombre || '',
-      tickets: tickets
+      tickets: tickets,
+      privilegios: request.session.privilegios || [],
     });  
   })
   .catch(error => {
@@ -17,4 +18,17 @@ exports.get_ticket = (request, response, next) => {
   });
 }
 
+exports.get_buscar = (request, response, next) => {
+ Ticket.find(request.params.valorBusqueda)
+ .then(([ticket_consulta, fieldData]) => {
+  response.status(200).json({
+    tickets: ticket_consulta,
+    sisLoggedIn: request.session.isLoggedIn || false
+  });
+})
+.catch(err => {
+  console.log(err);
+  response.status(500).json({message: "Internal Server Error"});
+})
+}
 
