@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-04-2023 a las 07:38:23
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Tiempo de generación: 26-04-2023 a las 09:09:20
+-- Versión del servidor: 10.4.25-MariaDB
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -80,7 +80,7 @@ CREATE TABLE `epics` (
   `ticket_ID` int(100) DEFAULT NULL,
   `project_ID` int(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -91,7 +91,7 @@ CREATE TABLE `epics` (
 CREATE TABLE `privilegios` (
   `id` int(10) NOT NULL,
   `nombre` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `privilegios`
@@ -112,7 +112,7 @@ CREATE TABLE `projects` (
   `project_Name` varchar(200) NOT NULL,
   `report_ID` int(100) DEFAULT NULL,
   `epic_Link` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,7 @@ CREATE TABLE `reports` (
   `report_ID` int(100) NOT NULL,
   `report_Progress` int(100) DEFAULT NULL,
   `report_Estimated` int(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -134,8 +134,8 @@ CREATE TABLE `reports` (
 
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(40) NOT NULL,
-  `descripcion` varchar(400) DEFAULT NULL
+  `nombre` varchar(40) COLLATE utf8mb4_spanish2_ci NOT NULL,
+  `descripcion` varchar(400) COLLATE utf8mb4_spanish2_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `tickets` (
   `ticket_Assignee` varchar(100) DEFAULT NULL,
   `ticket_Assignee_ID` varchar(200) DEFAULT NULL,
   `ticket_Label` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -202,10 +202,10 @@ CREATE TABLE `users` (
   `user_Phone` varchar(10) DEFAULT NULL,
   `user_Mail` varchar(100) NOT NULL,
   `user_WeeklyAgilePoints` int(50) DEFAULT NULL,
-  `user_Skill` char(2) DEFAULT NULL,
+  `user_Skill` varchar(50) DEFAULT NULL,
   `ticket_Assignee` varchar(100) DEFAULT NULL,
   `ticket_Assignee_ID` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `users`
@@ -214,7 +214,15 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_ID`, `user_Name`, `user_Password`, `user_Phone`, `user_Mail`, `user_WeeklyAgilePoints`, `user_Skill`, `ticket_Assignee`, `ticket_Assignee_ID`) VALUES
 (1, 'Diego Vega', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4426060404', 'diego@gmail.com', 0, '3', NULL, NULL),
 (2, 'Arturo Cristián Díaz López', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', '4421054338', 'arturo@outlook.com', 0, '3', NULL, NULL),
-(3, 'Bernardo Gomez-Romero', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', NULL, NULL);
+(3, 'Bernardo Gomez-Romero', '$2a$12$FnpO1SU9uiu3MRPInTThIOg4qoTizzj1qaw3WqPEjj2tw1hQExLIe', NULL, 'bernardo.gomez@dispatchhealth.com', 0, '3', 'Bernardo Gomez-Romero', '61c9eb457c6f980070deda99'),
+(4, 'Giorgi Gelashvili', '$2a$12$1uyzx5zj9ZizDDly3WRqneEXjorXI8TblTRVd73iHpUcCbvKXTNs6', '4424987666', 'giorgi@dispatchhealth.com', 4, '3', 'Giorgi Gelashvili', '62cdef6c6eba71983721e037'),
+(5, 'Alan Malagon', '$2a$12$tAIkkijN1BgoNnDY376XJesbe8fZwSFPKsEJY9ILORzA8ZbckabKG', '4424987666', 'alan@dispatchhealth', 3, '3', 'Alan Malagon', '62cded1010fcc6f7ae3e5a73'),
+(6, 'Antonio Antillon', '1234', NULL, 'antonio@dispatchhealth.com', NULL, NULL, 'Antonio Antillon', '61f81bb630f6b8006aa75942'),
+(7, 'Dan Cohn', '1234', NULL, 'dan@dispatchhealth.com', NULL, NULL, 'Dan Cohn', '607f2fef739dd40069a4b2a3'),
+(8, 'Kevin Anderson', '1234', NULL, 'kevin@dispatchhealth.com', NULL, NULL, 'Kevin Anderson', '62cdf0d01e326fd93012992d'),
+(9, 'Itzel Barreto', '1234', NULL, 'itzel@dispatchhealth.com', NULL, NULL, 'Itzel Barreto', '62ce0b47a94a6f9c0efe90bf'),
+(10, 'Sam Lanker', '1234', '', 'sam@dispatchhealth.com', NULL, NULL, 'Sam Lanker', '62cdf020afe495359d9d9b0b'),
+(11, 'Ashton Mitchell', '1234', NULL, 'ashton@dispatchhealth.com', NULL, NULL, 'Ashton Mitchell', '61a3edabb0b630006afda9e4');
 
 -- --------------------------------------------------------
 
@@ -304,7 +312,7 @@ ALTER TABLE `usuario_rol`
 -- AUTO_INCREMENT de la tabla `epics`
 --
 ALTER TABLE `epics`
-  MODIFY `epic_ID` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `epic_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `projects`
@@ -322,13 +330,13 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `ticket_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
