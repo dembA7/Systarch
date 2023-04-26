@@ -28,17 +28,7 @@ exports.post_import = async (request, response, next) => {
     const flpath = request.file.path;
     await readCSV(flpath);
     
-    Epic.Progress()
-    .then(([rows, fieldData]) => {
-      
-      response.render('homepage', {
-        isLoggedIn: request .session.isLoggedIn || false,
-        epics: rows,
-        username: request.session.nombre,
-        titulo: "DispatchHealth",
-      });
-    })
-  .catch(err => console.log(err));
+    response.redirect('/homepage')
   }
 };
 
