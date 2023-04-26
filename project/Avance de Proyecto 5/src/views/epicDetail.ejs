@@ -19,14 +19,87 @@
                 margin-right: 75px;
                 margin-top: 45px;
             }
+            #separator{
+                margin-top: 5em;
+                margin-bottom: 5em;
+            }
             #backButton{
                 position: absolute;
                 right: 0;
                 margin-right: 45px;
             }
             h3{
+                font-size: 36px;
                 margin-top: 25px;
+                text-align: center;
             }
+            .col-sm-8{
+                width: 990px;
+                height: 620px;
+                background-color: #e9ecef;
+                margin-left: 3%;
+                border-radius: 5%;
+            }
+            .col-sm-4{
+                width: 763px;
+                height: 620px;
+                background-color: #e9ecef;
+                margin-left: 3%;
+                margin-right: 3%;
+                border-radius: 5%;
+            }
+            #Burnup{
+                margin-left: 5%;
+                margin-right: 10%;
+            }
+            #barChart{
+                margin-left: 6em;
+                margin-right: 6em;
+            }
+            #doughnutChart{
+                margin-left: 6em;
+                margin-right: 6em;
+            }
+            .teamTableContainer{
+                position: absolute;
+                right: 0;
+                padding-right: 9%;
+            }
+            .table-head{
+                text-align: center;
+            }
+            .table-col {
+                overflow: hidden; 
+                text-overflow: ellipsis; 
+                white-space: nowrap;
+                text-align: center;
+            }
+            #teamUserName{
+                width: 275px; 
+            }
+            #teamUserWeeklyAp, #teamUserSkill{
+                width: 150px;
+            }
+            .teamTableTitle, .burnupChartTitle{
+                padding-bottom: 20px;
+            }
+            .col-sm{
+                width: 930px;
+                height: 870px;
+                background-color: #e9ecef;
+                border-radius: 5%;
+            }
+            #ticketStatusOverview{
+                margin-left: 3%;
+                margin-right: 3%;
+            }
+            #ticketLabelChart{
+                margin-left: 3%;
+            }
+            .ticketStatusOverviewTitle, .ticketLabelChartTitle{
+                margin-bottom: 5em;
+            }
+            
         </style>
     </head>
     <!-- NO QUITAR ESTE INPUT, ES PARA TOMAR EL VALOR DEL EPIC ID -->
@@ -37,26 +110,85 @@
         <div id="title">
             <h1 class="fw-light" id="title"><%= tickets[0].epic_Link_Summary %></h1>
         </div>
-        <div id="team">
-            <figure>
-                <h4>Team members</h4>
-                <img src="https://www.necesitomas.com/files/cuadrantealista03.png" alt="Descripción de la imagen">
-            </figure>
-        </div>
     </div>
 </section>
 
 <section id="body">
-    <div id="burnupId">
-        <div class="d-flex justify-content-between align-items-center px-5" id="no-data">
-            <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <div>
+        
+        <div id="separator">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="burnupChartContainer">
+                        <div class="burnupChartTitle">
+                            <h3 class="fw-normal" id="burnupChartTitleText">Burnup Chart</h3>
+                        </div>
+                        <div id="no-data" class="burnupChart">
+                            <canvas id="Burnup"></canvas>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="teamTableContainer">
+                        <div class="teamTableTitle">
+                            <h3 class="fw-normal">Team members</h3>
+                        </div>
+                        <div class="teamTable">
+                            <table class="table table-striped">
+                                <tthead>
+                                    <tr>
+                                        <th class="table-head">User</th>
+                                        <th class="table-head">Agile Points</th>
+                                        <th class="table-head">Skill</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% team.forEach(team => { %>
+                                    <tr>
+                                        <td class="table-col" id="teamUserName"><%= team.user_Name %></td>
+                                        <td class="table-col" id="teamUserWeeklyAP"><%= team.user_WeeklyAgilePoints %></td>
+                                        <td class="table-col" id="teamUserSkill"><%= team.user_Skill %></td>
+                                    </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        
+        
+        <div id="separator">
+            <div class="row">
+                <div class="col-sm" id="ticketLabelChart">
+                    <div class="ticketLabelChart">
+                        <div class="ticketLabelChartTitle">
+                            <h3 class="fw-normal">Tickets Label</h3>
+                        </div>
+                        <canvas id="barChart" style="height:40vh; width:21.4vw"></canvas>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    </div>
+                </div>
+                <div class="col-sm" id="ticketStatusOverview">
+                    <div class="ticketStatusOverview">
+                        <div class="ticketStatusOverviewTitle">
+                            <h3 class="fw-normal">Ticket Status Overview</h3>
+                        </div>
+                        <canvas id="doughnutChart" style="height:40vh; width:21.4vw"></canvas>
+                    </div>
+                </div>
+              </div>
+        </div>
+        
+      </div>
 </section>
 
 <section id="footer">
     <div id="return">
+        <br>
         <a href="/homepage" class="btn btn-outline-secondary float-right" id="backButton">Return&nbsp&nbsp&nbsp
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
@@ -86,7 +218,7 @@
             let _sprints = [];
             for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints)+1; i++) {
                 _sprints.push(i);
-            }
+            }   console.log(_sprints);
             // Validar si la gráfica tendrá sentido (Mínimo 2 sprints)
             if(_sprints.length > 1){
         
@@ -131,7 +263,7 @@
                     let current_Up = new Date(ticket_Update).getTime();
                     // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
                     let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
-                    if(calculo >= _sprints.length){
+                    if(calculo >= _sprints.length){ console.log(calculo);
                         console.warn("Not possible to calculate dinamic scope, replacing with constant scope");
                         error_scope = true
                         break;
@@ -141,7 +273,7 @@
                     };
                     };
                 scopes = [];
-                if(!error_scope){
+                if(!error_scope){ 
                     scope[0] = scope[1];
                     
                     // Función para calcular Story Points (SP) por sprint
@@ -159,7 +291,7 @@
                 else {
                     for(let i = 0; i < _sprints.length;i++){
                         scopes[i] = datas.tickets[i].totalSP;
-                    }
+                    } console.log("Error de scope: " + scopes);
                 }
                 
         // GOAL
@@ -191,7 +323,7 @@
                     done_[i] = done_[i-1];
                     if(done[i] !== undefined)
                         done_[i] += done[i];
-                };
+                }; console.log("done_ " + done_);
                 
                 let miCanvas = document.getElementById("Burnup").getContext("2d");                
                 const data = {
@@ -202,22 +334,22 @@
                             {
                                 label: "Scope",
                                 data: scopes,
-                                backgroundColor:['rgb(0,0,0,.10)'],
-                                borderColor:['rgb(0,0,0)'],
+                                backgroundColor:['rgb(37,37,37,.10)'],
+                                borderColor:['rgb(37,37,37)'],
                                 borderWidth: 3
                             },
                             {   
                                 label: "Goal",
                                 data: goal,
-                                backgroundColor:['rgb(40, 40, 222,.20)'],
-                                borderColor:['rgb(40, 40, 222)'],
+                                backgroundColor:['rgb(91, 143, 255,.20)'],
+                                borderColor:['rgb(91, 143, 255)'],
                                 borderWidth: 2
                             },
                             {
                                 label:"Done",
                                 data: done_,
-                                backgroundColor:['rgb(25, 250, 0,.30)'],
-                                borderColor:['rgb(25, 250, 0)'],
+                                backgroundColor:['rgb(25,135,84, .30)'],
+                                borderColor: ['rgb(25,135,84)'],
                                 borderWidth: 2,
                                 borderCapStyle: 'round',
                             }
@@ -235,10 +367,9 @@
                                 title: {
                                     display: true,
                                     text: 'Story Points',
-                                    color: 'black',
+                                    color: '#252525',
                                     font: {
                                         size: 20,
-                                        weight: 'bold'
                                     }
                                 }
                             },
@@ -249,10 +380,9 @@
                                 title: {
                                     display: true,
                                     text: 'Sprint',
-                                    color: 'black',
+                                    color: '#252525',
                                     font: {
                                         size: 20,
-                                        weight: 'bold'
                                     }
                                 }
                             },
@@ -261,12 +391,62 @@
                 }
                 var chart = new Chart(miCanvas, data)
             } else {
+                console.log("no-data inner");
                 document.getElementById("no-data").innerHTML = '<h1> No hay suficientes datos para graficar </h1>';
             }
         }).catch(err =>{console.log(err);});
         
 })
-    
     </script>
+
+    <script>
+        
+        const ctx = document.getElementById('barChart');
+    
+        new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Front End', 'Back End'],
+            datasets: [{
+            label: 'Ticket Label',
+            data: [12, 19, 3],
+            borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+        }
+
+        });
+
+    </script>
+
+    <script>
+        const ctx2 = document.getElementById('doughnutChart');
+
+        new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['To Do', 'Canceled', 'Done', 'Code Review', 'In Progress', ],
+            datasets: [{
+            data: [12, 19, 5, 3, 15],
+            borderWidth: 1
+            }]
+            },
+        options: {
+            layout: {
+                padding: {
+                bottom: 100,
+                }
+            }
+        }
+        });
+
+    </script>
+
     <!-- <%- include('includes/chart.ejs')%> -->
     <%- include('includes/foot.ejs') %>
