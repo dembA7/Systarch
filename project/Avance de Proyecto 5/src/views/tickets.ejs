@@ -84,14 +84,14 @@
                 <li class="dropdown-submenu">
                     <a class="dropdown-item dropdown-toggle" href="#">Status</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="?filtro=opcion1.1">To Do</a></li>
-                        <li><a class="dropdown-item" href="?filtro=opcion1.2">In Progress</a></li>
-                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Code Review</a></li>
-                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Quality Review</a></li>
-                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Release Ready</a></li>
-                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Done</a></li>
-                        <li><a class="dropdown-item" href="?filtro=opcion1.2">Closed</a></li>
-                        <li><a class="dropdown-item" href="?filtro=opcion1.2">canceled</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'To Do'; document.getElementById('filter').click();">To Do</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'In Progress'; document.getElementById('filter').click();">In Progress</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Code Review'; document.getElementById('filter').click();">Code Review</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Quality Review'; document.getElementById('filter').click();">Quality Review</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Release Ready'; document.getElementById('filter').click();">Release Ready</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Done'; document.getElementById('filter').click();">Done</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Closed'; document.getElementById('filter').click();">Closed</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Canceled'; document.getElementById('filter').click();">Canceled</a></li>
                     </ul>
                 </li>
             </ul>
@@ -159,10 +159,24 @@
 </div>
 
 <script>
-    document.getElementById("Buscar").onkeyup = () => {
+
+   //Código para el dropdown
+   var elementosDropdown = document.querySelectorAll(".dropdown-item");
+
+elementosDropdown.forEach(function(elemento){
+    elemento.addEventListener("click", function() {
+
+        var selectedValue = elemento.getAttribute("value")
+
+        valorBusqueda = selectedValue;
+
+        console.log(valorBusqueda);
+        
+    })
+})
+document.getElementById("Buscar").onkeyup = () => {
     const valorBusqueda = document.getElementById("Buscar").value;
     console.log(valorBusqueda);
-
     fetch('/tickets/' + valorBusqueda, {
         method: 'GET',
         headers: {
@@ -173,7 +187,6 @@
     }).then(data => {
         
         let respuesta = "";
-
         data.tickets.forEach(ticket => {
             respuesta += '<tr>';
                 respuesta += '<td class="table-col" id="key">' + ticket.Key + '</td>';
@@ -188,13 +201,50 @@
                 respuesta += '<td class="table-col" title="' + ticket.Assignee + '">' + ticket.Assignee + '</td>';
             respuesta += '</tr>';
         });
-
         document.getElementById("results").innerHTML = respuesta;
-
         }).catch(err => {
             console.log(err);
         });
     }
+
+    //Mismo código pero ahora con un onclick
+
+    document.getElementById("filter").onclick = () => {
+    const valorClick = document.getElementById("filter").value;
+    console.log(valorClick);
+    fetch('/tickets/' + valorClick, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(result => {
+        return result.json();
+    }).then(data => {
+        
+        let respuesta = "";
+        data.tickets.forEach(ticket => {
+            respuesta += '<tr>';
+                respuesta += '<td class="table-col" id="key">' + ticket.Key + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Summary + '">' + ticket.Summary + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Type + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Points + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Status + '">' + ticket.Status + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Label + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Epic + '">' + ticket.Epic + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Created + '">' + ticket.Created + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Updated + '">' + ticket.Updated + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Assignee + '">' + ticket.Assignee + '</td>';
+            respuesta += '</tr>';
+        });
+        document.getElementById("results").innerHTML = respuesta;
+    }).catch(err => {
+        console.log(err);
+    });
+};
+
+
 </script>
+
+
 
 <%- include('includes/foot.ejs') %>
