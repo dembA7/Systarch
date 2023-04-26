@@ -29,14 +29,38 @@
                 margin-right: 45px;
             }
             h3{
+                font-size: 36px;
                 margin-top: 25px;
+                text-align: center;
+            }
+            #burnupCanvas{
+                margin-left: 5%;
+                margin-right: 15%;
+            }
+            .teamTableContainer{
+                position: absolute;
+                right: 0;
+                padding-right: 7%;
+            }
+            .table-head{
+                text-align: center;
             }
             .table-col {
-                max-width: 200px; 
                 overflow: hidden; 
                 text-overflow: ellipsis; 
                 white-space: nowrap;
+                text-align: center;
             }
+            #teamUserName{
+                width: 275px; 
+            }
+            #teamUserWeeklyAp, #teamUserSkill{
+                width: 150px;
+            }
+            .tableTitle{
+                padding-bottom: 15px;
+            }
+            
         </style>
     </head>
     <!-- NO QUITAR ESTE INPUT, ES PARA TOMAR EL VALOR DEL EPIC ID -->
@@ -51,46 +75,55 @@
 </section>
 
 <section id="body">
-    <div class="container text-center">
+
+    <div>
         
         <div id="separator">
             <div class="row">
                 <div class="col-sm-8">
-                    <div id="no-data">
-                        <canvas id="Burnup" width="auto" height="auto" style="margin: 15%"></canvas>
+                    <div class="burnupChartTitle">
+                        <h3 class="fw-normal" id="burnupChartTitleText">Burnup Chart</h3>
+                    </div>
+                    <div id="no-data" class="burnupChart">
+                        <canvas id="burnupCanvas"></canvas>
                         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Agile Points</th>
-                                    <th>Skill</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% team.forEach(team => { %>
-                                <tr>
-                                    <td class="table-col"><%= team.user_Name %></td>
-                                    <td class="table-col"><%= team.user_WeeklyAgilePoints %></td>
-                                    <td class="table-col"><%= team.user_Skill %></td>
-                                </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
+                    <div class="teamTableContainer">
+                        <div class="tableTitle">
+                            <h3 class="fw-normal">Team members</h3>
+                        </div>
+                        <div class="teamTable">
+                            <table class="table table-striped">
+                                <tthead>
+                                    <tr>
+                                        <th class="table-head">User</th>
+                                        <th class="table-head">Agile Points</th>
+                                        <th class="table-head">Skill</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% team.forEach(team => { %>
+                                    <tr>
+                                        <td class="table-col" id="teamUserName"><%= team.user_Name %></td>
+                                        <td class="table-col" id="teamUserWeeklyAP"><%= team.user_WeeklyAgilePoints %></td>
+                                        <td class="table-col" id="teamUserSkill"><%= team.user_Skill %></td>
+                                    </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-              </div>
+            </div>
         </div>
         
         
         <div id="separator">
             <div class="row">
-                <div class="col-sm">col-sm</div>
-                <div class="col-sm">col-sm</div>
+                <div class="col-sm">OTRA GRAFICA</div>
+                <div class="col-sm">OTRA GRAFICA</div>
               </div>
         </div>
         
@@ -233,7 +266,7 @@
                     if(done[i] !== undefined)
                         done_[i] += done[i];
                 };
-                let miCanvas = document.getElementById("Burnup").getContext("2d");                
+                let miCanvas = document.getElementById("burnupCanvas").getContext("2d");                
                 const data = {
                     type:'line',
                     data:{
@@ -242,22 +275,22 @@
                             {
                                 label: "Scope",
                                 data: scopes,
-                                backgroundColor:['rgb(0,0,0,.10)'],
-                                borderColor:['rgb(0,0,0)'],
+                                backgroundColor:['rgb(37,37,37,.10)'],
+                                borderColor:['rgb(37,37,37)'],
                                 borderWidth: 3
                             },
                             {   
                                 label: "Goal",
                                 data: goal,
-                                backgroundColor:['rgb(40, 40, 222,.20)'],
-                                borderColor:['rgb(40, 40, 222)'],
+                                backgroundColor:['rgb(91, 143, 255,.20)'],
+                                borderColor:['rgb(91, 143, 255)'],
                                 borderWidth: 2
                             },
                             {
                                 label:"Done",
                                 data: done_,
-                                backgroundColor:['rgb(25, 250, 0,.30)'],
-                                borderColor:['rgb(25, 250, 0)'],
+                                backgroundColor:['rgb(25,135,84, .30)'],
+                                borderColor: ['rgb(25,135,84)'],
                                 borderWidth: 2,
                                 borderCapStyle: 'round',
                             }
@@ -275,10 +308,9 @@
                                 title: {
                                     display: true,
                                     text: 'Story Points',
-                                    color: 'black',
+                                    color: '#252525',
                                     font: {
                                         size: 20,
-                                        weight: 'bold'
                                     }
                                 }
                             },
@@ -289,10 +321,9 @@
                                 title: {
                                     display: true,
                                     text: 'Sprint',
-                                    color: 'black',
+                                    color: '#252525',
                                     font: {
                                         size: 20,
-                                        weight: 'bold'
                                     }
                                 }
                             },
