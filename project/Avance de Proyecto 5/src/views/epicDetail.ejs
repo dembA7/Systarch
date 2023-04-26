@@ -21,7 +21,7 @@
             }
             #separator{
                 margin-top: 5em;
-                margin-bottom: 10em;
+                margin-bottom: 5em;
             }
             #backButton{
                 position: absolute;
@@ -82,6 +82,22 @@
             }
             .teamTableTitle, .burnupChartTitle{
                 padding-bottom: 20px;
+            }
+            .col-sm{
+                width: 930px;
+                height: 870px;
+                background-color: #e9ecef;
+                border-radius: 5%;
+            }
+            #ticketStatusOverview{
+                margin-left: 3%;
+                margin-right: 3%;
+            }
+            #ticketLabelChart{
+                margin-left: 3%;
+            }
+            .ticketStatusOverviewTitle, .ticketLabelChartTitle{
+                margin-bottom: 5em;
             }
             
         </style>
@@ -147,14 +163,20 @@
         
         <div id="separator">
             <div class="row">
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <div class="col-sm">
-                    <div>
+                <div class="col-sm" id="ticketLabelChart">
+                    <div class="ticketLabelChart">
+                        <div class="ticketLabelChartTitle">
+                            <h3 class="fw-normal">Tickets Label</h3>
+                        </div>
                         <canvas id="barChart" style="height:40vh; width:21.4vw"></canvas>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     </div>
                 </div>
-                <div class="col-sm">
-                    <div>
+                <div class="col-sm" id="ticketStatusOverview">
+                    <div class="ticketStatusOverview">
+                        <div class="ticketStatusOverviewTitle">
+                            <h3 class="fw-normal">Ticket Status Overview</h3>
+                        </div>
                         <canvas id="doughnutChart" style="height:40vh; width:21.4vw"></canvas>
                     </div>
                 </div>
@@ -379,20 +401,21 @@
         new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['To Do', 'Done', 'Canceled'],
+            labels: ['Front End', 'Back End'],
             datasets: [{
-            label: 'Ticket Status',
+            label: 'Ticket Label',
             data: [12, 19, 3],
             borderWidth: 1
             }]
         },
         options: {
             scales: {
-            y: {
+                y: {
                 beginAtZero: true
-            }
+                }
             }
         }
+
         });
 
     </script>
@@ -403,12 +426,19 @@
         new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: ['Frontend', 'Backend'],
+            labels: ['To Do', 'Canceled', 'Done', 'Code Review', 'In Progress', ],
             datasets: [{
-            data: [12, 19],
+            data: [12, 19, 5, 3, 15],
             borderWidth: 1
             }]
+            },
+        options: {
+            layout: {
+                padding: {
+                bottom: 100,
+                }
             }
+        }
         });
 
     </script>
