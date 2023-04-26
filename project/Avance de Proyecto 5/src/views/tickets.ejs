@@ -124,7 +124,7 @@
     <table class="table table-striped">
         <tthead>
             <tr>
-                <th id="key">Key</th>
+                <th>Key</th>
                 <th>Summary</th>
                 <th>Type</th>
                 <th>Points</th>
@@ -140,7 +140,7 @@
         <tbody id="results">
             <% tickets.forEach(ticket => { %>
             <tr>
-                <td class="table-col" id="key"><%= ticket.Key %></td>
+                <td class="table-col"><%= ticket.Key %></td>
                 <td class="table-col" title="<%= ticket.Summary %>"><%= ticket.Summary %></td>
                 <td class="table-col"><%= ticket.Type %></td>
                 <td class="table-col"><%= ticket.Points %></td>
