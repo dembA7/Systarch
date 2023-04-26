@@ -37,6 +37,14 @@
                 margin-left: 5%;
                 margin-right: 15%;
             }
+            #barChart{
+                margin-left: 6em;
+                margin-right: 6em;
+            }
+            #doughnutChart{
+                margin-left: 6em;
+                margin-right: 6em;
+            }
             .teamTableContainer{
                 position: absolute;
                 right: 0;
@@ -59,6 +67,9 @@
             }
             .tableTitle{
                 padding-bottom: 15px;
+            }
+            #burnupChartTitleText, #tickets_ofd{
+                margin-right: 6em;
             }
             
         </style>
@@ -122,8 +133,17 @@
         
         <div id="separator">
             <div class="row">
-                <div class="col-sm">OTRA GRAFICA</div>
-                <div class="col-sm">OTRA GRAFICA</div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <div class="col-sm">
+                    <div>
+                        <canvas id="barChart" style="height:40vh; width:21.4vw"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div>
+                        <canvas id="doughnutChart" style="height:40vh; width:21.4vw"></canvas>
+                    </div>
+                </div>
               </div>
         </div>
         
@@ -209,7 +229,7 @@
                     let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
                     if(calculo >= _sprints.length){
                         console.warn("Not possible to calculate scope.");
-                        document.getElementById("no-data").innerHTML = '<h3 class="fw-light"> Tickets are out of expected date. </h3>';
+                        document.getElementById("no-data").innerHTML = '<h3 class="fw-light" id="tickets_ofd"> Tickets are out of expected date. </h3>';
                         error_scope = true
                         break;
                     }
@@ -337,7 +357,47 @@
         }).catch(err =>{console.log(err);});
         
 })
-    
     </script>
+
+    <script>
+        const ctx = document.getElementById('barChart');
+    
+        new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['To Do', 'Done', 'Canceled'],
+            datasets: [{
+            label: 'Ticket Status',
+            data: [12, 19, 3],
+            borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+            y: {
+                beginAtZero: true
+            }
+            }
+        }
+        });
+
+    </script>
+
+    <script>
+        const ctx2 = document.getElementById('doughnutChart');
+
+        new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Frontend', 'Backend'],
+            datasets: [{
+            data: [12, 19],
+            borderWidth: 1
+            }]
+            }
+        });
+
+    </script>
+
     <!-- <%- include('includes/chart.ejs')%> -->
     <%- include('includes/foot.ejs') %>
