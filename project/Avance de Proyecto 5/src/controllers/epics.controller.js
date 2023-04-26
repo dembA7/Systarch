@@ -37,6 +37,7 @@ exports.post_import = async (request, response, next) => {
         epics: rows,
         username: request.session.nombre,
         titulo: "DispatchHealth",
+        privilegios: request.session.privilegios || [],
       });
     })
   .catch(err => console.log(err));

@@ -109,7 +109,7 @@ exports.post_signup = (request, response, next) => {
 
     user.save()
     .then(([rows, fieldData]) => {
-        response.redirect('/homepage');
+        response.redirect('/users/totalusers');
     })
 
     .catch((error) => {
@@ -176,6 +176,11 @@ exports.get_totalUsers = (request, response, next) => {
       privilegios: request.session.privilegios || [],
     });
   })
+};
+
+exports.post_totalUsers = (request, response, next) => {
+  console.log("Creo que funciono");
+  response.redirect('/users/account');
 };
 
 exports.timeout = (request, response, next) => {
