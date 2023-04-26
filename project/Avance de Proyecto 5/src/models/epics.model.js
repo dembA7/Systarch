@@ -12,7 +12,7 @@ module.exports = class Epic {
 
     save() {
         return db.execute(`
-                INSERT INTO epics (epic_Link, epic_Link_Summary)
+            INSERT INTO epics (epic_Link, epic_Link_Summary)
             values (?, ?)
             `, [this.epic_Link, this.epic_Link_Summary]);
     }
@@ -83,5 +83,26 @@ module.exports = class Epic {
             WHERE (epic_Link LIKE ? OR epic_Link_Summary LIKE ?)
         `, [ '%' + valorBusqueda + '%', '%' + valorBusqueda + '%', ]
         );
+    }
+    
+    static fetchTeam(epic_Link) {
+        return db.execute(`
+        SELECT u.user_Name, u.user_WeeklyAgilePoints, u.user_Skill, t.ticket_Assignee_ID, e.epic_Link
+        FROM tickets t, users u, epics e
+        WHERE e.epic_Link = t.epic_Link
+        AND t.ticket_Assignee_ID = u.ticket_Assignee_ID
+        AND e.epic_Link = ?
+        GROUP BY u.user_ID;
+        `, [epic_Link]
+        )
+    }
+
+    static fetchEpics(epic_Link){
+        return db.execute(`
+            SELECT t.epic_Link, e.*
+            FROM tickets t, epics e
+            WHERE t.epic_Link = ?
+            GROUP BY t.epic_Link
+        `, [epic_Link])
     }
 }

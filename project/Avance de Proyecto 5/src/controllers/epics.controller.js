@@ -4,6 +4,7 @@ const User = require('../models/usuarios.model');
 const fs = require('fs');
 const csv = require("csv-parser");
 const { response } = require('express');
+const { userInfo } = require('os');
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -201,23 +202,25 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-exports.get_detail = (request, response, next) => {
+exports.get_detail = async (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
   // console.log("[Info] A user requested some epic details.");
   let id = request.params.epic_Link;
+
+  const ticketData = await Epic.fetchTickets(id);
+  const teamData = await Epic.fetchTeam(id);
+
+  response.render('epicDetail', {
+    isLoggedIn: request.session.isLoggedIn || false,
+    nombre: request.session.nombre || '',
+    mensaje: msg || '',
+    tickets: ticketData[0],
+    team: teamData[0],
+  });
+
   
-  Epic.fetchTickets(id)
-  .then(([rows, fieldData]) =>{
-    response.render('epicDetail', {
-      isLoggedIn: request.session.isLoggedIn || false,
-      nombre: request.session.nombre || '',
-      mensaje: msg || '',
-      tickets: rows
-    });
-  })
-  .catch(err => {console.log(err);});
-  
+
 };
 
 exports.get_Burnup = (request, response, next) => {
