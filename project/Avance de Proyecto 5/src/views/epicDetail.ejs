@@ -48,7 +48,7 @@
                 margin-right: 3%;
                 border-radius: 5%;
             }
-            #burnupCanvas{
+            #Burnup{
                 margin-left: 5%;
                 margin-right: 10%;
             }
@@ -125,7 +125,7 @@
                             <h3 class="fw-normal" id="burnupChartTitleText">Burnup Chart</h3>
                         </div>
                         <div id="no-data" class="burnupChart">
-                            <canvas id="burnupCanvas"></canvas>
+                            <canvas id="Burnup"></canvas>
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
                         </div>
                     </div>
@@ -218,7 +218,7 @@
             let _sprints = [];
             for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints)+1; i++) {
                 _sprints.push(i);
-            }
+            }   console.log(_sprints);
             // Validar si la gráfica tendrá sentido (Mínimo 2 sprints)
             if(_sprints.length > 1){
         
@@ -263,17 +263,17 @@
                     let current_Up = new Date(ticket_Update).getTime();
                     // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
                     let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
-                    if(calculo >= _sprints.length){
-                        console.warn("Not possible to calculate scope.");
-                        document.getElementById("no-data").innerHTML = '<h3 class="fw-light" id="tickets_ofd"> Tickets are out of expected date. </h3>';
+                    if(calculo >= _sprints.length){ console.log(calculo);
+                        console.warn("Not possible to calculate dinamic scope, replacing with constant scope");
                         error_scope = true
                         break;
-                    }
-                    scope[calculo].push(j);
-                    j++;
+                    } else {
+                        scope[calculo].push(j);
+                        j++;
+                    };
                     };
                 scopes = [];
-                if(!error_scope){
+                if(!error_scope){ 
                     scope[0] = scope[1];
                     
                     // Función para calcular Story Points (SP) por sprint
@@ -291,7 +291,7 @@
                 else {
                     for(let i = 0; i < _sprints.length;i++){
                         scopes[i] = datas.tickets[i].totalSP;
-                    }
+                    } console.log("Error de scope: " + scopes);
                 }
                 
         // GOAL
@@ -303,6 +303,7 @@
         
         // DONE
                 const done = [0];
+                let error_done = false;
                 for(let finished of datas.done){
                     let current_Up = new Date(finished.ticket_Update).getTime();
                     // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
@@ -310,6 +311,7 @@
                     if(calculo >= _sprints.length){
                         done[_sprints.length-1] = done[_sprints.length-1] || 0;
                         done[_sprints.length-1] += finished.Story_Points;
+                        error_done = true;
                     }else {
                         done[calculo] = done[calculo] || 0;
                         done[calculo] += finished.Story_Points;
@@ -321,8 +323,9 @@
                     done_[i] = done_[i-1];
                     if(done[i] !== undefined)
                         done_[i] += done[i];
-                };
-                let miCanvas = document.getElementById("burnupCanvas").getContext("2d");                
+                }; console.log("done_ " + done_);
+                
+                let miCanvas = document.getElementById("Burnup").getContext("2d");                
                 const data = {
                     type:'line',
                     data:{
@@ -388,6 +391,7 @@
                 }
                 var chart = new Chart(miCanvas, data)
             } else {
+                console.log("no-data inner");
                 document.getElementById("no-data").innerHTML = '<h1> No hay suficientes datos para graficar </h1>';
             }
         }).catch(err =>{console.log(err);});
