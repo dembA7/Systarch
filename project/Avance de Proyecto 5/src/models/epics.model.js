@@ -75,6 +75,17 @@ module.exports = class Epic {
         `,[ticket_Status])
     }
 
+    static fetchBarChart(epic_link){
+        return db.execute(`
+        SELECT t.ticket_Label, COUNT(t.ticket_Label) AS 'TotalTickets'
+        FROM epics e, tickets t
+        WHERE (t.ticket_Label = 'part/Frontend' OR t.ticket_Label = 'part/Backend') 
+        AND e.epic_Link = t.epic_Link 
+        AND e.epic_Link = 'PART-2394'
+        GROUP BY t.ticket_Label
+    `, [epic_link])
+    }
+
     static updateProjectID(epic_link, projectID){      
         return db.execute(`
             UPDATE epics

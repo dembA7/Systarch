@@ -202,6 +202,7 @@ exports.get_detail = async (request, response, next) => {
 
   const ticketData = await Epic.fetchTickets(id);
   const teamData = await Epic.fetchTeam(id);
+  const labelData = await Epic.fetchBarChart(id);
 
   response.render('epicDetail', {
     isLoggedIn: request.session.isLoggedIn || false,
@@ -210,6 +211,7 @@ exports.get_detail = async (request, response, next) => {
     tickets: ticketData[0],
     team: teamData[0],
     privilegios: request.session.privilegios || [],
+    labels: labelData[0]
   });
 
   
