@@ -19,23 +19,26 @@
 </section>
 <br>
 <section id="content">
-    <% for (let user of users) { %>
-        <div class="row g-2">
-            <div class="col-md">
-                <form class="form-floating">
-                    <input type="email" class="form-control" id="floatingInputValue" value="<%=user.user_Name%>" disabled>
-                    <label for="floatingInputValue">Name:</label>
-                </form>
-            </div>
-            <div class="col-md">
-                <form class="form-floating">
-                    <input type="email" class="form-control" id="floatingInputValue" value="<%=user.user_Mail%>" disabled>
-                    <label for="floatingInputValue">Email:</label>
-                </form>
-            </div>
-        </div>
-        <br>
-    <% } %>
-</section>
+    <h3 class="fw-light">Select a user:</h3>
+    <form id="formUser" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <select class="form-select" id="selUser" size=8>
+            <%for (let user of users) {%>
+                <option>
+                    <%=user.user_Name%> -> <%=user.user_Mail%>
+                </option>
+            <%}%>
+        </select>
+    </form>
+
+    <script>
+        const select = document.getElementById('selUser');
+        select.addEventListener('dblclick', () => {
+        const form = document.getElementById('formUser');
+        form.action = '/users/totalusers';
+        form.submit();
+        });
+
+    </script>
 
 <%- include('includes/foot.ejs') %>

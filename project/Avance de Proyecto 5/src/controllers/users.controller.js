@@ -178,6 +178,11 @@ exports.get_totalUsers = (request, response, next) => {
   })
 };
 
+exports.post_totalUsers = (request, response, next) => {
+  console.log("Creo que funciono");
+  response.redirect('/users/account');
+};
+
 exports.timeout = (request, response, next) => {
     response.render('timeout', {
       isLoggedIn: request.session.isLoggedIn || false,
