@@ -33,6 +33,21 @@
                 margin-top: 25px;
                 text-align: center;
             }
+            .col-sm-8{
+                width: 990px;
+                height: 620px;
+                background-color: #e9ecef;
+                margin-left: 3%;
+                border-radius: 5%;
+            }
+            .col-sm-4{
+                width: 763px;
+                height: 620px;
+                background-color: #e9ecef;
+                margin-left: 3%;
+                margin-right: 3%;
+                border-radius: 5%;
+            }
             #burnupCanvas{
                 margin-left: 5%;
                 margin-right: 15%;
@@ -48,7 +63,7 @@
             .teamTableContainer{
                 position: absolute;
                 right: 0;
-                padding-right: 7%;
+                padding-right: 9%;
             }
             .table-head{
                 text-align: center;
@@ -65,11 +80,8 @@
             #teamUserWeeklyAp, #teamUserSkill{
                 width: 150px;
             }
-            .tableTitle{
-                padding-bottom: 15px;
-            }
-            #burnupChartTitleText, #tickets_ofd{
-                margin-right: 6em;
+            .teamTableTitle, .burnupChartTitle{
+                padding-bottom: 20px;
             }
             
         </style>
@@ -92,17 +104,19 @@
         <div id="separator">
             <div class="row">
                 <div class="col-sm-8">
-                    <div class="burnupChartTitle">
-                        <h3 class="fw-normal" id="burnupChartTitleText">Burnup Chart</h3>
-                    </div>
-                    <div id="no-data" class="burnupChart">
-                        <canvas id="burnupCanvas"></canvas>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+                    <div class="burnupChartContainer">
+                        <div class="burnupChartTitle">
+                            <h3 class="fw-normal" id="burnupChartTitleText">Burnup Chart</h3>
+                        </div>
+                        <div id="no-data" class="burnupChart">
+                            <canvas id="burnupCanvas"></canvas>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="teamTableContainer">
-                        <div class="tableTitle">
+                        <div class="teamTableTitle">
                             <h3 class="fw-normal">Team members</h3>
                         </div>
                         <div class="teamTable">
