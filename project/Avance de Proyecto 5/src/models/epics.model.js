@@ -67,13 +67,21 @@ module.exports = class Epic {
         `,[epic_Link])
     }
 
+    static fetchDoughnutChart(ticket_Status){
+        return db.execute(`
+            SELECT ticket_status, COUNT(*)
+            FROM tickets
+            GROUP BY ticket_status;
+        `,[ticket_Status])
+    }
+
     static updateProjectID(epic_link, projectID){      
         return db.execute(`
             UPDATE epics
             SET
             project_ID = ?
             WHERE epic_Link = ?
-            `,[projectID, epic_link]);
+        `,[projectID, epic_link]);
     }
 
     static find(valorBusqueda) {

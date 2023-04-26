@@ -5,6 +5,7 @@ const fs = require('fs');
 const csv = require("csv-parser");
 const { response } = require('express');
 const { userInfo } = require('os');
+const { request } = require('http');
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -221,6 +222,30 @@ exports.get_Burnup = (request, response, next) => {
   .then(([rows, fieldData]) => {
     Epic.fetchBurnupDone(request.params.id)
     .then(([done, fieldData]) => {
+      response.status(200).json({
+        tickets: rows,
+        done: done
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).json({message: "Internal Server Error"});
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    response.status(500).json({message: "Internal Server Error"});
+  });
+
+
+};
+
+exports.get_DoughnutChart = (request, response, next) => {
+  
+  Epic.fetchDoughnutChart(request.params.id)
+  .then(([rows, fieldData]) => {
+    Epic.fetchDoughnutChart(request.params.id)
+    .then(([  , fieldData]) => {
       response.status(200).json({
         tickets: rows,
         done: done
