@@ -62,7 +62,7 @@ module.exports = class Epic {
         return db.execute(`
         SELECT t.ticket_Update, t.Story_Points 
         FROM tickets t 
-        WHERE t.ticket_Status IN ('DONE','CLOSED') 
+        WHERE t.ticket_Status IN ('DONE','CLOSED','CANCELED') 
         AND t.epic_Link = ?
         `,[epic_Link])
     }

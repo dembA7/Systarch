@@ -86,7 +86,6 @@
             for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints)+1; i++) {
                 _sprints.push(i);
             }
-            console.log(_sprints);
             // Validar si la gráfica tendrá sentido (Mínimo 2 sprints)
             if(_sprints.length > 1){
         
@@ -175,9 +174,14 @@
                     let current_Up = new Date(finished.ticket_Update).getTime();
                     // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
                     let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
-                    done[calculo] = done[calculo] || 0;
-                    done[calculo] += finished.Story_Points;
-                }; 
+                    if(calculo >= _sprints.length){
+                        done[_sprints.length-1] = done[_sprints.length-1] || 0;
+                        done[_sprints.length-1] += finished.Story_Points;
+                    }else {
+                        done[calculo] = done[calculo] || 0;
+                        done[calculo] += finished.Story_Points;
+                    }
+                };
                 
                 let done_ = [0];
                 for(let i = 1; i<done.length; i++){
