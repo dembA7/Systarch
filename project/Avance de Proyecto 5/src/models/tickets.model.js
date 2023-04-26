@@ -54,11 +54,43 @@ module.exports = class Ticket {
         Story_Points AS Points, 
         ticket_Status AS "Status", 
         ticket_Label AS Label, 
-        epic_Link AS Epic, 
+        epic_Link_Summary AS Epic, 
+        DATE_FORMAT(ticket_Created, '%e %b %Y %H:%i') AS Created,
         DATE_FORMAT(ticket_Update, '%e %b %Y %H:%i') AS Updated,
         ticket_Assignee AS Assignee
         FROM tickets;
         `,);
+    }
+
+    static find(valorBusqueda) {
+        return db.execute(`
+        SELECT Issue_Key AS "Key", 
+        Summary AS Summary, 
+        Issue_Type AS Type, 
+        Story_Points AS Points, 
+        ticket_Status AS "Status", 
+        ticket_Label AS Label, 
+        epic_Link_Summary AS Epic, 
+        DATE_FORMAT(ticket_Created, '%e %b %Y %H:%i') AS Created,
+        DATE_FORMAT(ticket_Update, '%e %b %Y %H:%i') AS Updated,
+        ticket_Assignee AS Assignee
+        FROM tickets
+        WHERE (Issue_Key LIKE ? OR Summary LIKE ? 
+        OR Issue_Type LIKE ? OR Story_Points LIKE ? OR 
+        ticket_Status LIKE ? OR ticket_Label LIKE ? OR 
+        epic_link_Summary LIKE ? OR ticket_Created LIKE ? OR ticket_Update 
+        LIKE ? OR ticket_Assignee LIKE ?)
+        `, ['%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',
+        '%' + valorBusqueda + '%',]
+        );
     }
 
 }

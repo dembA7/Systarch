@@ -31,6 +31,13 @@ module.exports = class Usuario {
         `, [usermail]);
     }
 
+    static fetchAllUsers(){
+        return db.execute(`
+            SELECT * 
+            FROM users
+        `,);
+    }
+
     static fetchUser(username){
         return db.execute(`
             SELECT * 

@@ -24,6 +24,12 @@ router.post('/account/edit', isAuth, usersController.post_account);
 
 router.get('/totalusers', isAuth, usersController.get_totalUsers);
 
+router.post('/totalusers', isAuth, usersController.post_totalUsers);
+
+//router.get('/thisaccount', isAuth, usersController.edit_thisAccount);
+
+//router.post('/thisaccount', isAuth, usersController.post_thisAccount);
+
 router.get('/timeout', usersController.timeout);
 
 router.get('/logout', usersController.logout);

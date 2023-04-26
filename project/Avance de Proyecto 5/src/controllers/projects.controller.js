@@ -9,7 +9,8 @@ exports.get_projects = async (request, response, next) => {
   isLoggedIn: request .session.isLoggedIn || false,
   username: request.session.username || "",
   titulo: "DispatchHealth",
-  projects: projects[0] || []
+  projects: projects[0] || [],
+  privilegios: request.session.privilegios || [],
 
   });
 
@@ -38,7 +39,8 @@ exports.get_createProjects = async (request, response, next) => {
       titulo: "DispatchHealth",
       epics: epics[0] || [],
       epicsSelected: request.session.epicsSelected,
-      mensaje: message
+      mensaje: message,
+      privilegios: request.session.privilegios || [],
       
     });
 };

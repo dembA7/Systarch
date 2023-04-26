@@ -12,7 +12,8 @@ exports.get_import = (request, response, next) => {
   response.render('upload', {
     isLoggedIn: request.session.isLoggedIn || false,
     nombre: request.session.nombre || '',
-    mensaje: msg || ''
+    mensaje: msg || '',
+    privilegios: request.session.privilegios || [],
   });
 };
 
@@ -29,17 +30,7 @@ exports.post_import = async (request, response, next) => {
     const flpath = request.file.path;
     await readCSV(flpath);
     
-    Epic.Progress()
-    .then(([rows, fieldData]) => {
-      
-      response.render('homepage', {
-        isLoggedIn: request .session.isLoggedIn || false,
-        epics: rows,
-        username: request.session.nombre,
-        titulo: "DispatchHealth",
-      });
-    })
-  .catch(err => console.log(err));
+    response.redirect('/homepage')
   }
 };
 
@@ -217,6 +208,7 @@ exports.get_detail = async (request, response, next) => {
     mensaje: msg || '',
     tickets: ticketData[0],
     team: teamData[0],
+    privilegios: request.session.privilegios || [],
   });
 
   
@@ -243,6 +235,7 @@ exports.get_Burnup = (request, response, next) => {
     console.log(err);
     response.status(500).json({message: "Internal Server Error"});
   });
+
 
 };
 

@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(express.json());
+// app.use(express.json());
 
 //FileSystem
 
@@ -90,6 +90,7 @@ app.use((request, response, next) => {
         titulo: 'DispatchHealth: ERR404',
         isLoggedIn: request.session.isLoggedIn || false,
         username: request.session.username || '',
+        privilegios: request.session.privilegios || [],
     });
 });
 
