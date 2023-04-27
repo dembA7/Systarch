@@ -12,7 +12,7 @@ module.exports = class Epic {
 
     save() {
         return db.execute(`
-                INSERT INTO epics (epic_Link, epic_Link_Summary)
+            INSERT INTO epics (epic_Link, epic_Link_Summary)
             values (?, ?)
             `, [this.epic_Link, this.epic_Link_Summary]);
     }
@@ -62,9 +62,28 @@ module.exports = class Epic {
         return db.execute(`
         SELECT t.ticket_Update, t.Story_Points 
         FROM tickets t 
-        WHERE t.ticket_Status IN ('DONE','CLOSED') 
+        WHERE t.ticket_Status IN ('DONE','CLOSED','CANCELED') 
         AND t.epic_Link = ?
         `,[epic_Link])
+    }
+
+    static fetchDoughnutChart(ticket_Status){
+        return db.execute(`
+            SELECT ticket_status, COUNT(*)
+            FROM tickets
+            GROUP BY ticket_status;
+        `,[ticket_Status])
+    }
+
+    static fetchBarChart(epic_link){
+        return db.execute(`
+        SELECT t.ticket_Label, COUNT(t.ticket_Label) AS 'TotalTickets'
+        FROM epics e, tickets t
+        WHERE (t.ticket_Label = 'part/Frontend' OR t.ticket_Label = 'part/Backend') 
+        AND e.epic_Link = t.epic_Link 
+        AND e.epic_Link = 'PART-2394'
+        GROUP BY t.ticket_Label
+    `, [epic_link])
     }
 
     static updateProjectID(epic_link, projectID){      
@@ -73,7 +92,7 @@ module.exports = class Epic {
             SET
             project_ID = ?
             WHERE epic_Link = ?
-            `,[projectID, epic_link]);
+        `,[projectID, epic_link]);
     }
 
     static find(valorBusqueda) {
@@ -83,5 +102,26 @@ module.exports = class Epic {
             WHERE (epic_Link LIKE ? OR epic_Link_Summary LIKE ?)
         `, [ '%' + valorBusqueda + '%', '%' + valorBusqueda + '%', ]
         );
+    }
+    
+    static fetchTeam(epic_Link) {
+        return db.execute(`
+        SELECT u.user_Name, u.user_WeeklyAgilePoints, u.user_Skill, t.ticket_Assignee_ID, e.epic_Link
+        FROM tickets t, users u, epics e
+        WHERE e.epic_Link = t.epic_Link
+        AND t.ticket_Assignee_ID = u.ticket_Assignee_ID
+        AND e.epic_Link = ?
+        GROUP BY u.user_ID;
+        `, [epic_Link]
+        )
+    }
+
+    static fetchEpics(epic_Link){
+        return db.execute(`
+            SELECT t.epic_Link, e.*
+            FROM tickets t, epics e
+            WHERE t.epic_Link = ?
+            GROUP BY t.epic_Link
+        `, [epic_Link])
     }
 }

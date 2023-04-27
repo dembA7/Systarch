@@ -4,6 +4,8 @@ const User = require('../models/usuarios.model');
 const fs = require('fs');
 const csv = require("csv-parser");
 const { response } = require('express');
+const { userInfo } = require('os');
+const { request } = require('http');
 
 exports.get_import = (request, response, next) => {
   const msg = request.session.mensaje
@@ -29,18 +31,7 @@ exports.post_import = async (request, response, next) => {
     const flpath = request.file.path;
     await readCSV(flpath);
     
-    Epic.Progress()
-    .then(([rows, fieldData]) => {
-      
-      response.render('homepage', {
-        isLoggedIn: request .session.isLoggedIn || false,
-        epics: rows,
-        username: request.session.nombre,
-        titulo: "DispatchHealth",
-        privilegios: request.session.privilegios || [],
-      });
-    })
-  .catch(err => console.log(err));
+    response.redirect('/homepage')
   }
 };
 
@@ -203,36 +194,75 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-exports.get_detail = (request, response, next) => {
+exports.get_detail = async (request, response, next) => {
   const msg = request.session.mensaje
   request.session.mensaje = ''
   // console.log("[Info] A user requested some epic details.");
   let id = request.params.epic_Link;
+
+  const ticketData = await Epic.fetchTickets(id);
+  const teamData = await Epic.fetchTeam(id);
+  const labelData = await Epic.fetchBarChart(id);
+
+  response.render('epicDetail', {
+    isLoggedIn: request.session.isLoggedIn || false,
+    nombre: request.session.nombre || '',
+    mensaje: msg || '',
+    tickets: ticketData[0],
+    team: teamData[0],
+    privilegios: request.session.privilegios || [],
+    labels: labelData[0]
+  });
+
   
-  Epic.fetchTickets(id)
-  .then(([rows, fieldData]) =>{
-    response.render('epicDetail', {
-      isLoggedIn: request.session.isLoggedIn || false,
-      nombre: request.session.nombre || '',
-      mensaje: msg || '',
-      tickets: rows,
-      privilegios: request.session.privilegios || [],
-    });
-  })
-  .catch(err => {console.log(err);});
-  
+
 };
 
 exports.get_Burnup = (request, response, next) => {
   
   Epic.fetchBurnupData(request.params.id)
   .then(([rows, fieldData]) => {
-    response.status(200).json({tickets: rows});
+    Epic.fetchBurnupDone(request.params.id)
+    .then(([done, fieldData]) => {
+      response.status(200).json({
+        tickets: rows,
+        done: done
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).json({message: "Internal Server Error"});
+    });
   })
   .catch(err => {
     console.log(err);
     response.status(500).json({message: "Internal Server Error"});
   });
+
+
+};
+
+exports.get_DoughnutChart = (request, response, next) => {
+  
+  Epic.fetchDoughnutChart(request.params.id)
+  .then(([rows, fieldData]) => {
+    Epic.fetchDoughnutChart(request.params.id)
+    .then(([  , fieldData]) => {
+      response.status(200).json({
+        tickets: rows,
+        done: done
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      response.status(500).json({message: "Internal Server Error"});
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    response.status(500).json({message: "Internal Server Error"});
+  });
+
 
 };
 
