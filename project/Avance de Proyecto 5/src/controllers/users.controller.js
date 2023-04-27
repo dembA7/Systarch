@@ -154,7 +154,7 @@ exports.edit_account = (request, response, next) => {
     })
     }
     else{
-      console.log("[ERR] System failed to fetch user account information.")
+      console.log("[ERR] System failed to fetch user account information.");
     }
   }
   )
@@ -186,22 +186,9 @@ exports.get_totalUsers = (request, response, next) => {
   })
 };
 
-exports.post_totalUsers = (request, response, next) => {
-  const thisuser = request.body.selUser;
-  console.log(thisuser);
-  if (request.body.selUser == request.session.nombre) {
-    response.redirect('/users/account/edit');
-  }
-  else {
-    response.redirect('/users/account/edituser/user_name');
-  }
-};
-
 exports.get_thisAccount = (request, response, next) => {
-  User.fetchUser(request.params.id)
+  User.fetchUserId(request.params.id)
     .then(([rows, fieldData]) => {
-        console.log(rows);
-        
         response.render('edituser', { 
           userInfo: rows[0],
           isLoggedIn: request.session.isLoggedIn || false,
@@ -214,7 +201,17 @@ exports.get_thisAccount = (request, response, next) => {
 }
 
 exports.post_thisAccount = (request, response, next) => {
-  console.log("Se esta creando la vista");
+  User.updatethisAccount(
+    request.body.user_Name,
+    request.body.user_Mail,
+    request.body.user_Phone, 
+    request.body.user_Skill, 
+    request.body.user_WeeklyAgilePoints,
+    request.params.id
+  )
+  console.log("[Info] Administrator made changes into an account.");
+  request.params.id = request.body.user_Name;
+  response.redirect('/users/totalusers');
 }
 
 exports.timeout = (request, response, next) => {

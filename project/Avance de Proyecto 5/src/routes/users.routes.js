@@ -24,8 +24,6 @@ router.post('/account/edit', isAuth, usersController.post_account);
 
 router.get('/totalusers', isAuth, usersController.get_totalUsers);
 
-router.post('/totalusers', isAuth, usersController.post_totalUsers);
-
 router.get('/account/edituser/:id', isAuth, usersController.get_thisAccount);
 
 router.post('/account/edituser/:id', isAuth, usersController.post_thisAccount);

@@ -38,6 +38,14 @@ module.exports = class Usuario {
         `,);
     }
 
+    static fetchUserId(userid){
+        return db.execute(`
+            SELECT * 
+            FROM users
+            WHERE user_ID = ?
+        `, [userid]);
+    }
+
     static fetchUser(username){
         return db.execute(`
             SELECT * 
@@ -78,6 +86,19 @@ module.exports = class Usuario {
             user_Skill = ?,
             user_WeeklyAgilePoints = ?
             WHERE user_Name = ?
+        `, [user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints, user]);
+    }
+
+    static updatethisAccount(user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints, user) {
+        return db.execute(`
+            UPDATE users
+            SET 
+            user_Name = ?,
+            user_Mail = ?,
+            user_Phone = ?,
+            user_Skill = ?,
+            user_WeeklyAgilePoints = ?
+            WHERE user_name = ?
         `, [user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints, user]);
     }
 
