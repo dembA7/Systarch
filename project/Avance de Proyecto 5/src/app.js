@@ -77,11 +77,13 @@ const dispatchEpics = require("./routes/epic.routes");
 const dispatchTickets = require("./routes/ticket.routes");
 const dispatchProjects = require("./routes/projects.routes");
 
+
 app.use('/users', dispatchUsers);
 app.use('/homepage', isAuth, dispatchHomepage);
 app.use('/epics', isAuth, dispatchEpics);
 app.use('/tickets', isAuth, dispatchTickets);
 app.use('/projects', isAuth, dispatchProjects);
+
 
 app.use((request, response, next) => {
 
