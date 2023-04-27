@@ -242,6 +242,28 @@ exports.get_Burnup = (request, response, next) => {
 
 };
 
+exports.get_TicketLabels = (request, response, next) => {
+  
+  Epic.fetchBarChart(request.params.id)
+
+  .then(([rows, fieldData]) => {
+
+    response.status(200).json({
+        labels_arreglo: rows
+      });
+
+  })
+
+  .catch(err => {
+
+    console.log(err);
+    response.status(500).json({message: "Internal Server Error"});
+
+  });
+
+
+};
+
 exports.get_DoughnutChart = (request, response, next) => {
   
   Epic.fetchDoughnutChart(request.params.id)

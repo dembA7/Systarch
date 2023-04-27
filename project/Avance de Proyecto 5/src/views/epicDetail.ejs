@@ -5,28 +5,21 @@
     <head>
         <meta charset="utf-8">
         <style>
+
+            /* HEAD */
             h1{
                 margin-top: 1em;
                 margin-left: 1em;
                 font-size: 58px;
             }
+
+            /* BODY */
             #flex{
                 display: flex;
-            }
-            #team{
-                position: absolute;
-                right: 0;
-                margin-right: 75px;
-                margin-top: 45px;
             }
             #separator{
                 margin-top: 5em;
                 margin-bottom: 5em;
-            }
-            #backButton{
-                position: absolute;
-                right: 0;
-                margin-right: 45px;
             }
             h3{
                 font-size: 36px;
@@ -35,35 +28,26 @@
             }
             .col-sm-8{
                 width: 990px;
-                height: 620px;
+                height: 580px;
                 background-color: #e9ecef;
                 margin-left: 3%;
                 border-radius: 5%;
             }
+            #burnupChartCanvas{
+                margin-left: 8%;
+                margin-right: 10%;
+            }
             .col-sm-4{
                 width: 763px;
-                height: 620px;
+                height: 580px;
                 background-color: #e9ecef;
                 margin-left: 3%;
                 margin-right: 3%;
                 border-radius: 5%;
             }
-            #Burnup{
-                margin-left: 5%;
-                margin-right: 10%;
-            }
-            #barChart{
-                margin-left: 6em;
-                margin-right: 6em;
-            }
-            #doughnutChart{
-                margin-left: 6em;
-                margin-right: 6em;
-            }
             .teamTableContainer{
-                position: absolute;
-                right: 0;
-                padding-right: 9%;
+                padding-left: 5%;
+                padding-right: 5%;
             }
             .table-head{
                 text-align: center;
@@ -85,9 +69,14 @@
             }
             .col-sm{
                 width: 930px;
-                height: 870px;
+                height: 1100px;
                 background-color: #e9ecef;
                 border-radius: 5%;
+            }
+            #barChartCanvas{
+                margin-left: 5%;
+                margin-right: 5%;
+                margin-bottom: 5%;
             }
             #ticketStatusOverview{
                 margin-left: 3%;
@@ -99,7 +88,88 @@
             .ticketStatusOverviewTitle, .ticketLabelChartTitle{
                 margin-bottom: 5em;
             }
-            
+            #backButton{
+                position: absolute;
+                right: 0;
+                margin-right: 45px;
+            }
+            @media(max-width: 1902px){
+                .col-sm-8{
+                    width: 940px;
+                    height: 520px;
+                }
+                .col-sm-4{
+                    width: 663px;
+                    height: 520px;
+                }
+                .col-sm{
+                    width: 830px;
+                }
+            }
+            @media(max-width: 1740px){
+                .col-sm-8{
+                    width: 900px;
+                    height: 480px;
+                }
+                .col-sm-4{
+                    width: 623px;
+                    height: 480px;
+                }
+                .col-sm{
+                    width: 790px;
+                    height: 1100px;
+                }
+            }
+            @media(max-width: 1652px){
+                .col-sm-8{
+                    width: 860px;
+                }
+                .col-sm-4{
+                    width: 583px;
+                }
+                .col-sm{
+                    width: 750px;
+                    height: 1000px;
+                }
+            }
+            @media(max-width: 1564px){
+                .col-sm-8{
+                    width: 800px;
+                }
+                #burnupChartCanvas{
+                    margin-left: 5%;
+                    margin-right: 10%;
+                }
+                .col-sm-4{
+                    width: 553px;
+                }
+                .col-sm{
+                    width: 750px;
+                }
+            }
+            @media(max-width: 1564px){
+                .col-sm-4{
+                    width: 503px;
+                }
+            }
+            @media(max-width: 1410px){
+                .col-sm-8{
+                    width: 750px;
+                }
+                #burnupChartCanvas{
+                    margin-left: 5%;
+                    margin-right: 8%;
+                }
+                .col-sm-4{
+                    width: 453px;
+                }
+                #barChartCanvas{
+                    margin-bottom: 10%;
+                }
+                .col-sm{
+                    height: 700px;
+                }
+            }
         </style>
     </head>
     <!-- NO QUITAR ESTE INPUT, ES PARA TOMAR EL VALOR DEL EPIC ID -->
@@ -125,7 +195,7 @@
                             <h3 class="fw-normal" id="burnupChartTitleText">Burnup Chart</h3>
                         </div>
                         <div id="no-data" class="burnupChart">
-                            <canvas id="Burnup"></canvas>
+                            <canvas id="burnupChartCanvas"></canvas>
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
                         </div>
                     </div>
@@ -168,7 +238,8 @@
                         <div class="ticketLabelChartTitle">
                             <h3 class="fw-normal">Tickets Label</h3>
                         </div>
-                        <canvas id="barChart" style="height:40vh; width:21.4vw"></canvas>
+                        <canvas id="barChartCanvas" style="height:40vh; width:21.4vw"></canvas>
+                        <canvas id="barChartCanvas" style="height:40vh; width:21.4vw"></canvas>
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     </div>
                 </div>
@@ -177,7 +248,7 @@
                         <div class="ticketStatusOverviewTitle">
                             <h3 class="fw-normal">Ticket Status Overview</h3>
                         </div>
-                        <canvas id="doughnutChart" style="height:40vh; width:21.4vw"></canvas>
+                        <canvas id="doughnutChartCanvas" style="height:40vh; width:21.4vw"></canvas>
                     </div>
                 </div>
               </div>
@@ -199,234 +270,367 @@
 </section>
 
 
-    <script>
-    window.addEventListener('load', () => {
+<script>
+
+    window.addEventListener('load', async () => {
+
+        await getBurnUp()
+        await getTicketLabelsChart()
+        await getDoughnutChart()
+        
+    })
+
+    async function getBurnUp(){
+        
         // Función que manda petición asíncrona cuando se carga o recarga la pag
         let id = document.getElementById("epic_Link").value;
-        
-        fetch('/epics/dashboard/' + id, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }).then(result => {
-            return result.json(); 
-        }).then(datas => {
-        
-        // SPRINTS 
-            // Calcula los sprints (por semana) 
-            let _sprints = [];
-            for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints)+1; i++) {
-                _sprints.push(i);
-            }   console.log(_sprints);
-            // Validar si la gráfica tendrá sentido (Mínimo 2 sprints)
-            if(_sprints.length > 1){
-        
-        // SCOPE
-                // Hacer un arreglo con todas las fechas de Created por ticket
-                let ticket_Updates = [];
-                for(let i = 0; i < datas.tickets.length; i++){
-                    ticket_Updates.push(datas.tickets[i].ticket_Created);
-                }; // Añadir al arreglo la fecha de creación del epic de los tickets
-                   // para usarlo como la mínima fecha (hasta que sea actualizada manualmente por usuario)
-                ticket_Updates.push(datas.tickets[0].created_at);
-                // Función para encontrar el índice de la fecha mínima entre
-                // las creates por ticket y la created_at del epic correspondiente
-                function findMinTimestampIndex(dataArray) {
-                    let minIndex = 0;
-                    let minTimestamp = new Date(dataArray[0]).getTime();
-                    for (let i = 1; i < dataArray.length; i++) {
-                        let currentTimestamp = new Date(dataArray[i]).getTime();
-                        if (currentTimestamp < minTimestamp) {
-                            minIndex = i;
-                            minTimestamp = currentTimestamp;
-                        }
-                    }
-                    return minIndex;
-                }
-                // Asignar a sprint_0 la fecha más baja
-                let sprint_0 = ticket_Updates[findMinTimestampIndex(ticket_Updates)];
-                
-                // Crear el objeto scope con un atributo por sprint para 'mapear' los datos
-                const scope = {}; 
-                for(let i = 0; i<_sprints.length; i++){
-                    scope[i] = [];
-                }
-                // Eliminar created_at para calcular los tickets
-                // que habrá por sprint y que no se considere la fecha de creación
-                ticket_Updates.pop();
-                let j = 0;
-                    error_scope = false;
-                // Calcular los tickets que hay por sprint y asociarlos, por índice a su sprint correspondiente
-                
-                    for(let ticket_Update of ticket_Updates){
-                    let current_Up = new Date(ticket_Update).getTime();
-                    // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
-                    let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
-                    if(calculo >= _sprints.length){ console.log(calculo);
-                        console.warn("Not possible to calculate dinamic scope, replacing with constant scope");
-                        error_scope = true
-                        break;
-                    } else {
-                        scope[calculo].push(j);
-                        j++;
-                    };
-                    };
-                scopes = [];
-                if(!error_scope){ 
-                    scope[0] = scope[1];
-                    
-                    // Función para calcular Story Points (SP) por sprint
-                    for(let _scopes in scope){
-                        let suma = 0;
-                        for(let i = 0; i < scope[_scopes].length;i++){                             
-                            suma += datas.tickets[scope[_scopes][i]].Story_Points;
-                        }
-                        scopes.push(suma);
-                        if(scopes[_scopes-1] !== undefined && _scopes > 1){
-                            scopes[_scopes] += scopes[_scopes-1];
-                        }
-                    } 
-                } 
-                else {
-                    for(let i = 0; i < _sprints.length;i++){
-                        scopes[i] = datas.tickets[i].totalSP;
-                    } console.log("Error de scope: " + scopes);
-                }
-                
-        // GOAL
-                
-                let goal = [];
-                for(let i = 0; i <= _sprints.length; i++){
-                    goal[i] = ((datas.tickets[0].totalSP / (_sprints.length-1))*i);
-                };
-        
-        // DONE
-                const done = [0];
-                let error_done = false;
-                for(let finished of datas.done){
-                    let current_Up = new Date(finished.ticket_Update).getTime();
-                    // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
-                    let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
-                    if(calculo >= _sprints.length){
-                        done[_sprints.length-1] = done[_sprints.length-1] || 0;
-                        done[_sprints.length-1] += finished.Story_Points;
-                        error_done = true;
-                    }else {
-                        done[calculo] = done[calculo] || 0;
-                        done[calculo] += finished.Story_Points;
-                    }
-                };
-                
-                let done_ = [0];
-                for(let i = 1; i<done.length; i++){
-                    done_[i] = done_[i-1];
-                    if(done[i] !== undefined)
-                        done_[i] += done[i];
-                }; console.log("done_ " + done_);
-                
-                let miCanvas = document.getElementById("Burnup").getContext("2d");                
-                const data = {
-                    type:'line',
-                    data:{
-                        labels: _sprints,
-                        datasets:[
-                            {
-                                label: "Scope",
-                                data: scopes,
-                                backgroundColor:['rgb(37,37,37,.10)'],
-                                borderColor:['rgb(37,37,37)'],
-                                borderWidth: 3
-                            },
-                            {   
-                                label: "Goal",
-                                data: goal,
-                                backgroundColor:['rgb(91, 143, 255,.20)'],
-                                borderColor:['rgb(91, 143, 255)'],
-                                borderWidth: 2
-                            },
-                            {
-                                label:"Done",
-                                data: done_,
-                                backgroundColor:['rgb(25,135,84, .30)'],
-                                borderColor: ['rgb(25,135,84)'],
-                                borderWidth: 2,
-                                borderCapStyle: 'round',
-                            }
-                        
-                            
-                        ]
-                    },
-                    options:{
-                        plugins:{
-                            legend: {position:'bottom',}
-                        },
-                        scales:{
-                            y:{
-                                beginAtZero:true,
-                                title: {
-                                    display: true,
-                                    text: 'Story Points',
-                                    color: '#252525',
-                                    font: {
-                                        size: 20,
-                                    }
-                                }
-                            },
-                            x:{
-                                grid: {
-                                    display: false
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Sprint',
-                                    color: '#252525',
-                                    font: {
-                                        size: 20,
-                                    }
-                                }
-                            },
-                        }
-                    }
-                }
-                var chart = new Chart(miCanvas, data)
-            } else {
-                console.log("no-data inner");
-                document.getElementById("no-data").innerHTML = '<h1> No hay suficientes datos para graficar </h1>';
-            }
-        }).catch(err =>{console.log(err);});
-        
-})
-    </script>
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/epics/dashboard/' + id, false);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = await function () {
 
-    <script>
-        
-        const ctx = document.getElementById('barChart');
-    
-        new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Front End', 'Back End'],
-            datasets: [{
-            label: 'Ticket Label',
-            data: [12, 19, 3],
-            borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                beginAtZero: true
+            if (xhr.status === 200) {
+
+                try {
+
+                    const datas = JSON.parse(xhr.responseText)
+
+                    // SPRINTS 
+                    // Calcula los sprints (por semana) 
+
+                    let _sprints = [];
+
+                    for (let i = 0; i <= Math.ceil(datas.tickets[0].sprints) + 1; i++) {
+
+                        _sprints.push(i);
+
+                    }
+
+                    // Validar si la gráfica tendrá sentido (Mínimo 2 sprints)
+                    if (_sprints.length > 1) {
+
+                        // SCOPE
+                        // Hacer un arreglo con todas las fechas de Created por ticket
+                        let ticket_Updates = [];
+
+                        for (let i = 0; i < datas.tickets.length; i++) {
+
+                            ticket_Updates.push(datas.tickets[i].ticket_Created);
+
+                        }; 
+                        
+                        // Añadir al arreglo la fecha de creación del epic de los tickets
+                        // para usarlo como la mínima fecha (hasta que sea actualizada manualmente por usuario)
+                        ticket_Updates.push(datas.tickets[0].created_at);
+
+                        // Función para encontrar el índice de la fecha mínima entre
+                        // las creates por ticket y la created_at del epic correspondiente
+                        function findMinTimestampIndex(dataArray) {
+
+                            let minIndex = 0;
+                            let minTimestamp = new Date(dataArray[0]).getTime();
+
+                            for (let i = 1; i < dataArray.length; i++) {
+
+                                let currentTimestamp = new Date(dataArray[i]).getTime();
+
+                                if (currentTimestamp < minTimestamp) {
+
+                                    minIndex = i;
+                                    minTimestamp = currentTimestamp;
+
+                                }
+                            }
+                            return minIndex;
+                        }
+
+                        // Asignar a sprint_0 la fecha más baja
+                        let sprint_0 = ticket_Updates[findMinTimestampIndex(ticket_Updates)];
+
+                        // Crear el objeto scope con un atributo por sprint para 'mapear' los datos
+                        const scope = {};
+
+                        for (let i = 0; i < _sprints.length; i++) {
+
+                            scope[i] = [];
+
+                        }
+
+                        // Eliminar created_at para calcular los tickets
+                        // que habrá por sprint y que no se considere la fecha de creación
+                        ticket_Updates.pop();
+                        let j = 0;
+                        error_scope = false;
+
+                        // Calcular los tickets que hay por sprint y asociarlos, por índice a su sprint correspondiente
+
+                        for (let ticket_Update of ticket_Updates) {
+
+                            let current_Up = new Date(ticket_Update).getTime();
+                            // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
+                            let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1;
+                            
+                            if (calculo >= _sprints.length) {
+
+                                console.log(calculo);
+                                console.warn("Not possible to calculate dinamic scope, replacing with constant scope");
+                                error_scope = true
+                                break;
+                            }
+                            
+                            else {
+
+                                scope[calculo].push(j);
+                                j++;
+
+                            };
+                        };
+                        scopes = [];
+
+                        if (!error_scope) {
+
+                            scope[0] = scope[1];
+
+                            // Función para calcular Story Points (SP) por sprint
+                            for (let _scopes in scope) {
+
+                                let suma = 0;
+
+                                for (let i = 0; i < scope[_scopes].length; i++) {
+
+                                    suma += datas.tickets[scope[_scopes][i]].Story_Points;
+
+                                }
+
+                                scopes.push(suma);
+
+                                if (scopes[_scopes - 1] !== undefined && _scopes > 1) {
+
+                                    scopes[_scopes] += scopes[_scopes - 1];
+
+                                }
+                            }
+                        }
+
+                        else {
+
+                            for (let i = 0; i < _sprints.length; i++) {
+                                
+                                scopes[i] = datas.tickets[i].totalSP;
+                            }
+                            
+                            console.log("Error de scope: " + scopes);
+                        }
+
+                        // GOAL
+
+                        let goal = [];
+                        for (let i = 0; i <= _sprints.length; i++) {
+                            goal[i] = ((datas.tickets[0].totalSP / (_sprints.length - 1)) * i);
+                        };
+
+                        // DONE
+                        const done = [0];
+                        let error_done = false;
+
+                        for (let finished of datas.done) {
+
+                            let current_Up = new Date(finished.ticket_Update).getTime();
+
+                            // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
+                            let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1;
+                            
+                            if (calculo >= _sprints.length) {
+
+                                done[_sprints.length - 1] = done[_sprints.length - 1] || 0;
+                                done[_sprints.length - 1] += finished.Story_Points;
+                                error_done = true;
+
+                            }
+                            
+                            else {
+
+                                done[calculo] = done[calculo] || 0;
+                                done[calculo] += finished.Story_Points;
+                            }
+                        };
+
+                        let done_ = [0];
+
+                        for (let i = 1; i < done.length; i++) {
+
+                            done_[i] = done_[i - 1];
+
+                            if (done[i] !== undefined)
+                                done_[i] += done[i];
+                        };
+                        
+                        console.log("done_ " + done_);
+
+                        let miCanvas = document.getElementById("burnupChartCanvas").getContext("2d");
+
+                        const data = {
+                            type: 'line',
+                            data: {
+                                labels: _sprints,
+                                datasets: [
+                                    {
+                                        label: "Scope",
+                                        data: scopes,
+                                        backgroundColor: ['rgb(37,37,37,.10)'],
+                                        borderColor: ['rgb(37,37,37)'],
+                                        borderWidth: 3
+                                    },
+                                    {
+                                        label: "Goal",
+                                        data: goal,
+                                        backgroundColor: ['rgb(91, 143, 255,.20)'],
+                                        borderColor: ['rgb(91, 143, 255)'],
+                                        borderWidth: 2
+                                    },
+                                    {
+                                        label: "Done",
+                                        data: done_,
+                                        backgroundColor: ['rgb(25,135,84, .30)'],
+                                        borderColor: ['rgb(25,135,84)'],
+                                        borderWidth: 2,
+                                        borderCapStyle: 'round',
+                                    }
+
+
+                                ]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: { position: 'bottom', }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Story Points',
+                                            color: '#252525',
+                                            font: {
+                                                size: 20,
+                                            }
+                                        }
+                                    },
+                                    x: {
+                                        grid: {
+                                            display: false
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: 'Sprint',
+                                            color: '#252525',
+                                            font: {
+                                                size: 20,
+                                            }
+                                        }
+                                    },
+                                }
+                            }
+                        }
+
+                        var chart = new Chart(miCanvas, data)
+                    }
+                    
+                    else {
+
+                        console.log("no-data inner");
+                        document.getElementById("no-data").innerHTML = '<h1> No hay suficientes datos para graficar </h1>';
+
+                    }
+
                 }
+
+                catch {
+
+                    console.log("Couldn't convert response into JSON.")
+
+                }
+
             }
+
+            else {
+
+                console.log('Request failed.  Returned status of ' + xhr.status);
+
+            }
+            
         }
 
-        });
+        xhr.send();
 
-    </script>
+        
+    }
 
-    <script>
-        const ctx2 = document.getElementById('doughnutChart');
+    async function getTicketLabelsChart(){
+
+        let id = document.getElementById("epic_Link").value;
+
+        const xhr2 = new XMLHttpRequest();
+        xhr2.open('GET', '/epics/ticketslabels/' + id, false);
+        xhr2.setRequestHeader('Content-Type', 'application/json');
+        xhr2.onload = await function () {
+
+            if (xhr2.status === 200) {
+
+                try {
+
+                    const datas2 = JSON.parse(xhr2.responseText)
+                
+                    const ticketLabelCountsDatas = [];
+                    ticketLabelCountsDatas.push(datas2.labels_arreglo[0].TotalTickets)
+                    ticketLabelCountsDatas.push(datas2.labels_arreglo[1].TotalTickets)
+
+                    const ctx = document.getElementById('barChartCanvas');
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Front End', 'Back End'],
+                            datasets: [{
+                                label: 'Ticket Label',
+                                data: ticketLabelCountsDatas,
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+
+                    });
+                }
+
+                catch(error) {
+
+                    console.log("Couldn't convert response into JSON.")
+                    console.log(error)
+
+                }
+            }
+
+            else {
+
+                console.log('Request failed.  Returned status of ' + xhr.status);
+
+            }
+
+        }
+        xhr2.send();
+
+    
+    }
+
+    async function getDoughnutChart(){
+
+    
+        const ctx2 = document.getElementById('doughnutChartCanvas');
 
         new Chart(ctx2, {
         type: 'doughnut',
@@ -434,19 +638,20 @@
             labels: ['To Do', 'Canceled', 'Done', 'Code Review', 'In Progress', ],
             datasets: [{
             data: [12, 19, 5, 3, 15],
-            borderWidth: 1
+            borderWidth: 2
             }]
             },
-        options: {
-            layout: {
-                padding: {
-                bottom: 100,
+            options: {
+                layout: {
+                    padding: {
+                        bottom: 100,
+                    }
                 }
             }
-        }
         });
+    }
 
-    </script>
+</script>
 
-    <!-- <%- include('includes/chart.ejs')%> -->
-    <%- include('includes/foot.ejs') %>
+<!-- <%- include('includes/chart.ejs')%> -->
+<%- include('includes/foot.ejs') %>
