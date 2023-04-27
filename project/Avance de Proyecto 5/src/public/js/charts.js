@@ -4,11 +4,11 @@ const printCharts = () => {
         let id = document.getElementById("epic_Link").value;
         let url = '/epics/dashboard/' + id;
         let url2 = '/epics/ticketslabels/' + id;
-        // let url3 = '/epics/dashboard/' + id;
+        let url3 = '/epics/ticketStatus/' + id;
 
         // Función que manda petición asíncrona cuando se carga o recarga la pag
-        fetchChartsData(url,url2)
-        .then(([data, data2]) => { 
+        fetchChartsData(url,url2,url3)
+        .then(([data, data2, data3]) => { 
             
             const sprintBy = 'weeks';
             const sprints = getSprint(data);
@@ -19,7 +19,7 @@ const printCharts = () => {
             
             renderBurnupChart(BurnupChart);
             renderTicketsLabelChart(data2);
-            renderTicketsStatusChart();
+            renderTicketsStatusChart(data3);
             enableEventHandlers(BurnupChart, data)
 
 
@@ -130,14 +130,24 @@ const renderTicketsLabelChart = (datas2) => {
 
 };
 
-const renderTicketsStatusChart = () => {
+const renderTicketsStatusChart = (datas3) => {
+
+    const ticketStatusCountsDatas = [];
+
+    ticketStatusCountsDatas.push(datas3.status_array[0].count);
+    ticketStatusCountsDatas.push(datas3.status_array[1].count);
+    ticketStatusCountsDatas.push(datas3.status_array[2].count);
+    ticketStatusCountsDatas.push(datas3.status_array[3].count);
+    ticketStatusCountsDatas.push(datas3.status_array[4].count);
+
+    console.log(datas3.status_array);
 
     new Chart('doughnutChartCanvas', {
         type: 'doughnut',
         data: {
-            labels: ['To Do', 'Canceled', 'Done', 'Code Review', 'In Progress', ],
+            labels: ['Canceled', 'Code Review', 'Done', 'In progress', 'To do', ''],
             datasets: [{
-            data: [12, 19, 5, 3, 15],
+            data: ticketStatusCountsDatas,
             borderWidth: 1
             }]
             },
