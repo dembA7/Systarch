@@ -1,6 +1,7 @@
 <%- include('includes/head.ejs') %>
 
 <!-- ESTILOS -->
+
 <style>
 
     /* HEAD */
@@ -56,7 +57,6 @@
 <section id="head">
 
     
-
     <div id="flex">
         <div id="title">
             <h1 class="fw-light">Tickets</h1>
@@ -76,25 +76,35 @@
                     <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
                 </svg>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="?filtro=opcion2">Created ↑</a></li>
-                <li><a class="dropdown-item" href="?filtro=opcion2">Created ↓</a></li>
-                <li><a class="dropdown-item" href="?filtro=opcion1">Updated ↑</a></li>
-                <li><a class="dropdown-item" href="?filtro=opcion2">Updated ↓</a></li>
+            <ul id="filter-dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">        
                 <li class="dropdown-submenu">
                     <a class="dropdown-item dropdown-toggle" href="#">Status</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'To Do'; document.getElementById('filter').click();">To Do</a></li>
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'In Progress'; document.getElementById('filter').click();">In Progress</a></li>
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Code Review'; document.getElementById('filter').click();">Code Review</a></li>
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Quality Review'; document.getElementById('filter').click();">Quality Review</a></li>
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Release Ready'; document.getElementById('filter').click();">Release Ready</a></li>
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Done'; document.getElementById('filter').click();">Done</a></li>
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Closed'; document.getElementById('filter').click();">Closed</a></li>
-                        <li><a class="dropdown-item" onclick="document.getElementById('filter').value = 'Canceled'; document.getElementById('filter').click();">Canceled</a></li>
+                    <ul class="dropdown-menu" id="filterStatus">
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'To Do'; document.getElementById('filter').click();">To Do</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'In Progress'; document.getElementById('filter').click();">In Progress</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Code Review'; document.getElementById('filter').click();">Code Review</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Quality Review'; document.getElementById('filter').click();">Quality Review</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Release Ready'; document.getElementById('filter').click();">Release Ready</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Done'; document.getElementById('filter').click();">Done</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Closed'; document.getElementById('filter').click();">Closed</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Canceled'; document.getElementById('filter').click();">Canceled</a></li>
                     </ul>
                 </li>
             </ul>
+        </div>
+        
+        <!-- Modal para mostrar el mensaje de carga -->
+        <div class="modal" tabindex="-1" role="dialog" id="loading-modal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Loading</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please wait while your request is being processed...</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <style>
             .dropdown-submenu:hover .dropdown-menu {
@@ -159,8 +169,10 @@
 
 <script>
 
+    
+
    //Código para el dropdown
-   var elementosDropdown = document.querySelectorAll(".dropdown-item");
+    var elementosDropdown = document.querySelectorAll(".dropdown-item");
 
 elementosDropdown.forEach(function(elemento){
     elemento.addEventListener("click", function() {
@@ -168,8 +180,6 @@ elementosDropdown.forEach(function(elemento){
         var selectedValue = elemento.getAttribute("value")
 
         valorBusqueda = selectedValue;
-
-        console.log(valorBusqueda);
         
     })
 })
@@ -208,9 +218,9 @@ document.getElementById("Buscar").onkeyup = () => {
 
     //Mismo código pero ahora con un onclick
 
-    document.getElementById("filter").onclick = () => {
-    const valorClick = document.getElementById("filter").value;
-    console.log(valorClick);
+    document.getElementById("filterStatus").onclick = () => {
+    const valorClick = document.getElementById("filterStatus").value;
+    console.log(valorClick)
     fetch('/tickets/' + valorClick, {
         method: 'GET',
         headers: {
@@ -240,7 +250,6 @@ document.getElementById("Buscar").onkeyup = () => {
         console.log(err);
     });
 };
-
 
 </script>
 
