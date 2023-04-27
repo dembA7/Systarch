@@ -113,8 +113,10 @@ const renderTicketsLabelChart = (datas2) => {
             data: {
                 labels: ['Front End', 'Back End'],
                 datasets: [{
-                    label: 'Ticket Label',
+                    label: 'Count',
                     data: ticketLabelCountsDatas,
+                    backgroundColor:['rgb(153,218,231)'],
+                    borderColor: ['rgb(153,218,30)'],
                 }]
             },
             options: {
