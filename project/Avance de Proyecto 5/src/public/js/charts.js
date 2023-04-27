@@ -53,7 +53,7 @@ const renderBurnupChart = (b) => {
                         backgroundColor:['rgb(91, 143, 255,.20)'],
                         borderColor:['rgb(91, 143, 255)'],
                         borderWidth: 2,
-                        pointBorderWidth: 0.5
+                        pointBorderWidth: 0.5,
                     },
                     {
                         label:"Done",
@@ -137,24 +137,38 @@ const renderTicketsLabelChart = (datas2) => {
 
 const renderTicketsStatusChart = (datas3) => {
 
+    //Array que guardará los datos
+
     const ticketStatusCountsDatas = [];
+    const ticketStatusCountsTicketStatus =[];
+    const ticketStatusCountsColor = [];
 
-    ticketStatusCountsDatas.push(datas3.status_array[0].count);
-    ticketStatusCountsDatas.push(datas3.status_array[1].count);
-    ticketStatusCountsDatas.push(datas3.status_array[2].count);
-    ticketStatusCountsDatas.push(datas3.status_array[3].count);
-    ticketStatusCountsDatas.push(datas3.status_array[4].count);
+    for(i = 0; i < datas3.status_array.length; i++){
+    ticketStatusCountsDatas.push(datas3.status_array[i].count);
+    ticketStatusCountsTicketStatus.push(datas3.status_array[i].ticket_status);
+    if(datas3.status_array[i].ticket_status === "To Do"){
+        ticketStatusCountsColor.push('#FFFB00');
+    }
+    else if(datas3.status_array[i].ticket_status === "Done"){
+        ticketStatusCountsColor.push('#13FF00');
+    }
+    };
+    
 
-    console.log(datas3.status_array);
+console.log(ticketStatusCountsDatas);
+
+console.log(ticketStatusCountsTicketStatus);
 
     new Chart('doughnutChartCanvas', {
         type: 'doughnut',
         data: {
-            labels: ['Canceled', 'Code Review', 'Done', 'In progress', 'To do', ''],
+            labels:ticketStatusCountsTicketStatus,
             datasets: [{
             data: ticketStatusCountsDatas,
+            backgroundColor:ticketStatusCountsColor,
+            borderColor:['#FF3A3A','#B2B2B2','#8AFDFF', '#81FF76','#E061FF', '#FF73E6','#5E7F60', '#FFFC57' ],
             borderWidth: 1
-            }]
+            }],
             },
         options: {
             layout: {
