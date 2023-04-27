@@ -25,7 +25,7 @@ const enableEventHandlers = (BurnChart, data) => {
             goal = getGoal(data, sprints);
             done = getDone(data, sprints, scopes.sprint_0);
         }
-        updateChartData('Burnup', sprints, scopes.scopes, goal, done);
+        updateChartData('burnupChartCanvas', sprints, scopes.scopes, goal, done);
 
 
     };
