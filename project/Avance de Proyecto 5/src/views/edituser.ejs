@@ -13,10 +13,10 @@
             }
         </style>
         <h1 class="fw-light">
-            <%= userInfo.user_Name %>
+            Hola mundo
         </h1>
 
-        <form action="/users/account/edit" method="POST">
+        <form action="/users/account/edituser" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="row">
                 <div class="col-md-4">
@@ -33,13 +33,13 @@
                     <div class="row g-2">
                         <div class="col-md">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="user_Name" name="user_Name" value="<%=userInfo.user_Name%>">
+                                <input type="text" class="form-control" id="user_Name" name="user_Name" value="Obo">
                                 <label for="user_Name">Name:</label>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="ticket_Assignee_ID" name="ticket_Assignee_ID" value="<%=userInfo.ticket_Assignee_ID%>" disabled>
+                                <input type="text" class="form-control" id="ticket_Assignee_ID" name="ticket_Assignee_ID" value="Obo" disabled>
                                 <label for="ticket_Assignee_ID">Assignee ID:</label>
                             </div>
                         </div>
@@ -48,13 +48,13 @@
                     <div class="row g-2">
                         <div class="col-md">
                             <div class="form-floating">
-                                <input type="email" class="form-control" id="user_Mail" name="user_Mail" value="<%=userInfo.user_Mail%>">
+                                <input type="email" class="form-control" id="user_Mail" name="user_Mail" value="Obo">
                                 <label for="user_Mail">Email:</label>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="user_Skill" name="user_Skill" value="<%=userInfo.user_Skill%>">
+                                <input type="text" class="form-control" id="user_Skill" name="user_Skill" value="Obo">
                                 <label for="user_Skill">Skill:</label>
                             </div>
                         </div>
@@ -63,14 +63,14 @@
                     <div class="row g-2">
                         <div class="col-md">
                             <div class="form-floating">
-                                <input type="tel" class="form-control" id="user_Phone" name="user_Phone" placeholder="name@example.com" value="<%=userInfo.user_Phone%>">
+                                <input type="tel" class="form-control" id="user_Phone" name="user_Phone" placeholder="name@example.com" value="Obo">
                                 <label for="user_Phone">Phone number:</label>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="user_WeeklyAgilePoints" name="user_WeeklyAgilePoints" placeholder="name@example.com"
-                                    value="<%=userInfo.user_WeeklyAgilePoints%>">
+                                    value="Obo">
                                 <label for="user_WeeklyAgilePoints">Weekly AP:</label>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
             <div class="container text-center">
                 <div class="row">
                     <div class="col-md-4">
-                        <a class="btn btn-outline-secondary" type="button" href="/users/account">
+                        <a class="btn btn-outline-secondary" type="button" href="/users/totalusers">
                             Return
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-arrow-return-left" viewBox="0 0 16 16">

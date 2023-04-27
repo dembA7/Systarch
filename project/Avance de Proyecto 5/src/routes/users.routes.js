@@ -26,9 +26,9 @@ router.get('/totalusers', isAuth, usersController.get_totalUsers);
 
 router.post('/totalusers', isAuth, usersController.post_totalUsers);
 
-router.get('/thisaccount/:id', isAuth, usersController.get_thisAccount);
+router.get('/account/edituser/:id', isAuth, usersController.get_thisAccount);
 
-router.post('/thisaccount/:id', isAuth, usersController.post_thisAccount);
+router.post('/account/edituser/:id', isAuth, usersController.post_thisAccount);
 
 router.get('/timeout', usersController.timeout);
 

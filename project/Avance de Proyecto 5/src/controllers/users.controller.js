@@ -1,6 +1,7 @@
 const { request, response } = require('express');
 const User = require('../models/usuarios.model');
 const bcrypt = require('bcryptjs');
+const { id } = require('date-fns/locale');
 
 exports.get_login = (request, response, next) => {
 
@@ -189,28 +190,27 @@ exports.post_totalUsers = (request, response, next) => {
   const thisuser = request.body.selUser;
   console.log(thisuser);
   if (request.body.selUser == request.session.nombre) {
-    response.redirect('/users/account');
+    response.redirect('/users/account/edit');
   }
   else {
-    response.redirect('/users/thisaccount');
+    response.redirect('/users/account/edituser/:id');
   }
 };
 
 exports.get_thisAccount = (request, response, next) => {
   User.fetchUser(request.params.id)
-  .then(([rows, fieldData]) => {
-    if(rows.length == 1){
-      response.render('edituser', {
-      userInfo: rows[0],
-      isLoggedIn: request.session.isLoggedIn || false,
-      privilegios: request.session.privilegios || [],
+    .then(([rows, fieldData]) => {
+        console.log(rows);
+        
+        response.render('edituser', { 
+          userInfo: rows[0],
+          isLoggedIn: request.session.isLoggedIn || false,
+          privilegios: request.session.privilegios || [],
+        });
     })
-    }
-    else{
-      console.log("[ERR] System failed to fetch user account information.")
-    }
-  }
-  )
+    .catch(err => {
+        console.log(err);
+    });
 }
 
 exports.post_thisAccount = (request, response, next) => {
