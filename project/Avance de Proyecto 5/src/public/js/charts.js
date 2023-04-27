@@ -44,14 +44,16 @@ const renderBurnupChart = (b) => {
                         data: b.scopes.scopes,
                         backgroundColor:['rgb(37,37,37,.10)'],
                         borderColor:['rgb(37,37,37)'],
-                        borderWidth: 3
+                        borderWidth: 3,
+                        pointBorderWidth: 1,
                     },
                     {   
                         label: "Goal",
                         data: b.goal,
                         backgroundColor:['rgb(91, 143, 255,.20)'],
                         borderColor:['rgb(91, 143, 255)'],
-                        borderWidth: 2
+                        borderWidth: 2,
+                        pointBorderWidth: 0.5
                     },
                     {
                         label:"Done",
@@ -60,6 +62,7 @@ const renderBurnupChart = (b) => {
                         borderColor: ['rgb(25,135,84)'],
                         borderWidth: 2,
                         borderCapStyle: 'round',
+                        pointBorderWidth: 0.5
                     }
                 
                     
@@ -113,8 +116,10 @@ const renderTicketsLabelChart = (datas2) => {
             data: {
                 labels: ['Front End', 'Back End'],
                 datasets: [{
-                    label: 'Ticket Label',
+                    label: 'Count',
                     data: ticketLabelCountsDatas,
+                    backgroundColor:['rgb(153,218,231)'],
+                    borderColor: ['rgb(153,218,30)'],
                 }]
             },
             options: {
