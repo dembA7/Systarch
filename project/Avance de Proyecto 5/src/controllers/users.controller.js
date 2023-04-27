@@ -1,6 +1,7 @@
 const { request, response } = require('express');
 const User = require('../models/usuarios.model');
 const bcrypt = require('bcryptjs');
+const { id } = require('date-fns/locale');
 
 exports.get_login = (request, response, next) => {
 
@@ -69,6 +70,13 @@ exports.post_login = (request, response, next) => {
       })
       .catch((error) => {
         console.log(error);
+        response.render('err404', {
+
+          titulo: 'DispatchHealth: ERR500',
+          isLoggedIn: request.session.isLoggedIn || false,
+          username: request.session.username || '',
+          privilegios: request.session.privilegios || [],
+      });
       });
 
 };
@@ -146,7 +154,7 @@ exports.edit_account = (request, response, next) => {
     })
     }
     else{
-      console.log("[ERR] System failed to fetch user account information.")
+      console.log("[ERR] System failed to fetch user account information.");
     }
   }
   )
@@ -178,10 +186,33 @@ exports.get_totalUsers = (request, response, next) => {
   })
 };
 
-exports.post_totalUsers = (request, response, next) => {
-  console.log("Creo que funciono");
-  response.redirect('/users/account');
-};
+exports.get_thisAccount = (request, response, next) => {
+  User.fetchUserId(request.params.id)
+    .then(([rows, fieldData]) => {
+        response.render('edituser', { 
+          userInfo: rows[0],
+          isLoggedIn: request.session.isLoggedIn || false,
+          privilegios: request.session.privilegios || [],
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+exports.post_thisAccount = (request, response, next) => {
+  User.updatethisAccount(
+    request.body.user_Name,
+    request.body.user_Mail,
+    request.body.user_Phone, 
+    request.body.user_Skill, 
+    request.body.user_WeeklyAgilePoints,
+    request.params.id
+  )
+  console.log("[Info] Administrator made changes into an account.");
+  request.params.id = request.body.user_Name;
+  response.redirect('/users/totalusers');
+}
 
 exports.timeout = (request, response, next) => {
     response.render('timeout', {
