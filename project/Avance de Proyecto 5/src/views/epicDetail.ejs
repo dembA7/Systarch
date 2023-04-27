@@ -21,7 +21,11 @@
                 margin-top: 5em;
                 margin-bottom: 5em;
             }
-            h3{
+            #burnupChartTitleText{
+                font-size: 36px;
+                padding: 25px 5%;
+            }
+            #teamTableTitleText, #ticketLabelChartTitleText, #ticketStatusOverviewTitleText{
                 font-size: 36px;
                 margin-top: 25px;
                 text-align: center;
@@ -33,7 +37,7 @@
                 margin-left: 3%;
                 border-radius: 5%;
             }
-            #burnupChartCanvas{
+            #Burnup{
                 margin-left: 8%;
                 margin-right: 10%;
             }
@@ -96,11 +100,9 @@
             @media(max-width: 1902px){
                 .col-sm-8{
                     width: 940px;
-                    height: 520px;
                 }
                 .col-sm-4{
                     width: 663px;
-                    height: 520px;
                 }
                 .col-sm{
                     width: 830px;
@@ -109,11 +111,9 @@
             @media(max-width: 1740px){
                 .col-sm-8{
                     width: 900px;
-                    height: 480px;
                 }
                 .col-sm-4{
                     width: 623px;
-                    height: 480px;
                 }
                 .col-sm{
                     width: 790px;
@@ -136,7 +136,7 @@
                 .col-sm-8{
                     width: 800px;
                 }
-                #burnupChartCanvas{
+                #Burnup{
                     margin-left: 5%;
                     margin-right: 10%;
                 }
@@ -156,7 +156,7 @@
                 .col-sm-8{
                     width: 750px;
                 }
-                #burnupChartCanvas{
+                #Burnup{
                     margin-left: 5%;
                     margin-right: 8%;
                 }
@@ -192,15 +192,19 @@
                 <div class="col-sm-8">
                     <div class="burnupChartContainer">
                         <div class="burnupChartTitle">
-                            <h3 class="fw-normal" id="burnupChartTitleText"><b>Burnup Chart</b></h3>
-                            <figure>
-                                <h4 class="d-flex justify-content-end">Sprints by:&nbsp&nbsp
-                                    <select class="form-select w-25 p-1" id="sprintsOptions">
-                                        <option selected value="weeks">Weeks</option>
-                                        <option value="days">Days</option>
-                                    </select>
-                                </h4>
-                            </figure>
+                            <div id="burnupChartTitleDiv">
+                                <h3 class="fw-normal" id="burnupChartTitleText">Burnup Chart</h3>
+                            </div>
+                            <div id="sprintsDiv">
+                                <figure>
+                                    <h5 class="d-flex justify-content-end">Sprints by:&nbsp&nbsp
+                                        <select class="form-select w-25 p-1" id="sprintsOptions">
+                                            <option selected value="weeks">Weeks</option>
+                                            <option value="days">Days</option>
+                                        </select>
+                                    </h5>
+                                </figure>
+                            </div>
                         </div>
                         <div id="no-data" class="burnupChart">
                             <canvas id="Burnup"></canvas>
@@ -210,7 +214,7 @@
                 <div class="col-sm-4">
                     <div class="teamTableContainer">
                         <div class="teamTableTitle">
-                            <h3 class="fw-normal">Team members</h3>
+                            <h3 class="fw-normal" id="teamTableTitleText">Team members</h3>
                         </div>
                         <div class="teamTable">
                             <table class="table table-striped">
@@ -243,7 +247,7 @@
                 <div class="col-sm" id="ticketLabelChart">
                     <div class="ticketLabelChart">
                         <div class="ticketLabelChartTitle">
-                            <h3 class="fw-normal">Tickets Label</h3>
+                            <h3 class="fw-normal" id="ticketLabelChartTitleText">Tickets Label</h3>
                         </div>
                         <canvas id="barChartCanvas" style="height:40vh; width:21.4vw"></canvas>
                     </div>
@@ -251,7 +255,7 @@
                 <div class="col-sm" id="ticketStatusOverview">
                     <div class="ticketStatusOverview">
                         <div class="ticketStatusOverviewTitle">
-                            <h3 class="fw-normal">Ticket Status Overview</h3>
+                            <h3 class="fw-normal" id="ticketStatusOverviewTitleText">Ticket Status Overview</h3>
                         </div>
                         <canvas id="doughnutChartCanvas" style="height:40vh; width:21.4vw"></canvas>
                     </div>
