@@ -264,25 +264,22 @@ exports.get_TicketLabels = (request, response, next) => {
 
 };
 
-exports.get_DoughnutChart = (request, response, next) => {
-  
+exports.get_TicketStatus = (request, response, next) => {
   Epic.fetchDoughnutChart(request.params.id)
+
   .then(([rows, fieldData]) => {
-    Epic.fetchDoughnutChart(request.params.id)
-    .then(([  , fieldData]) => {
-      response.status(200).json({
-        tickets: rows,
-        done: done
+
+    response.status(200).json({
+        status_array: rows
       });
-    })
-    .catch(err => {
-      console.log(err);
-      response.status(500).json({message: "Internal Server Error"});
-    });
+
   })
+
   .catch(err => {
+
     console.log(err);
     response.status(500).json({message: "Internal Server Error"});
+
   });
 
 
