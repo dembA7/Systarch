@@ -202,6 +202,7 @@ exports.get_detail = async (request, response, next) => {
 
   const ticketData = await Epic.fetchTickets(id);
   const teamData = await Epic.fetchTeam(id);
+  const labelData = await Epic.fetchBarChart(id);
 
   response.render('epicDetail', {
     isLoggedIn: request.session.isLoggedIn || false,
@@ -210,6 +211,7 @@ exports.get_detail = async (request, response, next) => {
     tickets: ticketData[0],
     team: teamData[0],
     privilegios: request.session.privilegios || [],
+    labels: labelData[0]
   });
 
   
@@ -235,6 +237,28 @@ exports.get_Burnup = (request, response, next) => {
   .catch(err => {
     console.log(err);
     response.status(500).json({message: "Internal Server Error"});
+  });
+
+
+};
+
+exports.get_TicketLabels = (request, response, next) => {
+  
+  Epic.fetchBarChart(request.params.id)
+
+  .then(([rows, fieldData]) => {
+
+    response.status(200).json({
+        labels_arreglo: rows
+      });
+
+  })
+
+  .catch(err => {
+
+    console.log(err);
+    response.status(500).json({message: "Internal Server Error"});
+
   });
 
 

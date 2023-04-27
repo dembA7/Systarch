@@ -1,13 +1,12 @@
-const fetchChartsData = (id) => {
-    const promise = fetch('/epics/dashboard/' + id, {
+const fetchChartsData = (...urls) => {
+    const promises = urls.map(url => fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         }
-    }).then(result => result.json());  
-        return promise;
-}
-
+    }).then(result => result.json()))  
+        return Promise.all(promises);
+};
 
 const getSprint = (data) => {
     
@@ -157,3 +156,4 @@ const updateChartData = (chartId, newlabels, newscope, newgoal, newdone) => {
     chart.data.datasets[2].data = newdone;
     chart.update();
 }
+

@@ -2,9 +2,13 @@ const printCharts = () => {
 
     window.addEventListener('load', () => {
         let id = document.getElementById("epic_Link").value;
+        let url = '/epics/dashboard/' + id;
+        let url2 = '/epics/ticketslabels/' + id;
+        // let url3 = '/epics/dashboard/' + id;
+
         // Función que manda petición asíncrona cuando se carga o recarga la pag
-        fetchChartsData(id)
-        .then(data => { 
+        fetchChartsData(url,url2)
+        .then(([data, data2]) => { 
             
             const sprintBy = 'weeks';
             const sprints = getSprint(data);
@@ -14,9 +18,12 @@ const printCharts = () => {
             const BurnupChart = {sprints, scopes, goal, done}
             
             renderBurnupChart(BurnupChart);
-            renderTicketsLabelChart();
+            renderTicketsLabelChart(data2);
             renderTicketsStatusChart();
             enableEventHandlers(BurnupChart, data)
+
+
+        
         })
         .catch(err => {
             console.log(err)
@@ -95,33 +102,37 @@ const renderBurnupChart = (b) => {
     }
 };
 
-const renderTicketsLabelChart = () => {
+const renderTicketsLabelChart = (datas2) => {
+    
+        const ticketLabelCountsDatas = [];
+        ticketLabelCountsDatas.push(datas2.labels_arreglo[0].TotalTickets)
+        ticketLabelCountsDatas.push(datas2.labels_arreglo[1].TotalTickets)
 
-    new Chart('barChart', {
-        type: 'bar',
-        data: {
-            labels: ['Front End', 'Back End'],
-            datasets: [{
-            label: 'Ticket Label',
-            data: [12, 19, 3],
-            borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                beginAtZero: true
+        new Chart('barChartCanvas', {
+            type: 'bar',
+            data: {
+                labels: ['Front End', 'Back End'],
+                datasets: [{
+                    label: 'Ticket Label',
+                    data: ticketLabelCountsDatas,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    
+
         });
+
 
 };
 
 const renderTicketsStatusChart = () => {
 
-    new Chart('doughnutChart', {
+    new Chart('doughnutChartCanvas', {
         type: 'doughnut',
         data: {
             labels: ['To Do', 'Canceled', 'Done', 'Code Review', 'In Progress', ],
