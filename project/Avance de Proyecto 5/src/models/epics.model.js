@@ -81,7 +81,7 @@ module.exports = class Epic {
         FROM epics e, tickets t
         WHERE (t.ticket_Label = 'part/Frontend' OR t.ticket_Label = 'part/Backend') 
         AND e.epic_Link = t.epic_Link 
-        AND e.epic_Link = 'PART-2394'
+        AND e.epic_Link = ?
         GROUP BY t.ticket_Label
     `, [epic_link])
     }
