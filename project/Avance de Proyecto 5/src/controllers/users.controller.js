@@ -1,7 +1,6 @@
 const { request, response } = require('express');
 const User = require('../models/usuarios.model');
 const bcrypt = require('bcryptjs');
-const { id } = require('date-fns/locale');
 
 exports.get_login = (request, response, next) => {
 
