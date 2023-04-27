@@ -34,7 +34,7 @@ const printCharts = () => {
 const renderBurnupChart = (b) => {
 
     if(b.sprints.length > 1){
-        new Chart('Burnup', {
+        new Chart('burnupChartCanvas', {
             type:'line',
             data:{
                 labels: b.sprints,
@@ -42,27 +42,30 @@ const renderBurnupChart = (b) => {
                     {
                         label: "Scope",
                         data: b.scopes.scopes,
-                        backgroundColor:['rgb(37,37,37,.10)'],
-                        borderColor:['rgb(37,37,37)'],
+                        backgroundColor:['#12005210'],
+                        borderColor:['#120052'],
                         borderWidth: 3,
                         pointBorderWidth: 1,
+                        fill: true
                     },
                     {   
                         label: "Goal",
                         data: b.goal,
-                        backgroundColor:['rgb(91, 143, 255,.20)'],
-                        borderColor:['rgb(91, 143, 255)'],
+                        backgroundColor:['#00ff2830'],
+                        borderColor:['#00ff28'],
                         borderWidth: 2,
-                        pointBorderWidth: 0.5
+                        pointBorderWidth: 0.5,
+                        fill: true
                     },
                     {
                         label:"Done",
                         data: b.done,
-                        backgroundColor:['rgb(25,135,84, .30)'],
-                        borderColor: ['rgb(25,135,84)'],
+                        backgroundColor:['#0028ff70'],
+                        borderColor: ['#0028ff'],
                         borderWidth: 2,
                         borderCapStyle: 'round',
-                        pointBorderWidth: 0.5
+                        pointBorderWidth: 0.5,
+                        fill: true
                     }
                 
                     
@@ -118,8 +121,9 @@ const renderTicketsLabelChart = (datas2) => {
                 datasets: [{
                     label: 'Count',
                     data: ticketLabelCountsDatas,
-                    backgroundColor:['rgb(153,218,231)'],
-                    borderColor: ['rgb(153,218,30)'],
+                    backgroundColor:['#0028ff40','#fea44440'],
+                    borderColor: ['#0028ff','#fea444'],
+                    borderWidth: 2,
                 }]
             },
             options: {
