@@ -15,6 +15,9 @@ router.get('/details', epicsController.get_detail);
 router.get('/details/:epic_Link', epicsController.get_detail);
 
 router.get('/homepage/:valorBusqueda', epicsController.get_SearchEpic);
+
+router.get('/ticketslabels/:id', epicsController.get_TicketLabels)
+
 //router.get('/view', epicsController.get_view);
 
 //router.post('/view', epicsController.post_view);
