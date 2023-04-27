@@ -15,7 +15,7 @@ const printCharts = () => {
             const scopes = getScope(data, sprints, sprintBy);
             const goal = getGoal(data, sprints);
             const done = getDone(data, sprints, scopes.sprint_0);
-            const BurnupChart = {sprints, scopes, goal, done}
+            const BurnupChart = {sprints, scopes, goal, done};
             
             renderBurnupChart(BurnupChart);
             renderTicketsLabelChart(data2);
