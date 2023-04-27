@@ -142,15 +142,42 @@ const renderTicketsStatusChart = (datas3) => {
     const ticketStatusCountsDatas = [];
     const ticketStatusCountsTicketStatus =[];
     const ticketStatusCountsColor = [];
+    const ticketStatusCountsBorderColor = [];
 
     for(i = 0; i < datas3.status_array.length; i++){
     ticketStatusCountsDatas.push(datas3.status_array[i].count);
     ticketStatusCountsTicketStatus.push(datas3.status_array[i].ticket_status);
-    if(datas3.status_array[i].ticket_status === "To Do"){
-        ticketStatusCountsColor.push('#FFFB00');
+    if(datas3.status_array[i].ticket_status === "Canceled"){
+        ticketStatusCountsColor.push('#ff030340');
+        ticketStatusCountsBorderColor.push('#ff0303');
+    }
+    else if(datas3.status_array[i].ticket_status === "Closed"){
+        ticketStatusCountsColor.push('#fea59370');
+        ticketStatusCountsBorderColor.push('#FF5937');
+    }
+    else if(datas3.status_array[i].ticket_status === "Code Review"){
+        ticketStatusCountsColor.push('#fea44440');
+        ticketStatusCountsBorderColor.push('#fea444');
     }
     else if(datas3.status_array[i].ticket_status === "Done"){
-        ticketStatusCountsColor.push('#13FF00');
+        ticketStatusCountsColor.push('#00ff2840');
+        ticketStatusCountsBorderColor.push('#00ff28');
+    }
+    else if(datas3.status_array[i].ticket_status === "In Progress"){
+        ticketStatusCountsColor.push('#652ec740');
+        ticketStatusCountsBorderColor.push('#652ec7');
+    }
+    else if(datas3.status_array[i].ticket_status === "Quality Review"){
+        ticketStatusCountsColor.push('#64BCC1');
+        ticketStatusCountsBorderColor.push('#00F0FF');
+    }
+    else if(datas3.status_array[i].ticket_status === "Release Ready"){
+        ticketStatusCountsColor.push('#C165C2');
+        ticketStatusCountsBorderColor.push('#F700FB');
+    }
+    else if(datas3.status_array[i].ticket_status === "To Do"){
+        ticketStatusCountsColor.push('#12005240');
+        ticketStatusCountsBorderColor.push('#120052');
     }
     };
     
@@ -166,7 +193,7 @@ console.log(ticketStatusCountsTicketStatus);
             datasets: [{
             data: ticketStatusCountsDatas,
             backgroundColor:ticketStatusCountsColor,
-            borderColor:['#FF3A3A','#B2B2B2','#8AFDFF', '#81FF76','#E061FF', '#FF73E6','#5E7F60', '#FFFC57' ],
+            borderColor:ticketStatusCountsBorderColor,
             borderWidth: 1
             }],
             },
