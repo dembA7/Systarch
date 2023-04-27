@@ -72,7 +72,6 @@ module.exports = class Epic {
         SELECT ticket_status, COUNT(*) AS count
         FROM tickets
         WHERE epic_Link = ?
-        AND ticket_status IN ('to do', 'done', 'canceled', 'code review', 'in progress', 'quality review', 'release ready' 'closed')
         GROUP BY ticket_status;
     `,[epic_Link])
     }
