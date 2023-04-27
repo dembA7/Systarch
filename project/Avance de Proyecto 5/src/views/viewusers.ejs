@@ -6,8 +6,8 @@
             font-size: 58px;
         }
         #content {
-            width: 50%;
-            margin-left: 25%;
+            width: 35%;
+            margin-left: 32%;
         }
         #create {
             margin-left: 42%;
@@ -26,10 +26,10 @@
     <p class="fw-light">Double click on a user to edit</p>
     <form id="formUser" method="POST">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <select class="form-select" id="selUser" size=8>
+        <select class="form-select" id="selUser" name="selUser" size=8>
             <%for (let user of users) {%>
                 <option>
-                    <%=user.user_Name%> -> <%=user.user_Mail%>
+                    <%=user.user_Name%>
                 </option>
             <%}%>
         </select>

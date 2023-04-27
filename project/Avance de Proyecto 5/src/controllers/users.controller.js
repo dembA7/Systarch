@@ -69,6 +69,13 @@ exports.post_login = (request, response, next) => {
       })
       .catch((error) => {
         console.log(error);
+        response.render('err404', {
+
+          titulo: 'DispatchHealth: ERR500',
+          isLoggedIn: request.session.isLoggedIn || false,
+          username: request.session.username || '',
+          privilegios: request.session.privilegios || [],
+      });
       });
 
 };
@@ -179,9 +186,36 @@ exports.get_totalUsers = (request, response, next) => {
 };
 
 exports.post_totalUsers = (request, response, next) => {
-  console.log("Creo que funciono");
-  response.redirect('/users/account');
+  const thisuser = request.body.selUser;
+  console.log(thisuser);
+  if (request.body.selUser == request.session.nombre) {
+    response.redirect('/users/account');
+  }
+  else {
+    response.redirect('/users/thisaccount');
+  }
 };
+
+exports.get_thisAccount = (request, response, next) => {
+  User.fetchUser(request.params.id)
+  .then(([rows, fieldData]) => {
+    if(rows.length == 1){
+      response.render('edituser', {
+      userInfo: rows[0],
+      isLoggedIn: request.session.isLoggedIn || false,
+      privilegios: request.session.privilegios || [],
+    })
+    }
+    else{
+      console.log("[ERR] System failed to fetch user account information.")
+    }
+  }
+  )
+}
+
+exports.post_thisAccount = (request, response, next) => {
+  console.log("Se esta creando la vista");
+}
 
 exports.timeout = (request, response, next) => {
     response.render('timeout', {
