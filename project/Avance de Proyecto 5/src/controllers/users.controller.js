@@ -193,7 +193,7 @@ exports.post_totalUsers = (request, response, next) => {
     response.redirect('/users/account/edit');
   }
   else {
-    response.redirect('/users/account/edituser/:id');
+    response.redirect('/users/account/edituser/user_name');
   }
 };
 
