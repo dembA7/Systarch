@@ -142,22 +142,23 @@ const renderTicketsLabelChart = (datas2) => {
 const renderTicketsStatusChart = (datas3) => {
 
     const ticketStatusCountsDatas = [];
-
-    ticketStatusCountsDatas.push(datas3.status_array[0].count);
-    ticketStatusCountsDatas.push(datas3.status_array[1].count);
-    ticketStatusCountsDatas.push(datas3.status_array[2].count);
-    ticketStatusCountsDatas.push(datas3.status_array[3].count);
-    ticketStatusCountsDatas.push(datas3.status_array[4].count);
+    const labels = [];
+    for(let ticket of datas3.status_array){
+        ticketStatusCountsDatas.push(ticket.count);
+        labels.push(ticket.ticket_status);
+    };
 
     console.log(datas3.status_array);
 
     new Chart('doughnutChartCanvas', {
         type: 'doughnut',
         data: {
-            labels: ['Canceled', 'Code Review', 'Done', 'In progress', 'To do', ''],
+            labels: labels,
             datasets: [{
             data: ticketStatusCountsDatas,
-            borderWidth: 1
+            backgroundColor:['#ff030340','#fea44440','#00ff2840','#652ec740','#12005240'],
+            borderColor: ['#ff0303','#fea444','#00ff28','#652ec7','#120052'],
+            borderWidth: 1,
             }]
             },
         options: {
