@@ -34,7 +34,7 @@ const printCharts = () => {
 const renderBurnupChart = (b) => {
 
     if(b.sprints.length > 1){
-        new Chart('Burnup', {
+        new Chart('burnupChartCanvas', {
             type:'line',
             data:{
                 labels: b.sprints,
