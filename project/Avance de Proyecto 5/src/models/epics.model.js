@@ -67,12 +67,14 @@ module.exports = class Epic {
         `,[epic_Link])
     }
 
-    static fetchDoughnutChart(ticket_Status){
+    static fetchDoughnutChart(epic_Link){
         return db.execute(`
-            SELECT ticket_status, COUNT(*)
-            FROM tickets
-            GROUP BY ticket_status;
-        `,[ticket_Status])
+        SELECT ticket_status, COUNT(*) AS count
+        FROM tickets
+        WHERE epic_Link = ?
+        AND ticket_status IN ('to do', 'done', 'canceled', 'code review', 'in progress', 'quality review', 'release ready' 'closed')
+        GROUP BY ticket_status;
+    `,[epic_Link])
     }
 
     static fetchBarChart(epic_link){
