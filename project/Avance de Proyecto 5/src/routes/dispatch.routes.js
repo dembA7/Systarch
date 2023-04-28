@@ -8,4 +8,6 @@ router.get('/', dispatchController.get_homepage);
 
 router.get('/:valorBusqueda', dispatchController.get_buscar);
 
+router.post('/editar/:id', dispatchController.get_editar);
+
 module.exports = router;
