@@ -1,3 +1,5 @@
+<!--Esta es la view de creación de proyecto-->
+
 <%- include('includes/head.ejs') %>
 
 <!-- ESTILOS -->
@@ -31,7 +33,7 @@
     }
 
     #nombre, #crearProyecto{
-        flex: 1;
+        display: flex;
     }
 
 </style>
@@ -39,90 +41,73 @@
 <!-- HEAD -->
 
 <section>
-    <section id="head">
-        <div id="title">
-            <h1 class="fw-light">Create a project</h1>
-        </div>
-    </section>
+<!--Este div de abajo es el que le da el margen a toda la página-->
+    <div style="margin: 20px;">
+        <section id="head">
+            <div id="title">
+                <h1 class="fw-light">Create a project</h1>
+            </div>
+        </section>
 
-    <section id="body">
-    
-        <div id="nombre" class="row">
-
-            <div class="col-md-11">
-                <form action="/projects/create/u" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" required>
-                    <h3 class="fw-light">Name</h3>
-                    <input class="form-control" id="projName" name="projName" type="text" placeholder="Enter the name of the project..." aria-label="default input example" style="width: 1400px;" required>
+        <section id="body">
+            
+            <div id="nombre" class="row">
+                <div >
+                    <form action="/projects/create/u" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" required>
+                        <h3 class="fw-light">Name</h3>
+                        <input class="form-control" id="projName" name="projName" type="text" placeholder="Enter the name of the project..." aria-label="default input example" required>        
+                        <br>            
+                        <button class="btn btn-success" type="submit">Create</button>
+                    </form>
+                </div>
             </div>
 
-            <div class="col-md-1">
-                    
-                    <button class="btn btn-success" type="submit">Create</button>
-                </form>
-            </div>
+            <br><br>
 
-        </div>
-
-        <br><br>
-
-        <div id="crearProyecto" class="row">
-
-            <div class="col-md-6">
-
-                <form action="/projects/create/a" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <h3 class="fw-light">Assign Epics</h3>
-    
-                    <select class="form-select" id="selEpic" name="selEpic" type="text"
-                        placeholder="Select the epics here...." aria-label="default input example" style="width: 600px;">
-    
-                        <option selected value="NULL">Select the epics here...</option>
-    
-                        <% if (epics.length> 0) {%>
+            <div id="crearProyecto" class="row">
+                <div class="col-md-6">
+                    <form action="/projects/create/a" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <h3 class="fw-light">Assign Epics</h3>
+                        <select class="form-select" id="selEpic" name="selEpic" type="text"
+                            placeholder="Select the epics here...." aria-label="default input example" >
+                            <option selected value="NULL">Select the epics here...</option>
+                            <% if (epics.length> 0) {%>
                             <%for (i in epics) {%>
-                                <option>
-                                    <%= epics[i].epic_Link %>:<%= epics[i].epic_Link_Summary%>
-                                </option>
+                            <option>
+                                <%= epics[i].epic_Link %>:<%= epics[i].epic_Link_Summary%>
+                            </option>
                             <%}%>
-                        <%}%>
-    
-                    </select>
-                    <br>
-                    <button class="btn btn-primary" type="submit">Add</button>
-    
-                </form>
-            </div>
-            <div class="col-md-6">
-                <form action="/projects/create/r" method="POST">
-    
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    
-                    <h3 class="fw-light">Assigned Epics</h3>
-    
-                    <% if (epicsSelected.length> 0) {%>
-    
-                        <select class="form-select" id="delEpic" name="delEpic" size=8>
-    
-                            <%for (i in epicsSelected) {%>
-                                <option>
-                                    <%= epicsSelected[i].epic_Link %>:<%= epicsSelected[i].epic_Link_Summary%>
-                                </option>
                             <%}%>
-    
                         </select>
-    
+                        <br>
+                        <button class="btn btn-primary" type="submit">Add</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form action="/projects/create/r" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <h3 class="fw-light">Assigned Epics</h3>
+                        <% if (epicsSelected.length> 0) {%>
+                        <select class="form-select" id="delEpic" name="delEpic" size=5>
+                            <%for (i in epicsSelected) {%>
+                            <option>
+                                <%= epicsSelected[i].epic_Link %>:<%= epicsSelected[i].epic_Link_Summary%>
+                            </option>
+                            <%}%>
+                        </select>
                         <br>
                         <button class="btn btn-danger" type="submit">Remove</button>
-    
-                    <%}%>
-    
-                </form>
+                        <%}%>
+                    </form>
+                </div>
             </div>
-          </div>
-    
-    </section>
-    
+    </div>
+</section>
+
+
+<section>
     <% if (mensaje !='' ) {%>
         <div>
             <%= mensaje %>
