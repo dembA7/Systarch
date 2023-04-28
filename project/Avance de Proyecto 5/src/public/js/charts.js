@@ -141,25 +141,65 @@ const renderTicketsLabelChart = (datas2) => {
 
 const renderTicketsStatusChart = (datas3) => {
 
-    const ticketStatusCountsDatas = [];
-    const labels = [];
-    for(let ticket of datas3.status_array){
-        ticketStatusCountsDatas.push(ticket.count);
-        labels.push(ticket.ticket_status);
-    };
+    //Array que guardará los datos
 
-    console.log(datas3.status_array);
+    const ticketStatusCountsDatas = [];
+    const ticketStatusCountsTicketStatus =[];
+    const ticketStatusCountsColor = [];
+    const ticketStatusCountsBorderColor = [];
+
+    for(i = 0; i < datas3.status_array.length; i++){
+    ticketStatusCountsDatas.push(datas3.status_array[i].count);
+    ticketStatusCountsTicketStatus.push(datas3.status_array[i].ticket_status);
+    if(datas3.status_array[i].ticket_status === "Canceled"){
+        ticketStatusCountsColor.push('#ff030340');
+        ticketStatusCountsBorderColor.push('#ff0303');
+    }
+    else if(datas3.status_array[i].ticket_status === "Closed"){
+        ticketStatusCountsColor.push('#fea59370');
+        ticketStatusCountsBorderColor.push('#FF5937');
+    }
+    else if(datas3.status_array[i].ticket_status === "Code Review"){
+        ticketStatusCountsColor.push('#fea44440');
+        ticketStatusCountsBorderColor.push('#fea444');
+    }
+    else if(datas3.status_array[i].ticket_status === "Done"){
+        ticketStatusCountsColor.push('#00ff2840');
+        ticketStatusCountsBorderColor.push('#00ff28');
+    }
+    else if(datas3.status_array[i].ticket_status === "In Progress"){
+        ticketStatusCountsColor.push('#652ec740');
+        ticketStatusCountsBorderColor.push('#652ec7');
+    }
+    else if(datas3.status_array[i].ticket_status === "Quality Review"){
+        ticketStatusCountsColor.push('#64BCC1');
+        ticketStatusCountsBorderColor.push('#00F0FF');
+    }
+    else if(datas3.status_array[i].ticket_status === "Release Ready"){
+        ticketStatusCountsColor.push('#C165C2');
+        ticketStatusCountsBorderColor.push('#F700FB');
+    }
+    else if(datas3.status_array[i].ticket_status === "To Do"){
+        ticketStatusCountsColor.push('#12005240');
+        ticketStatusCountsBorderColor.push('#120052');
+    }
+    };
+    
+
+console.log(ticketStatusCountsDatas);
+
+console.log(ticketStatusCountsTicketStatus);
 
     new Chart('doughnutChartCanvas', {
         type: 'doughnut',
         data: {
-            labels: labels,
+            labels:ticketStatusCountsTicketStatus,
             datasets: [{
             data: ticketStatusCountsDatas,
-            backgroundColor:['#ff030340','#fea44440','#00ff2840','#652ec740','#12005240'],
-            borderColor: ['#ff0303','#fea444','#00ff28','#652ec7','#120052'],
-            borderWidth: 1,
-            }]
+            backgroundColor:ticketStatusCountsColor,
+            borderColor:ticketStatusCountsBorderColor,
+            borderWidth: 1
+            }],
             },
         options: {
             layout: {
