@@ -16,7 +16,7 @@ const enableEventHandlers = (BurnChart, data) => {
             sprints = newlabels();
             scopes = getScope(data, sprints, value);
             goal = getGoal(data, sprints);
-            done = getDone(data, sprints, scopes.sprint_0);
+            done = getDone(data, sprints, scopes.sprint_0, value);
 
         }
         else {

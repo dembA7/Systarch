@@ -29,3 +29,7 @@ exports.get_buscar = (request, response, next) => {
     response.status(500).json({message: "Internal Server Error"});
   })
 }
+
+exports.get_editar = (request, response, next) => {
+  console.log("llega al controller");
+}
