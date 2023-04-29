@@ -10,5 +10,6 @@ router.get('/create', projectsController.get_createProjects);
 router.post('/create/u', projectsController.post_createProjects);
 router.post('/create/a', projectsController.postAdd_createProjects);
 router.post('/create/r', projectsController.postRemove_createProjects);
+router.get('/:valorBusqueda',projectsController.get_buscar);
 
 module.exports = router;    
