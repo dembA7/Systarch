@@ -1,0 +1,102 @@
+<%- include('includes/head.ejs') %>
+    <section>
+      <style>
+        section{
+          margin: 1em;
+        }
+        h1{
+          font-size: 46px;
+        }
+        #mensaje{
+          color: red;
+        }
+        #createBtn{
+          margin-top: 25px;
+          text-align: center;
+        }
+      </style>
+
+        <h1>Create an account</h1>
+
+        <br><br>
+
+        <form action="/users/signup" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="row g-2">
+
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="userName" name="userName" placeholder="Bernardo Gómez" required>
+                <label for="floatingInputGrid">Full name</label>
+              </div>
+            </div>
+
+            <div class="col-md">
+              <div class="form-floating" id="userSkill" name="userSkill">
+                <select class="form-select" id="floatingSelectGrid" required>
+                  <option value="1">Select a skill...</option>
+                  <option value="2">Back End</option>
+                  <option value="3">Front End</option>
+                </select>
+                <label for="floatingSelectGrid">Skill</label>
+              </div>
+            </div>
+
+          </div>
+          
+          <br>
+
+          <div class="row g-2">
+
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="email" class="form-control" id="userMail" name="userMail" placeholder="name@example.com" required>
+                <label for="floatingInputGrid">Email</label>
+              </div>
+            </div>
+
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="tel" class="form-control" id="userCel" name="userCel" placeholder="4421234567" required>
+                <label for="floatingInputGrid">Phone Number</label>
+              </form>
+            </div>
+
+          </div>
+
+          <br><br><br>
+
+          <div class="row g-2">
+
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="password" class="form-control" id="userPass" name="userPass" placeholder="4421234567" required>
+                <label for="floatingInputGrid">Password</label>
+              </div>
+            </div>
+
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="password" class="form-control" id="userConfPass" name="userConfPass" placeholder="A1234567890" required>
+                <label for="floatingInputGrid">Confirm Password</label>
+              </form>
+            </div>
+
+          </div>
+
+          <br>
+          <% if (mensaje !='' ) { %>
+            <div id="mensaje">
+              <%= mensaje %>
+            </div>
+          <% } %>
+          <br>
+          <div id="createBtn">
+            <button class="btn btn-primary" type="submit" style="width: 125px;">Create</button>
+          </div>
+          
+        </form> 
+ 
+    </section>
+
+<%- include('includes/foot.ejs') %>
