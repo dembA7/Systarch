@@ -112,7 +112,7 @@ module.exports = class Epic {
         WHERE e.epic_Link = t.epic_Link
         AND t.ticket_Assignee_ID = u.ticket_Assignee_ID
         AND e.epic_Link = ?
-        GROUP BY u.user_ID;
+        GROUP BY u.user_ID, e.epic_Link;
         `, [epic_Link]
         )
     }
