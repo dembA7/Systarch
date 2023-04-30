@@ -1,0 +1,258 @@
+<%- include('includes/head.ejs') %>
+
+<!-- ESTILOS -->
+
+<style>
+
+    /* HEAD */
+
+    #head{
+        padding-top: 1.3em;
+    }
+    #title{
+        margin-left: 2.4em;
+    }
+    h1{
+        font-size: 58px;
+    }
+    #flex{
+        display: flex;
+    }
+    #title, #search, #filter{
+        flex: 1;
+    }
+    #search{
+        padding-top: 10px;
+    }
+    #filter{
+        margin-top: 20px;
+        margin-left: 50px;
+    }
+
+    /* TICKETS */
+
+    p{
+        border: 1px solid #e9ecef;
+        border-radius: 40px;
+        background-color: #e9ecef;
+        height: 35px;
+        text-align: center;
+        font-size: 16px;
+        color: #252525;
+        /* margin-left: 5px;
+        margin-right: 5px; */
+    }
+    h1{
+        margin-bottom: 35px;
+    }
+    .table-responsive{
+        margin-left: 3em;
+        margin-right: 3em;
+    }
+
+</style>
+
+<!-- HEAD -->
+
+<section id="head">
+
+    
+    <div id="flex">
+        <div id="title">
+            <h1 class="fw-light">Tickets</h1>
+        </div>
+        <div id="search">
+            <form class="d-flex" role="search" id="search">
+                <input id="Buscar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-danger">Clear</button>
+            </form>
+        </div>
+
+        <!--El dropdown casi listo-->
+
+        <div class="dropdown" id="filter">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                </svg>
+            </button>
+            <ul id="filter-dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">        
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item dropdown-toggle" href="#">Status</a>
+                    <ul class="dropdown-menu" id="filterStatus">
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'To Do'; document.getElementById('filter').click();">To Do</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'In Progress'; document.getElementById('filter').click();">In Progress</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Code Review'; document.getElementById('filter').click();">Code Review</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Quality Review'; document.getElementById('filter').click();">Quality Review</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Release Ready'; document.getElementById('filter').click();">Release Ready</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Done'; document.getElementById('filter').click();">Done</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Closed'; document.getElementById('filter').click();">Closed</a></li>
+                        <li><a class="dropdown-item" onclick="document.getElementById('filterStatus').value = 'Canceled'; document.getElementById('filter').click();">Canceled</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Modal para mostrar el mensaje de carga -->
+        <div class="modal" tabindex="-1" role="dialog" id="loading-modal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Loading</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please wait while your request is being processed...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            .dropdown-submenu:hover .dropdown-menu {
+                display: block;
+            }
+        
+            .dropdown-submenu>.dropdown-menu {
+                margin-left: 100%;
+                transform: translate(-50%,0);
+            }
+        </style>
+        
+</section>
+
+<!-- LABELS -->
+
+    <style>
+        .table-col {
+            max-width: 125px; /* Establecer un ancho máximo de 200 píxeles para cada columna */
+            overflow: hidden; /* Ocultar el contenido que sobrepase el ancho máximo */
+            text-overflow: ellipsis; /* Mostrar puntos suspensivos al final del contenido que se ocultó */
+            white-space: nowrap; /* Impedir que el contenido se ajuste automáticamente al ancho de la columna */
+        }
+    </style>
+
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <tthead>
+            <tr>
+                <th>Key</th>
+                <th>Summary</th>
+                <th>Type</th>
+                <th>Points</th>
+                <th>Status</th>
+                <th>Label</th>
+                <th>Epic</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Assignee</th>
+            </tr>
+        </thead>
+
+        <tbody id="results">
+            <% tickets.forEach(ticket => { %>
+            <tr>
+                <td class="table-col"><%= ticket.Key %></td>
+                <td class="table-col" title="<%= ticket.Summary %>"><%= ticket.Summary %></td>
+                <td class="table-col"><%= ticket.Type %></td>
+                <td class="table-col"><%= ticket.Points %></td>
+                <td class="table-col" title="<%= ticket.Status %>"><%= ticket.Status %></td>
+                <td class="table-col"><%= ticket.Label %></td>
+                <td class="table-col" title="<%= ticket.Epic %>"><%= ticket.Epic %></td>
+                <td class="table-col" title="<%= ticket.Created %>"><%= ticket.Created %></td>
+                <td class="table-col" title="<%= ticket.Updated %>"><%= ticket.Updated %></td>
+                <td class="table-col" title="<%= ticket.Assignee %>"><%= ticket.Assignee %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    
+</div>
+
+<script>
+
+    
+
+   //Código para el dropdown
+    var elementosDropdown = document.querySelectorAll(".dropdown-item");
+
+elementosDropdown.forEach(function(elemento){
+    elemento.addEventListener("click", function() {
+
+        var selectedValue = elemento.getAttribute("value")
+
+        valorBusqueda = selectedValue;
+        
+    })
+})
+document.getElementById("Buscar").onkeyup = () => {
+    const valorBusqueda = document.getElementById("Buscar").value;
+    console.log(valorBusqueda);
+    fetch('/tickets/' + valorBusqueda, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(result => {
+        return result.json();
+    }).then(data => {
+        
+        let respuesta = "";
+        data.tickets.forEach(ticket => {
+            respuesta += '<tr>';
+                respuesta += '<td class="table-col" id="key">' + ticket.Key + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Summary + '">' + ticket.Summary + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Type + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Points + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Status + '">' + ticket.Status + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Label + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Epic + '">' + ticket.Epic + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Created + '">' + ticket.Created + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Updated + '">' + ticket.Updated + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Assignee + '">' + ticket.Assignee + '</td>';
+            respuesta += '</tr>';
+        });
+        document.getElementById("results").innerHTML = respuesta;
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    //Mismo código pero ahora con un onclick
+
+    document.getElementById("filterStatus").onclick = () => {
+    const valorClick = document.getElementById("filterStatus").value;
+    console.log(valorClick)
+    fetch('/tickets/' + valorClick, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(result => {
+        return result.json();
+    }).then(data => {
+        
+        let respuesta = "";
+        data.tickets.forEach(ticket => {
+            respuesta += '<tr>';
+                respuesta += '<td class="table-col" id="key">' + ticket.Key + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Summary + '">' + ticket.Summary + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Type + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Points + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Status + '">' + ticket.Status + '</td>';
+                respuesta += '<td class="table-col">' + ticket.Label + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Epic + '">' + ticket.Epic + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Created + '">' + ticket.Created + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Updated + '">' + ticket.Updated + '</td>';
+                respuesta += '<td class="table-col" title="' + ticket.Assignee + '">' + ticket.Assignee + '</td>';
+            respuesta += '</tr>';
+        });
+        document.getElementById("results").innerHTML = respuesta;
+    }).catch(err => {
+        console.log(err);
+    });
+};
+
+</script>
+
+
+
+<%- include('includes/foot.ejs') %>

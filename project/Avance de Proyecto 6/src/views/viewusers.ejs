@@ -1,0 +1,50 @@
+<%- include('includes/head.ejs') %>
+    <style>
+        h1{
+            margin-top: 0.4em;
+            margin-left: 1em;
+            font-size: 58px;
+        }
+        #content {
+            width: 35%;
+            margin-left: 32%;
+        }
+        #create {
+            margin-left: 42%;
+        }
+    </style>
+
+<br>
+<section id="title">
+    <div>
+        <h1 class="fw-light">Users Registered</h1>
+    </div>
+</section>
+<br>
+<section id="content">
+    <h3 class="fw-light">Select a user:</h3>
+    <p class="fw-light">Double click on a user to edit</p>
+    <form id="formUser" method="GET">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <select class="form-select" id="selUser" name="selUser" size=8>
+            <%for (let user of users) {%>
+                <option value="<%= user.user_ID %>">
+                    <%=user.user_Name%>
+                </option>
+            <%}%>
+        </select>
+    </form>
+    <br>
+    <a id="create" type="button" class="btn btn-success" href="/users/signup">Create a user</a>
+    <script>
+        const select = document.getElementById('selUser');
+        select.addEventListener('dblclick', (e) => {
+        const form = document.getElementById('formUser');
+        console.log(e.target);
+        form.action = '/users/account/edituser/' + e.target.value;
+        form.submit();
+        });
+
+    </script>
+
+<%- include('includes/foot.ejs') %>
