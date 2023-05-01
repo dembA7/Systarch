@@ -185,11 +185,6 @@ const renderTicketsStatusChart = (datas3) => {
     }
     };
     
-
-console.log(ticketStatusCountsDatas);
-
-console.log(ticketStatusCountsTicketStatus);
-
     new Chart('doughnutChartCanvas', {
         type: 'doughnut',
         data: {
