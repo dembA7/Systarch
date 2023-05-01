@@ -376,7 +376,7 @@
             const year = date.getFullYear().toString();
             let month = (date.getMonth() + 1).toString();
             month = (month>9) ? month : month.padStart(2,'0');
-            let day = date.getDate().toString();
+            let day = (date.getDate() + 1).toString();
             day = (day>9) ? day : day.padStart(2,'0');
             const epic_createdAt = `${year}-${month}-${day}`;
 
