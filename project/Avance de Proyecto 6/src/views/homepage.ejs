@@ -391,7 +391,7 @@
                                 </svg>`;
             
             editBtn.onclick = () => { console.log("click")
-                console.log("Fecha:",new Date(document.getElementById("newDate").value).toISOString())
+                console.log("Fecha:",document.getElementById("newDate").value)
                 const data =  {
                     epic_Summary: document.getElementById("newName").value,
                     epic_createdAt: new Date(document.getElementById("newDate").value).toISOString()
