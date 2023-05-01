@@ -170,3 +170,15 @@ async function updateEpicProjectID(epicsSelected, projName){
     
   }
 }
+
+exports.get_buscar = (request, response, next) => {
+
+  Epic.find(request.params.valorBusqueda)
+    .then(([rows, fieldData]) => {
+        response.status(200).json({projects: rows});
+    })
+    .catch(error => {
+        console.log(error);
+        response.status(500).json({message: "Internal Server Error"});
+    });
+}

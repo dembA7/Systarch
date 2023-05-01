@@ -30,4 +30,14 @@ module.exports = class Project {
         `, [projectName]);
     }
 
+    static find(valorBusqueda){
+        return db.execute(`
+        SELECT project_Name
+        FROM projects
+        WHERE (project_Name LIKE ?)
+        `, ['%' + valorBusqueda + '%']
+        );
+    }
+
 }
+

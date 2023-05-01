@@ -27,7 +27,7 @@
         #head{
             display: flex;
         }
-        .btn-outline-success, .btn-outline-primary,  .btn-outline-secondary, .form-control{
+        .btn-outline-success, .btn-outline-primary,  .btn-outline-secondary, .form-control, .btn-outline-danger{
             margin-top: 2.3em;
         }
         #create{
@@ -38,7 +38,7 @@
             position: absolute;
             right: 90px;
         }
-        #search {
+        #clear {
             position: sticky;
             top: 0;
             left: 80%;
@@ -255,18 +255,11 @@
                     </span>
                 </a>    
             </div>
-            <div id="search">
+            <div id="clear">
                 <form class="d-flex" role="search" id="search">
-                    <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" id="searchInput" name="searchInput">
-                    <button class="btn btn-outline-success">Search</button>
+                    <input class="form-control me-2" type="text" placeholder="Search" aria-label="Clear" id="searchInput" name="searchInput">
+                    <button class="btn btn-outline-danger">Clear</button>
                 </form>
-            </div>
-            <div id="filter">
-                <a class="btn btn-outline-secondary" type="button" href="?">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
-                        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
-                    </svg>
-                </a>
             </div>
         </section>
 
@@ -330,7 +323,7 @@
         }).then(result => {
             return result.json();
         }).then(data => {
-            
+
             let respuesta = "";
 
             if (data.epics.length > 0) {

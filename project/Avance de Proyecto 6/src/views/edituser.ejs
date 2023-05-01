@@ -11,6 +11,11 @@
                 font-size: 76px;
             }
 
+            .btn.btn-secondary.bg-white.dropdown-toggle.text-dark.w-100{
+                min-height: 57px;
+                border-color: lightgray;
+            }
+
         </style>
         <h1 class="fw-light">
             <%= userInfo.user_Name %>
@@ -55,10 +60,10 @@
                         <div class="col-md">
                             <div class="form-floating">
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary bg-white dropdown-toggle text-dark" type="button" id="user_skill" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn btn-secondary bg-white dropdown-toggle text-dark w-100" type="button" id="user_skill" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <%=userInfo.user_Skill%>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#">Front-End</a>
                                         <a class="dropdown-item" href="#">Back-End</a>
                                     </div>
