@@ -1,0 +1,86 @@
+<% if (privilegios.indexOf('crear_usuarios') >= 0) { %>
+    <%- include('includes/head.ejs') %>
+        <style>
+            h1{
+                margin-top: 0.4em;
+                margin-left: 1em;
+                font-size: 58px;
+            }
+            #content {
+                width: 35%;
+                margin-left: 32%;
+            }
+            #create {
+                margin-left: 42%;
+            }
+        </style>
+
+    <br>
+    <section id="title">
+        <div>
+            <h1 class="fw-light">Users Registered</h1>
+        </div>
+    </section>
+    <br>
+    <section id="content">
+        <h3 class="fw-light">Select a user:</h3>
+        <p class="fw-light">Double click on a user to edit</p>
+        <form id="formUser" method="GET">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <select class="form-select" id="selUser" name="selUser" size=8>
+                <%for (let user of users) {%>
+                    <option value="<%= user.user_ID %>">
+                        <%=user.user_Name%>
+                    </option>
+                <%}%>
+            </select>
+        </form>
+        <br>
+        <a id="create" type="button" class="btn btn-success" href="/users/signup">Create a user</a>
+        <script>
+            const select = document.getElementById('selUser');
+            select.addEventListener('dblclick', (e) => {
+            const form = document.getElementById('formUser');
+            console.log(e.target);
+            form.action = '/users/account/edituser/' + e.target.value;
+            form.submit();
+            });
+
+        </script>
+    </section>
+    <%- include('includes/foot.ejs') %>
+<% } else { %>
+    <%- include('includes/head.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <title>Error</title>
+</head>
+<body>
+    <section>
+        <br><br><br>
+        <div class="d-flex align-items-center justify-content-center vh-50">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold">401</h1>
+    
+                <p class="fs-3"> <span class="text-danger">Oops!</span> Invalid credentials.</p>
+    
+                <p class="lead">
+                    You do not have permission to view this page.
+                </p>
+    
+                <br>
+    
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <a class="btn btn-primary btn-lg" type="button" href="../homepage">Homepage</a>
+                </div>
+        </div>
+    </section>
+
+<%- include('includes/foot.ejs') %>
+<% } %>

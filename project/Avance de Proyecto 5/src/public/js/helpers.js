@@ -118,23 +118,26 @@ const getGoal = (data, _sprints) => {
 
 };
 
-const getDone = (data, _sprints, sprint_0) => {
+const getDone = (data, _sprints, sprint_0, S_By) => {
+
+    if(S_By == 'days'){
+        sprintBy = 1000 * 60 * 60 * 24;
+    } else {
+        sprintBy = 1000 * 60 * 60 * 24 * 7;
+    }
     
     const done = [0];
     for(let finished of data.done){
         let current_Up = new Date(finished.ticket_Update).getTime();
         // Calcula el tiempo que ha pasado entre cada fecha y la fecha de inicio (↓↓↓ en termino de semanas)
-        let calculo = Math.floor((current_Up - new Date(sprint_0).getTime()) / (1000 * 60 * 60 * 24 * 7))+1;
+        let calculo = Math.ceil((current_Up - new Date(sprint_0).getTime()) / sprintBy);
         if(calculo >= _sprints.length){
             // done[_sprints.length-1] = done[_sprints.length-1] || 0;  ESTO ES PARA HACER 'TRAMPA', ACUMULANDO LOS TICKTS TERMINADOS 
             // done[_sprints.length-1] += finished.Story_Points;        EN LA ÚLTIMA FECHA DEL SPRINT, AUNQUE NO SEA LA FECHA REAL
-            done[calculo] = done[calculo] || 0;
-            done[calculo] += finished.Story_Points;
-            error_done = true;
-        }else {
-            done[calculo] = done[calculo] || 0;
-            done[calculo] += finished.Story_Points;
+            console.warn("Points done out of expected or calculated time! Therefore not shown on the Burnup");
         }
+        done[calculo] = done[calculo] || 0;
+        done[calculo] += finished.Story_Points;
     };
     
     let done_ = [0];

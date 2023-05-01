@@ -20,9 +20,4 @@ router.get('/ticketslabels/:id', epicsController.get_TicketLabels)
 
 router.get('/ticketStatus/:id', epicsController.get_TicketStatus)
 
-//router.get('/view', epicsController.get_view);
-
-//router.post('/view', epicsController.post_view);
-
-
 module.exports = router;
