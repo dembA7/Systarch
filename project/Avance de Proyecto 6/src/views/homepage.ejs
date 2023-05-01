@@ -391,10 +391,10 @@
                                 </svg>`;
             
             editBtn.onclick = () => { console.log("click")
-                console.log("Fecha:",document.getElementById("newDate").value)
+                
                 const data =  {
                     epic_Summary: document.getElementById("newName").value,
-                    epic_createdAt: new Date(document.getElementById("newDate").value).toISOString()
+                    epic_createdAt: document.getElementById("newDate").value
                 };
                 const csrfToken = document.getElementById("CSRF-Tkn").value;
                 fetch('/homepage/edit/' + id, {
