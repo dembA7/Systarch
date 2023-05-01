@@ -68,14 +68,12 @@ exports.post_login = (request, response, next) => {
         }
       })
       .catch((error) => {
-        console.log(error);
-        response.render('err404', {
-
+        response.render('err500', {
           titulo: 'DispatchHealth: ERR500',
           isLoggedIn: request.session.isLoggedIn || false,
           username: request.session.username || '',
           privilegios: request.session.privilegios || [],
-      });
+        });
       });
 
 };
