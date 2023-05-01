@@ -125,4 +125,14 @@ module.exports = class Epic {
             GROUP BY t.epic_Link
         `, [epic_Link])
     }
+
+    static updateEpic(epic_Link_Summary, created_at, epic_Link){
+        return db.execute(`
+            UPDATE epics
+            SET epic_Link_Summary = ?,
+            created_at = ?
+            WHERE epic_Link = ?
+        `, [epic_Link_Summary, created_at, epic_Link]
+        )
+    }
 }
