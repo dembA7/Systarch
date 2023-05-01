@@ -252,7 +252,8 @@ INSERT INTO `usuario_rol` (`idUsuario`, `idRol`) VALUES
 -- Indices de la tabla `epics`
 --
 ALTER TABLE `epics`
-  ADD PRIMARY KEY (`epic_ID`);
+  ADD PRIMARY KEY (`epic_ID`),
+  ADD KEY `epic_Link` (`epic_Link`);
 
 --
 -- Indices de la tabla `privilegios`
@@ -289,13 +290,16 @@ ALTER TABLE `rol_privilegio`
 -- Indices de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  ADD PRIMARY KEY (`ticket_Id`);
+  ADD PRIMARY KEY (`ticket_Id`),
+  ADD KEY `epic_Link` (`epic_Link`,`ticket_Assignee_ID`),
+  ADD KEY `ticket_Assignee_ID` (`ticket_Assignee_ID`);
 
 --
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_ID`);
+  ADD PRIMARY KEY (`user_ID`),
+  ADD KEY `ticket_Assignee_ID` (`ticket_Assignee_ID`);
 
 --
 -- Indices de la tabla `usuario_rol`
