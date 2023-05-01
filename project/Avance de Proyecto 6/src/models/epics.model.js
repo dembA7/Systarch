@@ -132,6 +132,7 @@ module.exports = class Epic {
             SET epic_Link_Summary = ?,
             created_at = ?
             WHERE epic_Link = ?
+            LIMIT 1;
         `, [epic_Link_Summary, created_at, epic_Link]
         )
     }
