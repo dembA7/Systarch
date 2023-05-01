@@ -7,9 +7,17 @@
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
+-------------------------------------------------
+-- Archivo para creacion de db desde 0 en MySQL Workbench o en la terminal.
+-------------------------------------------------
+
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+CREATE DATABASE Systarch;
+USE Systarch;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +38,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spProgreso` (IN `_epic_Link` VARCHA
   DECLARE total_status INT DEFAULT 0;
   
   SELECT COUNT(*) INTO total_tickets FROM tickets WHERE epic_Link = _epic_Link;
-  SELECT COUNT(*) INTO total_status FROM tickets WHERE epic_Link = _epic_Link AND ticket_Status IN ('Done', 'Closed','Canceled');
+  SELECT COUNT(*) INTO total_status FROM tickets WHERE epic_Link = _epic_Link AND ticket_Status IN ('Done', 'Closed', 'Canceled');
   
   IF total_tickets > 0 THEN
     SET progreso = (total_status / total_tickets) * 100;
@@ -42,13 +50,15 @@ END$$
 --
 -- Funciones
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_progreso` (`epic_Link` VARCHAR(30)) RETURNS INT(11)  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_progreso` (`epic_Link` VARCHAR(30)) RETURNS INT(11) DETERMINISTIC
+BEGIN
     DECLARE progreso INT;
     CALL spProgreso(epic_Link, @progreso);
     RETURN @progreso;
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_Sprints` (`_epic_Link` VARCHAR(30)) RETURNS FLOAT  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_Sprints` (`_epic_Link` VARCHAR(30)) RETURNS FLOAT DETERMINISTIC
+BEGIN
   DECLARE total_points FLOAT(11,2) DEFAULT 0;
   DECLARE total_teamAP FLOAT(11,2) DEFAULT 0;
   DECLARE progreso FLOAT(11,2) DEFAULT 0;
@@ -252,7 +262,7 @@ INSERT INTO `usuario_rol` (`idUsuario`, `idRol`) VALUES
 -- Indices de la tabla `epics`
 --
 ALTER TABLE `epics`
-  ADD PRIMARY KEY (`epic_ID`),
+  ADD PRIMARY KEY (`epic_ID`);
   ADD KEY `epic_Link` (`epic_Link`);
 
 --
@@ -290,7 +300,7 @@ ALTER TABLE `rol_privilegio`
 -- Indices de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  ADD PRIMARY KEY (`ticket_Id`),
+  ADD PRIMARY KEY (`ticket_Id`);
   ADD KEY `epic_Link` (`epic_Link`,`ticket_Assignee_ID`),
   ADD KEY `ticket_Assignee_ID` (`ticket_Assignee_ID`);
 
@@ -298,7 +308,7 @@ ALTER TABLE `tickets`
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_ID`),
+  ADD PRIMARY KEY (`user_ID`);
   ADD KEY `ticket_Assignee_ID` (`ticket_Assignee_ID`);
 
 --
