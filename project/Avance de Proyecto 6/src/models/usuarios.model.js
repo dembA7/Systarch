@@ -106,6 +106,7 @@ module.exports = class Usuario {
         return db.execute(`
             DELETE FROM users
             WHERE user_ID = ?
+            LIMIT 1
         `, [userid]);
     }
 
