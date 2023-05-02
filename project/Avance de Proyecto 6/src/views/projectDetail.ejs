@@ -218,6 +218,16 @@
                 </tr>
                 </tbody>
             </table>
+
+            <div class="col-sm" id="ticketStatusOverview">
+                <div class="ticketStatusOverview">
+                    <div class="ticketStatusOverviewTitle">
+                        <h3 class="fw-normal" id="ticketStatusOverviewTitleText">Ticket Status Overview</h3>
+                    </div>
+                    <canvas id="doughnutChartCanvas" style="height:40vh; width:21.4vw"></canvas>
+                </div>
+            </div>
+
         </div>
 
 </section>
@@ -233,5 +243,12 @@
     </div>
     <br><br><br><br>
 </section>
+
+<script src="/js/charts.js"></script>
+<script src="/js/helpers.js"></script>
+<script src="/js/handlers.js"></script>
+<script>
+    // printChartsProjectDetail();
+</script>
 
 <%- include('includes/foot.ejs') %>
