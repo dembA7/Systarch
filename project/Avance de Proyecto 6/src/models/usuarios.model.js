@@ -102,6 +102,13 @@ module.exports = class Usuario {
         `, [user_Name, user_Mail, user_Phone, user_Skill, user_WeeklyAgilePoints, user]);
     }
 
+    static deleteUser(userid) {
+        return db.execute(`
+            DELETE FROM users
+            WHERE user_ID = ?
+        `, [userid]);
+    }
+
     static fetchprivilegios(user_Name) {
         return db.execute(`
             SELECT p.nombre

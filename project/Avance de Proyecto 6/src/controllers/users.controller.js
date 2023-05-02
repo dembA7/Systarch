@@ -211,6 +211,14 @@ exports.post_thisAccount = (request, response, next) => {
   response.redirect('/users/totalusers');
 }
 
+exports.deleteAccount = (request, response, next) => {
+  User.deleteUser(
+    request.params.id
+  )
+  console.log("[Info] Administrator deleted an account");
+  response.redirect('/users/totalusers');
+}
+
 exports.timeout = (request, response, next) => {
     response.render('timeout', {
       isLoggedIn: request.session.isLoggedIn || false,
