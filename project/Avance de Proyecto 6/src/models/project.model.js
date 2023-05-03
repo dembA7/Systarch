@@ -41,11 +41,11 @@ module.exports = class Project {
 
     static detail(ProjectDetail){
     return db.execute(`
-        static 
         SELECT p.Project_Name, p.Project_ID, e.epic_Link_Summary 
         FROM Projects p 
-        INNER JOIN Epics e ON e.Project_ID = p.Project_ID;
-        `,
+        INNER JOIN Epics e ON e.Project_ID = p.Project_ID
+        WHERE p.Project_ID = ?
+        `,[ProjectDetail]
         );
     
     }
