@@ -16,4 +16,7 @@ router.post('/create/r', projectsController.postRemove_createProjects);
 
 router.get('/:valorBusqueda', projectsController.get_buscar);
 
+router.get('/details/:project_Name', projectsController.get_detail);
+
+
 module.exports = router;    

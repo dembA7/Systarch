@@ -32,12 +32,32 @@ module.exports = class Project {
 
     static find(valorBusqueda){
         return db.execute(`
-        SELECT project_Name
+        SELECT project_ID, project_Name
         FROM projects
         WHERE (project_Name LIKE ?)
         `, ['%' + valorBusqueda + '%']
         );
     }
 
-}
+    static detail(ProjectDetail){
+    return db.execute(`
+        static 
+        SELECT p.Project_Name, p.Project_ID, e.epic_Link_Summary 
+        FROM Projects p 
+        INNER JOIN Epics e ON e.Project_ID = p.Project_ID;
+        `,
+        );
+    
+    }
 
+    static progress(ProjectProgress){
+    return db.execute(`
+        SELECT p.Project_Name, get_progreso(e.epic_Link) AS progreso
+        FROM Projects p
+        INNER JOIN epics e ON p.Project_ID = e.Project_ID
+        WHERE p.Project_Name = ?
+        `,[ProjectProgress])
+        ;
+    }
+
+}

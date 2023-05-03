@@ -2,18 +2,31 @@ const Epic = require('../models/epics.model');
 const Project = require('../models/project.model');
 exports.get_projects = async (request, response, next) => {
 
-  projects = await Project.fetchAll()
+  const projects = await Project.fetchAll()
+  if(projects[0].length > 0){
+    let progresos = [];
 
-  response.render('projects', {
+    for(let proj of projects[0]){
+      //console.log(proj.project_Name)
+      const projProgress = await Project.progress(proj.project_Name)
+      //console.log(projProgress[0][0])
+      if(projProgress[0][0] != undefined){
+        progresos.push(projProgress[0][0])
+      }
+    };
 
-  isLoggedIn: request .session.isLoggedIn || false,
-  username: request.session.username || "",
-  titulo: "DispatchHealth",
-  projects: projects[0] || [],
-  privilegios: request.session.privilegios || [],
+    console.log(progresos)
 
-  });
+    response.render('projects', {
 
+      isLoggedIn: request.session.isLoggedIn || false,
+      username: request.session.username || "",
+      titulo: "DispatchHealth",
+      projects: progresos || [],
+      privilegios: request.session.privilegios || [],
+
+    });
+  }
 };
 
 exports.get_createProjects = async (request, response, next) => {
@@ -173,7 +186,7 @@ async function updateEpicProjectID(epicsSelected, projName){
 
 exports.get_buscar = (request, response, next) => {
 
-  Epic.find(request.params.valorBusqueda)
+  Project.find(request.params.valorBusqueda)
     .then(([rows, fieldData]) => {
         response.status(200).json({projects: rows});
     })
@@ -182,3 +195,27 @@ exports.get_buscar = (request, response, next) => {
         response.status(500).json({message: "Internal Server Error"});
     });
 }
+
+exports.get_detail = async (request, response, next) => {
+  const msg = request.session.mensaje
+  request.session.mensaje = ''
+  let id = request.params.project_Name;
+
+  const name = await Project.find(id);
+  const progreso = await Project.progress(id);
+  //const labelData = await Epic.fetchBarChart(id);
+
+  response.render('projectDetail', {
+    isLoggedIn: request.session.isLoggedIn || false,
+    projecto: name[0] || '', 
+    progress: progreso[0] || '',
+    //mensaje: msg || '',
+    //tickets: ticketData[0],
+    //team: teamData[0],
+    privilegios: request.session.privilegios || [],
+    //labels: labelData[0]
+  });
+
+
+
+};
