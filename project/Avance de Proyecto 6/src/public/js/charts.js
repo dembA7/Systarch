@@ -1,5 +1,5 @@
-const printCharts = () => {
-
+const printChartsEpicDetail = () => {
+    
     window.addEventListener('load', () => {
         let id = document.getElementById("epic_Link").value;
         let url = '/epics/dashboard/' + id;
@@ -30,6 +30,16 @@ const printCharts = () => {
         });   
     });
 };
+
+const printChartsProjectDetail = () => {
+    window.addEventListener('load', () => {
+        console.log("Projectsadasdasas:D");
+        let url3 = '/epics/ticketStatus/' + id;
+
+
+        renderTicketsStatusChart(data3);
+    });
+}
 
 const renderBurnupChart = (b) => {
 
@@ -206,5 +216,3 @@ const renderTicketsStatusChart = (datas3) => {
         });
 
 };
-
-printCharts();
