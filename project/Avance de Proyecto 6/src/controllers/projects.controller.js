@@ -36,7 +36,7 @@ exports.get_projects = async (request, response, next) => {
 
       //console.log(proj.project_Name)
       const projProgress = await Project.progress(proj.project_Name)
-      //console.log(projProgress[0][0])
+      console.log(projProgress[0])
       if(projProgress[0][0] != undefined){
 
         progresos.push(projProgress[0][0])

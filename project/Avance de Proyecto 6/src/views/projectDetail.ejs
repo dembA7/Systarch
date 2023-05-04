@@ -180,6 +180,27 @@
                 text-align: center;   
 }
             }
+
+            .table-rounded {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .table-rounded td,
+  .table-rounded th {
+    padding: 0.75rem;
+  }
+  .table-rounded thead th:first-child {
+    border-top-left-radius: 10px;
+  }
+  .table-rounded thead th:last-child {
+    border-top-right-radius: 10px;
+  }
+  .table-rounded tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+  .table-rounded tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+  }
         </style>
     </head>
     
@@ -203,7 +224,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-striped">
+                <table class=" rounded table table-bordered table-striped table-hover table-rounded">
 
                     <thead class="table-head">
 
@@ -251,7 +272,11 @@
 
             </div>
 
-            <div class="col-sm" id="ticketStatusOverview">
+        </div>
+
+<div class="container">
+    <div class="row">
+            <div class="col-sm-4" id="ticketStatusOverview">
                 <div class="ticketStatusOverview">
                     <div class="ticketStatusOverviewTitle">
                         <h3 class="fw-normal" id="ticketStatusOverviewTitleText">Ticket Status Overview</h3>
@@ -259,8 +284,10 @@
                     <canvas id="doughnutChartCanvas" style="height:40vh; width:21.4vw"></canvas>
                 </div>
             </div>
-
         </div>
+
+
+
 
 </section>
 
@@ -276,9 +303,12 @@
     <br><br><br><br>
 </section>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <script src="/js/charts.js"></script>
 <script src="/js/helpers.js"></script>
 <script src="/js/handlers.js"></script>
+
 <script>
     // printChartsProjectDetail();
 </script>
