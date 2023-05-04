@@ -41,7 +41,7 @@ module.exports = class Project {
 
     static detail(ProjectDetail){
     return db.execute(`
-        SELECT p.Project_Name, p.Project_ID, e.epic_Link_Summary 
+        SELECT p.Project_Name, p.Project_ID, e.epic_Link, e.epic_Link_Summary 
         FROM Projects p 
         INNER JOIN Epics e ON e.Project_ID = p.Project_ID
         WHERE p.Project_ID = ?
@@ -61,5 +61,18 @@ module.exports = class Project {
     ) AS progress;
         `,[ProjectProgress])
         ;
+    }
+
+    static fetchTickets(id){
+        return db.execute(`
+            SELECT ticket_status, COUNT(*) AS count
+            FROM tickets
+            WHERE epic_Link IN (
+            SELECT epic_Link
+            FROM epics
+            WHERE Project_ID = ?
+            )
+            GROUP BY ticket_status;`, [id]
+        )
     }
 }

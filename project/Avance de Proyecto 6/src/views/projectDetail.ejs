@@ -49,6 +49,9 @@
                 margin-right: 3%;
                 border-radius: 5%;
             }
+            .bi-arrow-up-right{
+            color: #252525;
+            }
             .teamTableContainer{
                 padding-left: 5%;
                 padding-right: 5%;
@@ -61,6 +64,10 @@
                 text-overflow: ellipsis; 
                 white-space: nowrap;
                 text-align: center;
+            }
+            .table-responsive{
+                margin-left: 3em;
+                margin-right: 3em;
             }
             #teamUserName{
                 width: 275px; 
@@ -175,14 +182,14 @@
             }
         </style>
     </head>
-    <!-- NO QUITAR ESTE INPUT, ES PARA TOMAR EL VALOR DEL EPIC ID -->
-    <input type="hidden" id="project_ID" value="<%= projecto[0].project_ID %>"> 
+    
+    <!-- No le sabes mijo. Att: Chico del back y Pat-->
+    
 
 <section id="head">
     <div id="flex">
         <div id="title">
-            <h1 class="fw-light" id="title"><%= projecto[0].project_Name %></h1>
-            <%= console.log(projecto[0].project_Name)%>
+            <h1 class="fw-light" id="title"><%= projecto %></h1>
         </div>
     </div>
 </section>
@@ -193,31 +200,56 @@
 
 
         <div id="Epics">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-    
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-    
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-        
-                </tr>
-                </tbody>
-            </table>
+
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+
+                    <thead class="table-head">
+
+                        <tr>
+
+                            <th>Epic</th>
+                            <th>Summary</th>
+                            <th> </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="results">
+
+                        <% epics.forEach(epic=> { %>
+
+                            <tr>
+
+                                <td class="table-col">
+                                    <%= epic.epic_Link %>
+                                </td>
+
+                                <td class="table-col">
+                                    <%= epic.epic_Link_Summary %>   
+                                </td>
+                                <td class="table-col">
+                                    <div class="detailButton">
+                                        <a href="/epics/details/<%=epic.epic_Link%>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right"
+                                                viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        <% }); %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
             <div class="col-sm" id="ticketStatusOverview">
                 <div class="ticketStatusOverview">
