@@ -168,7 +168,8 @@
                     margin-right: 8%;
                 }
                 .col-sm-4{
-                    width: 453px;
+                    width: 553px;
+                    height: 250px;
                 }
                 #barChartCanvas{
                     margin-bottom: 10%;
@@ -200,6 +201,18 @@
             .table-rounded tbody tr:last-child td:last-child {
                 border-bottom-right-radius: 10px;
             }
+            .col-sm-4{
+                width: 500px;
+                height: 250px;
+                text-align: center;
+                
+            }
+            .rounded.table.table-bordered.table-striped.table-hover.table-rounded{
+                margin-top: 40px;
+                margin-bottom: auto;
+                margin-left: auto;
+                margin-right: auto;
+            }
         </style>
     </head>   
 
@@ -212,7 +225,9 @@
 </section>
 
 <section id="body">
-        <div id="Epics">
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-4" id="Epics">
             <div class="table-responsive">
                 <table class=" rounded table table-bordered table-striped table-hover table-rounded">
                     <thead class="table-head">
@@ -248,10 +263,8 @@
                 </table>
             </div>
         </div>
-
-    <div class="container">
         <div class="row">
-            <div class="col-sm-4" id="ticketStatusOverview">
+            <div class="col-sm-8" id="ticketStatusOverview">
                 <div class="ticketStatusOverview">
                     <div class="ticketStatusOverviewTitle">
                         <h3 class="fw-normal" id="ticketStatusOverviewTitleText">Ticket Status Overview</h3>
@@ -261,6 +274,7 @@
             </div>
         </div>
     </div>
+</div>
 
 </section>
 
