@@ -33,7 +33,9 @@
                     <form action="/users/account/edituser/<%= userInfo.user_ID %>/delete" method="POST">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <div class="col-md-4">
-                            <button id="delUser" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this account?')" type="submit">Delete account</button>
+                            <% if (userInfo.user_ID != 3) { %>
+                                <button id="delUser" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this account?')" type="submit">Delete account</button>
+                            <% } %>
                         </div>
                     </form>
                 </div>

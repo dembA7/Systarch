@@ -75,4 +75,15 @@ module.exports = class Project {
             GROUP BY ticket_status;`, [id]
         )
     }
+
+    static updateProject(proj_Name, id){
+        return db.execute(`
+        UPDATE projects
+        SET project_Name = ?
+        WHERE project_Name = ?
+        LIMIT 1;
+        `, [proj_Name, id]
+        )
+    }
+
 }
