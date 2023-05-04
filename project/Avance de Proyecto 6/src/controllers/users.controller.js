@@ -108,7 +108,7 @@ exports.post_signup = (request, response, next) => {
       userPass: request.body.userPass || "12345",
       userMail: request.body.userMail || "anon@gmail.com",
       userCel: phone || "442123456789",
-      userSkill: request.body.userSkill || '3',
+      userSkill: request.body.userSkill || '',
       userWeekAp: 0
     });
 
@@ -208,6 +208,14 @@ exports.post_thisAccount = (request, response, next) => {
   )
   console.log("[Info] Administrator made changes into an account.");
   request.params.id = request.body.user_Name;
+  response.redirect('/users/totalusers');
+}
+
+exports.deleteAccount = (request, response, next) => {
+  User.deleteUser(
+    request.params.id
+  )
+  console.log("[Info] Administrator deleted an account");
   response.redirect('/users/totalusers');
 }
 

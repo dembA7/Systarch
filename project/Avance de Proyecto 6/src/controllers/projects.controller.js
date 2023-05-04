@@ -1,19 +1,62 @@
 const Epic = require('../models/epics.model');
 const Project = require('../models/project.model');
-exports.get_projects = async (request, response, next) => {
 
-  projects = await Project.fetchAll()
+exports.get_projects = async (request, response, next) => {
+  
+  // Project.fetchAll()
+  // .then(([rows,fieldData]) => {
+  //   const project_Name = rows[0].project_Name
+  //   Project.progress(project_Name)
+  //   .then(([rows2, fieldData]) => {
+  //     let project_progress;
+  //     for(let progresos of rows2){
+  //       project_progress += progresos.progreso;
+  //     }
+  //     project_progress = project_progress / rows2.length;
+
+  //     response.render('projects', {
+  //       isLoggedIn: request.session.isLoggedIn || false,
+  //       username: request.session.username || "",
+  //       titulo: "DispatchHealth",
+  //       projects: rows,
+  //       project_progress: project_progress,
+  //       privilegios: request.session.privilegios || [],
+  //     });
+  //   });
+  // })
+  // .catch(err => console.log(err));
+
+  const projects = await Project.fetchAll()
+  
+  let progresos = [];
+
+  if(projects[0].length > 0){
+
+    for(let proj of projects[0]){
+
+      //console.log(proj.project_Name)
+      const projProgress = await Project.progress(proj.project_Name)
+      console.log(projProgress[0])
+      if(projProgress[0][0] != undefined){
+
+        progresos.push(projProgress[0][0])
+
+      }
+
+    };
+    
+
+  }
 
   response.render('projects', {
 
-  isLoggedIn: request .session.isLoggedIn || false,
-  username: request.session.username || "",
-  titulo: "DispatchHealth",
-  projects: projects[0] || [],
-  privilegios: request.session.privilegios || [],
+      isLoggedIn: request.session.isLoggedIn || false,
+      username: request.session.username || "",
+      titulo: "DispatchHealth",
+      projects: progresos || [],
+      privilegios: request.session.privilegios || [],
 
-  });
-
+    });
 };
 
 exports.get_createProjects = async (request, response, next) => {
@@ -173,7 +216,7 @@ async function updateEpicProjectID(epicsSelected, projName){
 
 exports.get_buscar = (request, response, next) => {
 
-  Epic.find(request.params.valorBusqueda)
+  Project.find(request.params.valorBusqueda)
     .then(([rows, fieldData]) => {
         response.status(200).json({projects: rows});
     })
@@ -182,3 +225,33 @@ exports.get_buscar = (request, response, next) => {
         response.status(500).json({message: "Internal Server Error"});
     });
 }
+
+exports.get_detail = async (request, response, next) => {
+  
+  let name = request.params.project_Name;
+  
+  Project.fetchOne(name)
+  .then((project) => {
+    
+    Project.detail(project[0][0].project_ID)
+    .then((epics) => {
+
+      Project.fetchTickets(project[0][0].project_ID)
+      .then((tickets) => {
+        console.log(tickets[0])
+        response.render('projectDetail', {
+          isLoggedIn: request.session.isLoggedIn || false,
+          projecto: project[0][0].project_Name || '',
+          epics: epics[0] || [],
+          tickets: tickets[0] || [],
+          privilegios: request.session.privilegios || []
+        })
+
+      })
+
+    })
+
+  })
+
+  
+};

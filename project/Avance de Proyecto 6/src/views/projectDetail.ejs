@@ -12,7 +12,305 @@
                 margin-left: 1em;
                 font-size: 58px;
             }
+
+            /* BODY */
+            #flex{
+                display: flex;
+            }
+            #separator{
+                margin-top: 5em;
+                margin-bottom: 5em;
+            }
+            #burnupChartTitleText{
+                font-size: 36px;
+                padding: 25px 5%;
+            }
+            #teamTableTitleText, #ticketLabelChartTitleText, #ticketStatusOverviewTitleText{
+                font-size: 36px;
+                margin-top: 25px;
+                text-align: center;
+            }
+            .col-sm-8{
+                width: 990px;
+                height: 580px;
+                background-color: #e9ecef;
+                margin-left: 3%;
+                border-radius: 5%;
+            }
+            #burnupChartCanvas{
+                margin-left: 8%;
+                margin-right: 10%;
+            }
+            .col-sm-4{
+                width: 763px;
+                height: 580px;
+                background-color: #e9ecef;
+                margin-left: 3%;
+                margin-right: 3%;
+                border-radius: 5%;
+            }
+            .bi-arrow-up-right{
+            color: #252525;
+            }
+            .teamTableContainer{
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+            .table-head{
+                text-align: center;
+            }
+            .table-col {
+                overflow: hidden; 
+                text-overflow: ellipsis; 
+                white-space: nowrap;
+                text-align: center;
+            }
+            .table-responsive{
+                margin-left: 3em;
+                margin-right: 3em;
+            }
+            #teamUserName{
+                width: 275px; 
+            }
+            #teamUserWeeklyAp, #teamUserSkill{
+                width: 150px;
+            }
+            .teamTableTitle, .burnupChartTitle{
+                padding-bottom: 20px;
+            }
+            .col-sm{
+                width: 930px;
+                height: 1100px;
+                background-color: #e9ecef;
+                border-radius: 5%;
+            }
+            #barChartCanvas{
+                margin-left: 5%;
+                margin-right: 5%;
+                margin-bottom: 5%;
+            }
+            #ticketStatusOverview{
+                margin-left: 3%;
+                margin-right: 3%;
+            }
+            #ticketLabelChart{
+                margin-left: 3%;
+            }
+            .ticketStatusOverviewTitle, .ticketLabelChartTitle{
+                margin-bottom: 5em;
+            }
+            #backButton{
+                position: absolute;
+                right: 0;
+                margin-right: 45px;
+            }
+            @media(max-width: 1902px){
+                .col-sm-8{
+                    width: 940px;
+                }
+                .col-sm-4{
+                    width: 663px;
+                }
+                .col-sm{
+                    width: 830px;
+                }
+            }
+            @media(max-width: 1740px){
+                .col-sm-8{
+                    width: 900px;
+                }
+                .col-sm-4{
+                    width: 623px;
+                }
+                .col-sm{
+                    width: 790px;
+                    height: 1100px;
+                }
+            }
+            @media(max-width: 1652px){
+                .col-sm-8{
+                    width: 860px;
+                }
+                .col-sm-4{
+                    width: 583px;
+                }
+                .col-sm{
+                    width: 750px;
+                    height: 1000px;
+                }
+            }
+            @media(max-width: 1564px){
+                .col-sm-8{
+                    width: 800px;
+                }
+                #Burnup{
+                    margin-left: 5%;
+                    margin-right: 10%;
+                }
+                .col-sm-4{
+                    width: 553px;
+                }
+                .col-sm{
+                    width: 750px;
+                }
+            }
+            @media(max-width: 1564px){
+                .col-sm-4{
+                    width: 503px;
+                }
+            }
+            @media(max-width: 1410px){
+                .col-sm-8{
+                    width: 750px;
+                }
+                #Burnup{
+                    margin-left: 5%;
+                    margin-right: 8%;
+                }
+                .col-sm-4{
+                    width: 453px;
+                }
+                #barChartCanvas{
+                    margin-bottom: 10%;
+                }
+                .col-sm{
+                    height: 700px;
+                }
+                .table {
+                text-align: center;   
+}
+            }
+
+            .table-rounded {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .table-rounded td,
+  .table-rounded th {
+    padding: 0.75rem;
+  }
+  .table-rounded thead th:first-child {
+    border-top-left-radius: 10px;
+  }
+  .table-rounded thead th:last-child {
+    border-top-right-radius: 10px;
+  }
+  .table-rounded tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+  .table-rounded tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+  }
         </style>
     </head>
+    
+    <!-- No le sabes mijo. Att: Chico del back y Pat-->
+    
+
+<section id="head">
+    <div id="flex">
+        <div id="title">
+            <h1 class="fw-light" id="title"><%= projecto %></h1>
+        </div>
+    </div>
+</section>
+
+<section id="body">
+
+    <br><br><br>
+
+
+        <div id="Epics">
+
+            <div class="table-responsive">
+
+                <table class=" rounded table table-bordered table-striped table-hover table-rounded">
+
+                    <thead class="table-head">
+
+                        <tr>
+
+                            <th>Epic</th>
+                            <th>Summary</th>
+                            <th> </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="results">
+
+                        <% epics.forEach(epic=> { %>
+
+                            <tr>
+
+                                <td class="table-col">
+                                    <%= epic.epic_Link %>
+                                </td>
+
+                                <td class="table-col">
+                                    <%= epic.epic_Link_Summary %>   
+                                </td>
+                                <td class="table-col">
+                                    <div class="detailButton">
+                                        <a href="/epics/details/<%=epic.epic_Link%>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right"
+                                                viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        <% }); %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+<div class="container">
+    <div class="row">
+            <div class="col-sm-4" id="ticketStatusOverview">
+                <div class="ticketStatusOverview">
+                    <div class="ticketStatusOverviewTitle">
+                        <h3 class="fw-normal" id="ticketStatusOverviewTitleText">Ticket Status Overview</h3>
+                    </div>
+                    <canvas id="doughnutChartCanvas" style="height:40vh; width:21.4vw"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+
+
+</section>
+
+<section id="footer">
+    <div id="return">
+        <br>
+        <a href="/projects" class="btn btn-outline-secondary float-right" id="backButton">Return&nbsp&nbsp&nbsp
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+            </svg>  
+        </a>
+    </div>
+    <br><br><br><br>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="/js/charts.js"></script>
+<script src="/js/helpers.js"></script>
+<script src="/js/handlers.js"></script>
+
+<script>
+    // printChartsProjectDetail();
+</script>
 
 <%- include('includes/foot.ejs') %>

@@ -58,16 +58,16 @@
                             </div>
                         </div>
                         <div class="col-md">
-                            <div class="form-floating">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary bg-white dropdown-toggle text-dark w-100" type="button" id="user_skill" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <%=userInfo.user_Skill%>
-                                    </button>
-                                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Front-End</a>
-                                        <a class="dropdown-item" href="#">Back-End</a>
-                                    </div>
-                                </div>
+                            <div class="form-floating" id="user_Skill">
+                                <select class="form-select" id="floatingSelectGrid" name="user_Skill" required>
+                                    <option value="<%=userInfo.user_Skill%>"><%=userInfo.user_Skill%></option>
+                                    <% if (userInfo.user_Skill == 'Front End') { %>
+                                    <option value="Back End">Back End</option>
+                                    <% } else { %>
+                                    <option value="Front End">Front End</option>
+                                    <% } %>
+                                </select>
+                                <label for="floatingSelectGrid">Skill</label>
                             </div>
                         </div>
                     </div>
