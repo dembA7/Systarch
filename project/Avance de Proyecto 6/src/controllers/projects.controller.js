@@ -1,23 +1,54 @@
 const Epic = require('../models/epics.model');
 const Project = require('../models/project.model');
+
 exports.get_projects = async (request, response, next) => {
+  
+  // Project.fetchAll()
+  // .then(([rows,fieldData]) => {
+  //   const project_Name = rows[0].project_Name
+  //   Project.progress(project_Name)
+  //   .then(([rows2, fieldData]) => {
+  //     let project_progress;
+  //     for(let progresos of rows2){
+  //       project_progress += progresos.progreso;
+  //     }
+  //     project_progress = project_progress / rows2.length;
+
+  //     response.render('projects', {
+  //       isLoggedIn: request.session.isLoggedIn || false,
+  //       username: request.session.username || "",
+  //       titulo: "DispatchHealth",
+  //       projects: rows,
+  //       project_progress: project_progress,
+  //       privilegios: request.session.privilegios || [],
+  //     });
+  //   });
+  // })
+  // .catch(err => console.log(err));
 
   const projects = await Project.fetchAll()
+  
+  let progresos = [];
+
   if(projects[0].length > 0){
-    let progresos = [];
 
     for(let proj of projects[0]){
+
       //console.log(proj.project_Name)
       const projProgress = await Project.progress(proj.project_Name)
-      //console.log(projProgress[0][0])
+      console.log(projProgress[0])
       if(projProgress[0][0] != undefined){
+
         progresos.push(projProgress[0][0])
+
       }
+
     };
+    
 
-    console.log(progresos)
+  }
 
-    response.render('projects', {
+  response.render('projects', {
 
       isLoggedIn: request.session.isLoggedIn || false,
       username: request.session.username || "",
@@ -26,7 +57,6 @@ exports.get_projects = async (request, response, next) => {
       privilegios: request.session.privilegios || [],
 
     });
-  }
 };
 
 exports.get_createProjects = async (request, response, next) => {
@@ -197,25 +227,31 @@ exports.get_buscar = (request, response, next) => {
 }
 
 exports.get_detail = async (request, response, next) => {
-  const msg = request.session.mensaje
-  request.session.mensaje = ''
-  let id = request.params.project_Name;
+  
+  let name = request.params.project_Name;
+  
+  Project.fetchOne(name)
+  .then((project) => {
+    
+    Project.detail(project[0][0].project_ID)
+    .then((epics) => {
 
-  const name = await Project.find(id);
-  const progreso = await Project.progress(id);
-  //const labelData = await Epic.fetchBarChart(id);
+      Project.fetchTickets(project[0][0].project_ID)
+      .then((tickets) => {
+        console.log(tickets[0])
+        response.render('projectDetail', {
+          isLoggedIn: request.session.isLoggedIn || false,
+          projecto: project[0][0].project_Name || '',
+          epics: epics[0] || [],
+          tickets: tickets[0] || [],
+          privilegios: request.session.privilegios || []
+        })
 
-  response.render('projectDetail', {
-    isLoggedIn: request.session.isLoggedIn || false,
-    projecto: name[0] || '', 
-    progress: progreso[0] || '',
-    //mensaje: msg || '',
-    //tickets: ticketData[0],
-    //team: teamData[0],
-    privilegios: request.session.privilegios || [],
-    //labels: labelData[0]
-  });
+      })
 
+    })
 
+  })
 
+  
 };

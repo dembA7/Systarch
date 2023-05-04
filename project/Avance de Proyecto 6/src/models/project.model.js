@@ -41,23 +41,38 @@ module.exports = class Project {
 
     static detail(ProjectDetail){
     return db.execute(`
-        static 
-        SELECT p.Project_Name, p.Project_ID, e.epic_Link_Summary 
+        SELECT p.Project_Name, p.Project_ID, e.epic_Link, e.epic_Link_Summary 
         FROM Projects p 
-        INNER JOIN Epics e ON e.Project_ID = p.Project_ID;
-        `,
+        INNER JOIN Epics e ON e.Project_ID = p.Project_ID
+        WHERE p.Project_ID = ?
+        `,[ProjectDetail]
         );
     
     }
 
     static progress(ProjectProgress){
     return db.execute(`
-        SELECT p.Project_Name, get_progreso(e.epic_Link) AS progreso
-        FROM Projects p
-        INNER JOIN epics e ON p.Project_ID = e.Project_ID
-        WHERE p.Project_Name = ?
+    SELECT Project_Name, ROUND(AVG(progreso),1) AS progreso
+    FROM (
+    SELECT p.Project_Name, get_progreso(e.epic_Link) AS progreso
+    FROM Projects p
+    INNER JOIN epics e ON p.Project_ID = e.Project_ID
+    WHERE p.Project_Name = ?
+    ) AS progress;
         `,[ProjectProgress])
         ;
     }
 
+    static fetchTickets(id){
+        return db.execute(`
+            SELECT ticket_status, COUNT(*) AS count
+            FROM tickets
+            WHERE epic_Link IN (
+            SELECT epic_Link
+            FROM epics
+            WHERE Project_ID = ?
+            )
+            GROUP BY ticket_status;`, [id]
+        )
+    }
 }
