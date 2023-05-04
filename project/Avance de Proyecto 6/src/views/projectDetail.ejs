@@ -178,34 +178,30 @@
                 }
                 .table {
                 text-align: center;   
-}
+                }
             }
 
             .table-rounded {
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .table-rounded td,
-  .table-rounded th {
-    padding: 0.75rem;
-  }
-  .table-rounded thead th:first-child {
-    border-top-left-radius: 10px;
-  }
-  .table-rounded thead th:last-child {
-    border-top-right-radius: 10px;
-  }
-  .table-rounded tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 10px;
-  }
-  .table-rounded tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 10px;
-  }
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .table-rounded td, .table-rounded th {
+                padding: 0.75rem;
+            }
+            .table-rounded thead th:first-child {
+                border-top-left-radius: 10px;
+            }
+            .table-rounded thead th:last-child {
+                border-top-right-radius: 10px;
+            }
+            .table-rounded tbody tr:last-child td:first-child {
+                border-bottom-left-radius: 10px;
+            }
+            .table-rounded tbody tr:last-child td:last-child {
+                border-bottom-right-radius: 10px;
+            }
         </style>
-    </head>
-    
-    <!-- No le sabes mijo. Att: Chico del back y Pat-->
-    
+    </head>   
 
 <section id="head">
     <div id="flex">
@@ -216,38 +212,22 @@
 </section>
 
 <section id="body">
-
-    <br><br><br>
-
-
         <div id="Epics">
-
             <div class="table-responsive">
-
                 <table class=" rounded table table-bordered table-striped table-hover table-rounded">
-
                     <thead class="table-head">
-
                         <tr>
-
                             <th>Epic</th>
                             <th>Summary</th>
                             <th> </th>
-
                         </tr>
-
                     </thead>
-
                     <tbody id="results">
-
                         <% epics.forEach(epic=> { %>
-
                             <tr>
-
                                 <td class="table-col">
                                     <%= epic.epic_Link %>
                                 </td>
-
                                 <td class="table-col">
                                     <%= epic.epic_Link_Summary %>   
                                 </td>
@@ -263,19 +243,14 @@
                                     </div>
                                 </td>
                             </tr>
-
                         <% }); %>
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
 
-<div class="container">
-    <div class="row">
+    <div class="container">
+        <div class="row">
             <div class="col-sm-4" id="ticketStatusOverview">
                 <div class="ticketStatusOverview">
                     <div class="ticketStatusOverviewTitle">
@@ -285,22 +260,18 @@
                 </div>
             </div>
         </div>
-
-
-
+    </div>
 
 </section>
 
 <section id="footer">
     <div id="return">
-        <br>
         <a href="/projects" class="btn btn-outline-secondary float-right" id="backButton">Return&nbsp&nbsp&nbsp
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
             </svg>  
         </a>
     </div>
-    <br><br><br><br>
 </section>
 
 
