@@ -232,7 +232,7 @@ exports.get_detail = async (request, response, next) => {
 };
 
 exports.post_edit = (request, response, next) => {
-  const id = request.params.id;console.log("Conroller",id);
+  const id = request.params.id;
   const {proj_Name}  = request.body;
   Project.updateProject(proj_Name,id)
   .then(([rows, fieldData]) => {
