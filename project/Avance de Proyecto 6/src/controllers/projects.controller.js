@@ -2,29 +2,6 @@ const Epic = require('../models/epics.model');
 const Project = require('../models/project.model');
 
 exports.get_projects = async (request, response, next) => {
-  
-  // Project.fetchAll()
-  // .then(([rows,fieldData]) => {
-  //   const project_Name = rows[0].project_Name
-  //   Project.progress(project_Name)
-  //   .then(([rows2, fieldData]) => {
-  //     let project_progress;
-  //     for(let progresos of rows2){
-  //       project_progress += progresos.progreso;
-  //     }
-  //     project_progress = project_progress / rows2.length;
-
-  //     response.render('projects', {
-  //       isLoggedIn: request.session.isLoggedIn || false,
-  //       username: request.session.username || "",
-  //       titulo: "DispatchHealth",
-  //       projects: rows,
-  //       project_progress: project_progress,
-  //       privilegios: request.session.privilegios || [],
-  //     });
-  //   });
-  // })
-  // .catch(err => console.log(err));
 
   const projects = await Project.fetchAll()
   
@@ -34,9 +11,8 @@ exports.get_projects = async (request, response, next) => {
 
     for(let proj of projects[0]){
 
-      //console.log(proj.project_Name)
       const projProgress = await Project.progress(proj.project_Name)
-      console.log(projProgress[0])
+      
       if(projProgress[0][0] != undefined){
 
         progresos.push(projProgress[0][0])
@@ -238,7 +214,6 @@ exports.get_detail = async (request, response, next) => {
 
       Project.fetchTickets(project[0][0].project_ID)
       .then((tickets) => {
-        console.log(tickets[0])
         response.render('projectDetail', {
           isLoggedIn: request.session.isLoggedIn || false,
           projecto: project[0][0].project_Name || '',
@@ -255,3 +230,16 @@ exports.get_detail = async (request, response, next) => {
 
   
 };
+
+exports.post_edit = (request, response, next) => {
+  const id = request.params.id;console.log("Conroller",id);
+  const {proj_Name}  = request.body;
+  Project.updateProject(proj_Name,id)
+  .then(([rows, fieldData]) => {
+    response.status(200).end();
+  })
+  .catch(err => {
+    console.log(err)
+    response.status(500).json({message: "Internal Server Error"});
+  });
+}
