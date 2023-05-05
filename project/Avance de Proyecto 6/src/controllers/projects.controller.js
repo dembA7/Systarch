@@ -199,7 +199,7 @@ async function updateEpicProjectID(epicsSelected, projName){
     }
 
     else{
-      
+
       console.log(`[Info] Epic ${epicsSelected[i].epic_Link} alrealdy has a projectID. Updating it...`)
       
       projectFetched = await Project.fetchOne(projName)
