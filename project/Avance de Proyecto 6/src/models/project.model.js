@@ -41,11 +41,11 @@ module.exports = class Project {
 
     static detail(ProjectDetail){
     return db.execute(`
-            SELECT p.project_Name, p.project_ID, e.epic_Link, e.epic_Link_Summary 
-            FROM project_epics pe, projects p, epics e
-            WHERE p.project_ID = pe.project_ID
-            AND e.epic_ID = pe.epic_ID
-            AND p.project_ID = ?
+        SELECT p.project_Name, p.project_ID, e.epic_Link, e.epic_Link_Summary 
+        FROM project_epics pe, projects p, epics e
+        WHERE p.project_ID = pe.project_ID
+        AND e.epic_ID = pe.epic_ID
+        AND p.project_ID = ?
         `,[ProjectDetail]
         );
     

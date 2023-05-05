@@ -214,6 +214,9 @@ exports.get_detail = async (request, response, next) => {
 
       Project.fetchTickets(project[0][0].project_ID)
       .then((tickets) => {
+        console.log(project);
+        console.log(epics);
+        console.log(tickets);
         response.render('projectDetail', {
           isLoggedIn: request.session.isLoggedIn || false,
           projecto: project[0][0].project_Name || '',
