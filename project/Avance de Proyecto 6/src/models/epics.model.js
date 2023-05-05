@@ -88,12 +88,14 @@ module.exports = class Epic {
     }
 
     static updateProjectID(epic_link, projectID){      
-        return db.execute(`
-            UPDATE epics
-            SET
-            project_ID = ?
-            WHERE epic_Link = ?
-        `,[projectID, epic_link]);
+        return db.execute(
+          `
+            INSERT INTO project_epics
+            VALUES(?, (SELECT epic_ID FROM epics
+                WHERE epic_Link = ?))
+        `,
+          [projectID, epic_link]
+        );
     }
 
     static find(valorBusqueda) {

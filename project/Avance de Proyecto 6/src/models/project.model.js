@@ -10,7 +10,7 @@ module.exports = class Project {
   save() {
     return db.execute(
       `
-                INSERT INTO projects (project_Name)
+            INSERT INTO projects (project_Name)
             values (?)
             `,
       [this.project_Name]
