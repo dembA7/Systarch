@@ -98,7 +98,7 @@ module.exports = class Epic {
 
     static find(valorBusqueda) {
         return db.execute(`
-            SELECT epic_Link, epic_Link_Summary, get_progreso(epic_Link) AS progreso
+            SELECT epic_Link, epic_Link_Summary, created_at, get_progreso(epic_Link) AS progreso
             FROM epics
             WHERE (epic_Link LIKE ? OR epic_Link_Summary LIKE ?)
         `, [ '%' + valorBusqueda + '%', '%' + valorBusqueda + '%', ]
