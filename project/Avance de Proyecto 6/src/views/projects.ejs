@@ -268,7 +268,6 @@
     <div id="results">
     <% if (projects.length > 0) { %>
         <% for (let proj of projects) { %>
-            <% console.log(proj) %>
             <div id="proj">
                 <div id="progressContainer" style="width: 40%" class="item">
                     <div id="progressBar">
@@ -295,7 +294,7 @@
                     </a>
                 </div>
                 <div class="detailButton" id="editBtn_<%= proj.Project_Name %>">
-                    <a href="/projects/details/<%= proj.Project_Name%>">
+                    <a href="/projects/details/<%= proj.project_Name%>">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                             class="bi bi-arrow-up-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
