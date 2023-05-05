@@ -55,9 +55,10 @@ module.exports = class Project {
     SELECT Project_Name, ROUND(AVG(progreso),1) AS progreso
     FROM (
     SELECT p.Project_Name, get_progreso(e.epic_Link) AS progreso
-    FROM Projects p
-    INNER JOIN epics e ON p.Project_ID = e.Project_ID
-    WHERE p.Project_Name = ?
+    FROM project_epics pe, projects p, epics e
+    WHERE p.project_ID = pe.project_ID
+    AND e.epic_ID = pe.epic_ID
+    AND p.Project_Name = 'Skynet'
     ) AS progress;
         `,[ProjectProgress])
         ;
