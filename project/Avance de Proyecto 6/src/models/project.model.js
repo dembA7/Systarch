@@ -71,8 +71,9 @@ module.exports = class Project {
             FROM tickets
             WHERE epic_Link IN (
             SELECT epic_Link
-            FROM epics
-            WHERE Project_ID = ?
+            FROM epics e, projects p, project_epics pe
+            WHERE p.project_ID = pe.project_ID
+            AND p.project_ID = ?
             )
             GROUP BY ticket_status;`, [id]
         )
