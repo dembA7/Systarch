@@ -214,9 +214,6 @@ exports.get_detail = async (request, response, next) => {
 
       Project.fetchTickets(project[0][0].project_ID)
       .then((tickets) => {
-        console.log(project);
-        console.log(epics);
-        console.log(tickets);
         response.render('projectDetail', {
           isLoggedIn: request.session.isLoggedIn || false,
           projecto: project[0][0].project_Name || '',
@@ -246,3 +243,18 @@ exports.post_edit = (request, response, next) => {
     response.status(500).json({message: "Internal Server Error"});
   });
 }
+
+exports.get_TicketStatus = (request, response, next) => {
+  Project.fetchDoughnutChart(request.params.project_Name)
+
+    .then(([rows, fieldData]) => {
+      response.status(200).json({
+        status_array: rows,
+      });
+    })
+
+    .catch((err) => {
+      console.log(err);
+      response.status(500).json({ message: "Internal Server Error" });
+    });
+};

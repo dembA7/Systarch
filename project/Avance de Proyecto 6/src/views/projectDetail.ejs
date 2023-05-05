@@ -10,6 +10,7 @@
             h1{
                 margin-top: 1em;
                 margin-left: 1em;
+                margin-bottom: 1em;
                 font-size: 58px;
             }
 
@@ -17,29 +18,12 @@
             #flex{
                 display: flex;
             }
-            #separator{
-                margin-top: 5em;
-                margin-bottom: 5em;
-            }
-            #burnupChartTitleText{
-                font-size: 36px;
-                padding: 25px 5%;
-            }
-            #teamTableTitleText, #ticketLabelChartTitleText, #ticketStatusOverviewTitleText{
-                font-size: 36px;
-                margin-top: 25px;
-                text-align: center;
-            }
             .col-sm-8{
                 width: 990px;
                 height: 580px;
                 background-color: #e9ecef;
                 margin-left: 3%;
                 border-radius: 5%;
-            }
-            #burnupChartCanvas{
-                margin-left: 8%;
-                margin-right: 10%;
             }
             .col-sm-4{
                 width: 763px;
@@ -219,28 +203,31 @@
                 height: 570px;
                 text-align: center;
             }
+
+            #head {
+                margin: 5em;
+            }
         </style>
-    </head>   
+    </head>
+
+    <input type="hidden" id="project_ID" value="<%= projecto %>">
 
 <section id="head">
-    <div id="flex">
-        <div id="title">
-            <h1 class="fw-light" id="title"><%= projecto %></h1>
-        </div>
+    <div id="title">
+        <h1 class="fw-light" id="title"><%= projecto %></h1>
     </div>
 </section>
 
 <section id="body">
     <div class="container">
         <div class="row">
-            <div class="col-sm-4" id="Epics">
+            <div class="col-sm-4" id="epicsTable">
                 <div class="table-responsive">
                     <table class="rounded table table-bordered table-striped table-hover table-rounded">
                         <thead class="table-head">
                             <tr>
                                 <th>Epic</th>
                                 <th>Summary</th>
-                            
                             </tr>
                         </thead>
                         <tbody id="results">
@@ -298,7 +285,7 @@
 <script src="/js/handlers.js"></script>
 
 <script>
-    // printChartsProjectDetail();
+    printChartsProjectDetail();
 </script>
 
 <%- include('includes/foot.ejs') %>

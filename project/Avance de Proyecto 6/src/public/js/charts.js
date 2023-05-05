@@ -31,16 +31,6 @@ const printChartsEpicDetail = () => {
     });
 };
 
-const printChartsProjectDetail = () => {
-    window.addEventListener('load', () => {
-        console.log("Projectsadasdasas:D");
-        let url3 = '/epics/ticketStatus/' + id;
-
-
-        renderTicketsStatusChart(data3);
-    });
-}
-
 const renderBurnupChart = (b) => {
 
     if(b.sprints.length > 1){
@@ -216,3 +206,14 @@ const renderTicketsStatusChart = (datas3) => {
         });
 
 };
+
+
+const printChartsProjectDetail = () => {
+    window.addEventListener('load', () => {
+
+        let nombre = document.getElementById("project_ID").value;
+        let url = '/projects/ticketStatus/' + nombre;
+        renderTicketsStatusChart(url);
+
+    });
+}
