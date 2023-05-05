@@ -326,12 +326,12 @@
 
             if (data.projects.length > 0) {
                 for (let proj of data.projects) {
-                    console.log(json.stringify(proj));
+                    console.log(proj);
                     respuesta += '<div id="proj">';
                         respuesta += '<div id="progressContainer" style="width: 40%" class="item">';
                             respuesta += '<div id="progressBar">';
                                 respuesta += '<div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 50px">';
-                                    respuesta += '<div class="progress-bar bg-success" style="width:' + projecto_progress + '>"' + projecto_progress + '</div>';
+                                    respuesta += '<div class="progress-bar bg-success" style="width:' + proj.projecto_progress + '>"' + proj.projecto_progress + '</div>';
                                 respuesta += '</div>';
                             respuesta += '</div>';
                         respuesta += '</div>';
