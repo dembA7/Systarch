@@ -53,7 +53,7 @@ module.exports = class Project {
 
     static progress(ProjectProgress){
         return db.execute(`
-            SELECT project_Name, ROUND(AVG(progreso),1) AS progreso
+            SELECT project_Name, ROUND(AVG(progreso),0) AS progreso
             FROM (
             SELECT p.project_Name, get_progreso(e.epic_Link) AS progreso
             FROM project_epics pe, projects p, epics e
