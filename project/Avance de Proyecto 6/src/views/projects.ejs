@@ -278,7 +278,7 @@
                     </div>
                 </div>
                 <div id="projDetail" style="width: 60%" class="item">
-                    <div id="projDetail_<%= proj.Project_Name %>">
+                    <div id="projDetail_<%= proj.project_Name %>">
                         <p id="detailBorder">
                             <%= proj.project_Name%>
                         </p>
@@ -367,7 +367,7 @@
 function editProject(proj) {
             console.log(proj)
             const id = proj.project_Name;
-            const projElement = document.getElementById('projDetail_'+id);
+            const projElement = document.getElementById('projDetail_'+ id);
 
             let respuesta = '<input id="newName_'+ id +'" type="text" value ="' + proj.project_Name + '" style="width: 48%;border-radius: 10px; border-width: 1px;">';
             projElement.innerHTML = respuesta;
