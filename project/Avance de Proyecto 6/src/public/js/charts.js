@@ -21,8 +21,6 @@ const printChartsEpicDetail = () => {
             renderTicketsLabelChart(data2);
             renderTicketsStatusChart(data3);
             enableEventHandlers(BurnupChart, data)
-
-
         
         })
         .catch(err => {
@@ -213,7 +211,19 @@ const printChartsProjectDetail = () => {
 
         let nombre = document.getElementById("project_ID").value;
         let url = '/projects/ticketStatus/' + nombre;
-        renderTicketsStatusChart(url);
+
+        fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((result) => {
+            return result.json();
+          })
+          .then((data) => {
+            renderTicketsStatusChart(data[0]);
+          });
 
     });
 }
