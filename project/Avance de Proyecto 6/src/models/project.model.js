@@ -83,15 +83,16 @@ module.exports = class Project {
   static fetchTickets(id) {
     return db.execute(
       `
-            SELECT ticket_status, COUNT(*) AS count
-            FROM tickets
-            WHERE epic_Link IN (
-            SELECT epic_Link
-            FROM epics e, projects p, project_epics pe
-            WHERE p.project_ID = pe.project_ID
-            AND p.project_ID = ?
-            )
-            GROUP BY ticket_status;`,
+      SELECT ticket_status, COUNT(*) AS count
+      FROM tickets
+      WHERE epic_Link IN (
+      SELECT e.epic_Link
+      FROM epics e, projects p, project_epics pe
+      WHERE p.project_ID = pe.project_ID
+      AND p.project_ID = ?
+      AND e.epic_ID = pe.epic_ID
+      )
+      GROUP BY ticket_status`,
       [id]
     );
   }
