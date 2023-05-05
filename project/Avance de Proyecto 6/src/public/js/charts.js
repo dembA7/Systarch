@@ -222,7 +222,7 @@ const printChartsProjectDetail = () => {
             return result.json();
           })
           .then((data) => {
-            console.log(data);|
+            console.log(data);
             renderTicketsStatusChart(data);
           });
 
