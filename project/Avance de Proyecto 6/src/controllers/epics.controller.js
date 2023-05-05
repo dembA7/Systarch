@@ -195,24 +195,31 @@ function sleep(ms) {
 }
 
 exports.get_detail = async (request, response, next) => {
-  const msg = request.session.mensaje
-  request.session.mensaje = ''
-  // console.log("[Info] A user requested some epic details.");
-  let id = request.params.epic_Link;
-
-  const ticketData = await Epic.fetchTickets(id);
-  const teamData = await Epic.fetchTeam(id);
-
-  response.render('epicDetail', {
-    isLoggedIn: request.session.isLoggedIn || false,
-    nombre: request.session.nombre || '',
-    mensaje: msg || '',
-    tickets: ticketData[0],
-    team: teamData[0],
-    privilegios: request.session.privilegios || [],
-  });
-
+  try {
+    const msg = request.session.mensaje
+    request.session.mensaje = ''
+    // console.log("[Info] A user requested some epic details.");
+    let id = request.params.epic_Link;
   
+    const ticketData = await Epic.fetchTickets(id);
+    const teamData = await Epic.fetchTeam(id);
+  
+    response.render('epicDetail', {
+      isLoggedIn: request.session.isLoggedIn || false,
+      nombre: request.session.nombre || '',
+      mensaje: msg || '',
+      tickets: ticketData[0],
+      team: teamData[0],
+      privilegios: request.session.privilegios || [],
+    });
+  } catch (error) {
+    response.render('err500', {
+      titulo: 'DispatchHealth: ERR500',
+      isLoggedIn: request.session.isLoggedIn || false,
+      username: request.session.username || '',
+      privilegios: request.session.privilegios || [],
+    });
+  };
 
 };
 

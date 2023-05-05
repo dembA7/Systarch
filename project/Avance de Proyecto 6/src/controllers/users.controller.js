@@ -185,16 +185,16 @@ exports.get_totalUsers = (request, response, next) => {
 
 exports.get_thisAccount = (request, response, next) => {
   User.fetchUserId(request.params.id)
-    .then(([rows, fieldData]) => {
-        response.render('edituser', { 
-          userInfo: rows[0],
-          isLoggedIn: request.session.isLoggedIn || false,
-          privilegios: request.session.privilegios || [],
-        });
-    })
-    .catch(err => {
-        console.log(err);
-    });
+  .then(([rows, fieldData]) => {
+      response.render('edituser', { 
+        userInfo: rows[0],
+        isLoggedIn: request.session.isLoggedIn || false,
+        privilegios: request.session.privilegios || [],
+      });
+  })
+  .catch(err => {
+      console.log(err);
+  });
 }
 
 exports.post_thisAccount = (request, response, next) => {
