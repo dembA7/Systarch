@@ -45,7 +45,7 @@ module.exports = class Project {
             FROM project_epics pe, projects p, epics e
             WHERE p.project_ID = pe.project_ID
             AND e.epic_ID = pe.epic_ID
-            AND p.project_name = ?
+            AND p.project_ID = ?
         `,[ProjectDetail]
         );
     
