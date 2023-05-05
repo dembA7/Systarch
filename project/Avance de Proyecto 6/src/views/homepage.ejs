@@ -338,7 +338,8 @@
                         respuesta += '</div>';
                         respuesta += '<div id="epicDetail" style="width: 60%" class="item">';
                             respuesta += '<p id="detailBorder">';
-                                    respuesta += epic.epic_Link + " " + epic.epic_Link_Summary;
+                                    respuesta += epic.epic_Link + " " + epic.epic_Link_Summary + '&nbsp';
+                                    respuesta += '<small class="text-body-secondary">Created at: ' + JSON.stringify(epic) + '</small>';
                             respuesta += '</p>';
                         respuesta += '</div>';
                         respuesta += '<div id="editButton">';
