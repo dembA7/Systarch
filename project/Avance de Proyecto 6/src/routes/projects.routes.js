@@ -18,5 +18,6 @@ router.get('/:valorBusqueda', projectsController.get_buscar);
 
 router.get('/details/:project_Name', projectsController.get_detail);
 
+router.post('/edit/:id', projectsController.post_edit)
 
 module.exports = router;    

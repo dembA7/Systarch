@@ -10,8 +10,6 @@ router.get('/import', epicsController.get_import);
 
 router.post('/import', epicsController.post_import);
 
-router.get('/details', epicsController.get_detail);
-
 router.get('/details/:epic_Link', epicsController.get_detail);
 
 router.get('/homepage/:valorBusqueda', epicsController.get_SearchEpic);

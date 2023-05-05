@@ -42,8 +42,8 @@ module.exports = class Project {
     static detail(ProjectDetail){
     return db.execute(`
         SELECT p.Project_Name, p.Project_ID, e.epic_Link, e.epic_Link_Summary 
-        FROM Projects p 
-        INNER JOIN Epics e ON e.Project_ID = p.Project_ID
+        FROM projects p 
+        INNER JOIN epics e ON e.Project_ID = p.Project_ID
         WHERE p.Project_ID = ?
         `,[ProjectDetail]
         );
@@ -52,16 +52,16 @@ module.exports = class Project {
 
     static progress(ProjectProgress){
     return db.execute(`
-    SELECT Project_Name, ROUND(AVG(progreso),1) AS progreso
-    FROM (
-    SELECT p.Project_Name, get_progreso(e.epic_Link) AS progreso
-    FROM project_epics pe, projects p, epics e
-    WHERE p.project_ID = pe.project_ID
-    AND e.epic_ID = pe.epic_ID
-    AND p.Project_Name = 'Skynet'
-    ) AS progress;
-        `,[ProjectProgress])
-        ;
+        SELECT Project_Name, ROUND(AVG(progreso),1) AS progreso
+        FROM (
+        SELECT p.Project_Name, get_progreso(e.epic_Link) AS progreso
+        FROM project_epics pe, projects p, epics e
+        WHERE p.project_ID = pe.project_ID
+        AND e.epic_ID = pe.epic_ID
+        AND p.Project_Name = ?
+        ) AS progress;
+            `,[ProjectProgress])
+            ;
     }
 
     static fetchTickets(id){
@@ -76,4 +76,15 @@ module.exports = class Project {
             GROUP BY ticket_status;`, [id]
         )
     }
+
+    static updateProject(proj_Name, id){
+        return db.execute(`
+        UPDATE projects
+        SET project_Name = ?
+        WHERE project_Name = ?
+        LIMIT 1;
+        `, [proj_Name, id]
+        )
+    }
+
 }
