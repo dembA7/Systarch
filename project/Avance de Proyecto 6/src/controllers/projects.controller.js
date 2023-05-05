@@ -184,7 +184,17 @@ async function updateEpicProjectID(epicsSelected, projName){
       projectFetched = await Project.fetchOne(projName)
       
       await Epic.updateProjectID(epicsSelected[i].epic_Link, projectFetched[0][0].project_ID)
-      await Epic.updateProject_Epics(epicsSelected[i].epic_Link, projectFetched[0][0].project_ID)
+      
+      try {
+        
+        await Epic.updateProject_Epics(epicsSelected[i].epic_Link, projectFetched[0][0].project_ID)
+        
+      }
+
+      catch (error) {
+        console.log(error)
+      }
+      
 
     }
     
