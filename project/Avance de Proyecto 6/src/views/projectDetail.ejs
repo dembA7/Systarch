@@ -5,7 +5,6 @@
     <head>
         <meta charset="utf-8">
         <style>
-
             /* HEAD */
             h1{
                 margin-top: 1em;
@@ -13,25 +12,20 @@
                 margin-bottom: 1em;
                 font-size: 58px;
             }
-
             /* BODY */
             #flex{
                 display: flex;
             }
-            .col-sm-8{
-                width: 990px;
-                height: 580px;
-                background-color: #e9ecef;
-                margin-left: 3%;
-                border-radius: 5%;
-            }
             .col-sm-4{
-                width: 763px;
-                height: 580px;
-                background-color: #e9ecef;
-                margin-left: 3%;
-                margin-right: 3%;
-                border-radius: 5%;
+                width: 500px;
+                height: 250px;
+                text-align: center;
+                padding: 10px; 
+            }
+            .col-sm-8{
+                width: 660px;
+                height: 700px;
+                text-align: center;
             }
             .bi-arrow-up-right{
             color: #252525;
@@ -49,11 +43,8 @@
                 margin-left: 3em;
                 margin-right: 3em;
             }
-            .col-sm{
-                width: 930px;
-                height: 1100px;
-                background-color: #e9ecef;
-                border-radius: 5%;
+            #ticketStatusOverviewTitleText{
+                margin-top: 25px;
             }
             #ticketStatusOverview{
                 margin-left: 3%;
@@ -83,22 +74,12 @@
             .table-rounded tbody tr:last-child td:last-child {
                 border-bottom-right-radius: 10px;
             }
-            .col-sm-4{
-                width: 500px;
-                height: 250px;
-                text-align: center;
-                padding: 10px; 
-            }
+            
             .rounded.table.table-bordered.table-striped.table-hover.table-rounded{
                 margin-top: 30px;
                 margin-bottom: auto;
                 margin-left: auto;
                 margin-right: auto;
-            }
-            .col-sm-8{
-                width: 660px;
-                height: 570px;
-                text-align: center;
             }
         </style>
     </head>
@@ -112,54 +93,57 @@
 </section>
 
 <section id="body">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4" id="epicsTable">
-                <div class="table-responsive">
-                    <table class="rounded table table-bordered table-striped table-hover table-rounded">
-                        <thead class="table-head">
-                            <tr>
-                                <th>Epic</th>
-                                <th>Summary</th>
-                            </tr>
-                        </thead>
-                        <tbody id="results">
-                            <% epics.forEach(epic=> { %>
-                                <tr>
-                                    <td class="table-col">
-                                        <%= epic.epic_Link %>
-                                    </td>
-                                    <td class="table-col">
-                                        <%= epic.epic_Link_Summary %>   
-                                    </td>
-                                    <td class="table-col">
-                                        <div class="detailButton">
-                                            <a href="/epics/details/<%=epic.epic_Link%>">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z" />
-                                                </svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
+    <div class="row">
+        <div class="col-sm-4" id="epicsTable">
+            <div>
+                <h3 class="fw-normal" id="epicTable">Epics</h3>
             </div>
-            <div class="col-sm-8" id="ticketStatusOverview">
-                <div class="ticketStatusOverview">
-                    <div class="ticketStatusOverviewTitle">
+            <div class="table-responsive">
+                <table class="rounded table table-bordered table-striped table-hover table-rounded">
+                    <thead class="table-head">
+                        <tr>
+                            <th>Epic</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results">
+                        <% epics.forEach(epic=> { %>
+                            <tr>
+                                <td class="table-col">
+                                    <%= epic.epic_Link %>
+                                </td>
+                                <td class="table-col">
+                                    <%= epic.epic_Link_Summary %>   
+                                </td>
+                                <td class="table-col">
+                                    <div class="detailButton">
+                                        <a href="/epics/details/<%=epic.epic_Link%>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-8" id="ticketStatusOverview">
+            <div class="ticketStatusOverview">
+                <div class="ticketStatusOverviewTitle">
+                    <div id="ticketStatusOverviewTitleText">
                         <h3 class="fw-normal" id="ticketStatusOverviewTitleText">Ticket Status Overview</h3>
                     </div>
-                    <canvas id="doughnutChartCanvas" style="height:40vh; width:21.4vw"></canvas>
                 </div>
+                <canvas id="doughnutChartCanvas" style="height:40vh; width:21.4vw"></canvas>
             </div>
         </div>
     </div>
 </section>
 
-<br>
+<br><br><br>
 
 <section id="footer">
     <div id="return">
@@ -170,7 +154,6 @@
         </a>
     </div>
 </section>
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <script src="/js/charts.js"></script>
