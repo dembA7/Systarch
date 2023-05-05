@@ -41,10 +41,11 @@ module.exports = class Project {
 
     static detail(ProjectDetail){
     return db.execute(`
-        SELECT p.Project_Name, p.Project_ID, e.epic_Link, e.epic_Link_Summary 
-        FROM projects p 
-        INNER JOIN epics e ON e.Project_ID = p.Project_ID
-        WHERE p.Project_ID = ?
+            SELECT p.project_Name, p.project_ID, e.epic_Link, e.epic_Link_Summary 
+            FROM project_epics pe, projects p, epics e
+            WHERE p.project_ID = pe.project_ID
+            AND e.epic_ID = pe.epic_ID
+            AND p.project_name = ?
         `,[ProjectDetail]
         );
     
@@ -54,11 +55,11 @@ module.exports = class Project {
     return db.execute(`
         SELECT Project_Name, ROUND(AVG(progreso),1) AS progreso
         FROM (
-        SELECT p.Project_Name, get_progreso(e.epic_Link) AS progreso
+        SELECT p.project_Name, get_progreso(e.epic_Link) AS progreso
         FROM project_epics pe, projects p, epics e
         WHERE p.project_ID = pe.project_ID
         AND e.epic_ID = pe.epic_ID
-        AND p.Project_Name = ?
+        AND p.project_Name = ?
         ) AS progress;
             `,[ProjectProgress])
             ;
