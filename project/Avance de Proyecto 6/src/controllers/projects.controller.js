@@ -137,40 +137,18 @@ exports.postRemove_createProjects = (request, response, next) => {
 };
 
 exports.post_createProjects = async (request, response, next) => {
-
-  projName = request.body.projName
-
-  if(request.session.epicsSelected.length < 1){
-
-    request.session.mensaje = "Please select at least one Epic from the list.";
-    response.redirect('/projects/create');
-  }
-
-  else{
-
-    const project = new Project({
-      name: projName
-    });
-
-    projectFetched = await Project.fetchOne(projName)
-
-    if(projectFetched[0].length >= 1){
-
-      request.session.mensaje = "A Project with that name already exists.";
-      response.redirect('/projects/create');
-
-    }
-
-    else{
-      console.log(`[Info] Creating a new project: '${projName}'`)
-      await project.save()
-      await updateEpicProjectID(request.session.epicsSelected, projName)
-
-      request.session.epicsSelected = [];
-      response.redirect('/projects');
-
-    }
-  }
+  console.log("Controller :D")
+  const { proj_Name , proj_Epics } = request.body;
+  const project = new Project({name: proj_Name});
+  project.save()
+  .then(([rows, fieldData]) => {
+    console.log("Llega aquí");
+    proj_Epics.map(epic => Project.assignEpic(proj_Name, epic));
+    response.status(200).end();
+  
+  })
+  .catch(err => console.log(err));
+  
 };
 
 async function updateEpicProjectID(epicsSelected, projName){

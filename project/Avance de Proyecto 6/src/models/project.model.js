@@ -123,4 +123,14 @@ module.exports = class Project {
       [name]
     );
   }
+
+  static assignEpic(projN, epic){
+    return db.execute(
+      `
+      INSERT INTO project_epics VALUES 
+      ((SELECT project_ID FROM projects WHERE project_Name = ? ), ? )
+      `, [projN, epic]
+    )
+  }
+
 };

@@ -39,7 +39,7 @@
 </style>
 
 <!-- HEAD -->
-
+<input type="hidden" id="CSRF-Tkn" value="<%= csrfToken %>">
 <section>
 <!--Este div de abajo es el que le da el margen a toda la página-->
     <div style="margin: 20px;">
@@ -53,13 +53,12 @@
             
             <div id="nombre" class="row">
                 <div >
-                    <form action="/projects/create/u" method="POST">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" required>
+
                         <h3 class="fw-light">Name</h3>
-                        <input class="form-control" id="projName" name="projName" type="text" placeholder="Enter the name of the project..." aria-label="default input example" required>        
+                        <input required class="form-control" id="projName" name="projName" type="text" placeholder="Enter the name of the project..." aria-label="default input example" required>        
                         <br>            
-                        <button class="btn btn-success" type="submit">Create</button>
-                    </form>
+                        <button class="btn btn-success" id="createBtn">Create</button>
+                    
                 </div>
             </div>
 
@@ -67,40 +66,29 @@
 
             <div id="crearProyecto" class="row">
                 <div class="col-md-6">
-                    <form action="/projects/create/a" method="POST">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    
                         <h3 class="fw-light">Assign Epics</h3>
-                        <select class="form-select" id="selEpic" name="selEpic" type="text"
+                        <select required class="form-select" id="selEpic" name="selEpic" type="text"
                             placeholder="Select the epics here...." aria-label="default input example" >
                             <option selected value="NULL">Select the epics here...</option>
                             <% if (epics.length> 0) {%>
-                            <%for (i in epics) {%>
-                            <option>
-                                <%= epics[i].epic_Link %>:<%= epics[i].epic_Link_Summary%>
+                                <%for (i in epics) {%>
+                            <option value="<%= epics[i].epic_Link %>">
+                                <%= epics[i].epic_Link %>: <%= epics[i].epic_Link_Summary%>
                             </option>
-                            <%}%>
+                                <%}%>
                             <%}%>
                         </select>
                         <br>
-                        <button class="btn btn-primary" type="submit">Add</button>
-                    </form>
+                        <button class="btn btn-primary" id="addBtn">Add</button>
+                    
                 </div>
                 <div class="col-md-6">
-                    <form action="/projects/create/r" method="POST">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <!-- <form action="/projects/create/r" method="POST"> -->
                         <h3 class="fw-light">Assigned Epics</h3>
-                        <% if (epicsSelected.length> 0) {%>
-                        <select class="form-select" id="delEpic" name="delEpic" size=5>
-                            <%for (i in epicsSelected) {%>
-                            <option>
-                                <%= epicsSelected[i].epic_Link %>:<%= epicsSelected[i].epic_Link_Summary%>
-                            </option>
-                            <%}%>
-                        </select>
-                        <br>
-                        <button class="btn btn-danger" type="submit">Remove</button>
-                        <%}%>
-                    </form>
+                        <div id="Assigned_Epics_Display">
+                        </div>
+                    <!-- </form> -->
                 </div>
             </div>
     </div>
@@ -114,5 +102,57 @@
         </div>
     <%}%>
 </section>
+
+<script>
+
+    let AssignedEpics = [];
+    document.getElementById("addBtn").onclick = () => {
+        selectedEpic = document.getElementById("selEpic").value;
+        console.log(selectedEpic);
+        AssignedEpics.push(selectedEpic);
+
+        let respuesta = '';
+
+        if (AssignedEpics.length > 0) {
+            respuesta += '<select class="form-select" id="delEpic" name="delEpic" size=5>';
+                for (let epicS of AssignedEpics) {
+                    respuesta += '<option>';
+                        respuesta += epicS
+                        respuesta += '</option>';
+                }
+            respuesta += '</select>';
+            respuesta += '<br>';
+            respuesta += '<button class="btn btn-danger">Remove</button>';
+        }
+
+        document.getElementById("Assigned_Epics_Display").innerHTML = respuesta;
+    }
+
+    document.getElementById("createBtn").onclick = () => {
+        
+        const data = {
+            proj_Name: document.getElementById("projName").value,
+            proj_Epics: AssignedEpics
+        }
+        const csrfToken = document.getElementById("CSRF-Tkn").value;
+        if(AssignedEpics.length > 0){
+            fetch('/projects/create/u', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': csrfToken
+            },
+            body: JSON.stringify(data)
+            }) .then (response => {
+            if (response.ok) {
+                window.location.href = '/projects'
+            }
+            }) .catch(err => console.log(err))
+        } else {
+            // MENSAJE ERROR, OCUPA EPICS ASIGNADOS
+        }
+    }
+    
+</script>
 
 <%- include('includes/foot.ejs') %>
