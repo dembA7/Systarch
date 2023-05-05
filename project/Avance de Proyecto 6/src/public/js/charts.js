@@ -222,8 +222,8 @@ const printChartsProjectDetail = () => {
             return result.json();
           })
           .then((data) => {
-            console.log(data);
-            renderTicketsStatusChart(data[0]);
+            console.log(data);|
+            renderTicketsStatusChart(data);
           });
 
     });
