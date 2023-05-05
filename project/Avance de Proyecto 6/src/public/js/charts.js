@@ -205,7 +205,6 @@ const renderTicketsStatusChart = (datas3) => {
 
 };
 
-
 const printChartsProjectDetail = () => {
     window.addEventListener('load', () => {
 
@@ -222,7 +221,6 @@ const printChartsProjectDetail = () => {
             return result.json();
           })
           .then((data) => {
-            console.log(data);
             renderTicketsStatusChart(data);
           });
 
