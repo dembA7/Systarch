@@ -61,58 +61,72 @@ async function readCSV(flpath) {
 
     .on("end", async function () {
 
-      let ticket_i = 1;
-      data = data.slice(1)
+      try {
 
-      for(let userInfo of data){
+        let ticket_i = 1;
+        data = data.slice(1)
 
-        const tempTicket = new Ticket({
-          Issue_Key : userInfo["Issue key"],
-          Issue_Id : parseInt(userInfo["Issue id"]),
-          Summary : userInfo.Summary,
-          Issue_Type : userInfo["Issue Type"],
-          ticket_Status : userInfo.Status,
-          epic_Link : userInfo["Custom field (Epic Link)"],
-          epic_Link_Summary : userInfo["Epic Link Summary"],
-          ticket_Assignee :  userInfo.Assignee || null,
-          ticket_Assignee_ID : userInfo["Assignee Id"] || null,
-          ticket_Assignee :  userInfo.Assignee || null,
-          ticket_Assignee_ID : userInfo["Assignee Id"] || null,
+        for(let userInfo of data){
+
+          const tempTicket = new Ticket({
+            Issue_Key : userInfo["Issue key"],
+            Issue_Id : parseInt(userInfo["Issue id"]),
+            Summary : userInfo.Summary,
+            Issue_Type : userInfo["Issue Type"],
+            ticket_Status : userInfo.Status,
+            epic_Link : userInfo["Custom field (Epic Link)"],
+            epic_Link_Summary : userInfo["Epic Link Summary"],
+            ticket_Assignee :  userInfo.Assignee || null,
+            ticket_Assignee_ID : userInfo["Assignee Id"] || null,
+            ticket_Assignee :  userInfo.Assignee || null,
+            ticket_Assignee_ID : userInfo["Assignee Id"] || null,
+          });
+
+          //Story Points:
+          if (isNaN(parseFloat(userInfo["Custom field (Story Points)"]))) {
+            tempTicket.Story_Points = 0;
+          }
+
+          else {
+            tempTicket.Story_Points = parseFloat(userInfo["Custom field (Story Points)"]);
+          }
+
+          tempTicket.ticket_Update = await dateToISO(userInfo.Updated);
+          tempTicket.ticket_Created = await dateToISO(userInfo.Created);
+          tempTicket.ticket_Label = await checkLabels(userInfo.Labels1, userInfo.Labels2, userInfo.Labels3, userInfo.Labels4)
+
+          await checkEpics(ticket_i, tempTicket);
+          await checkAssignees(ticket_i, tempTicket);
+
+          duplicateTicket = await checkTickets(ticket_i, tempTicket);
+          
+          if(duplicateTicket == false){
+            
+            await tempTicket.save();
+            console.log(`[Info] CSV Line ${ticket_i}: Ticket inserted to 'db' successfully.`);
+            
+          }
+
+          ticket_i++;
+
+          //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
+          await sleep(10);
+        }
+
+        console.log(`[Info] Done! CSV inserted to 'db' successfully.`);
+        resolve();
+      } 
+      
+      catch (error) {
+        console.log(error)
+        const msg = error
+        response.render('err500', {
+          isLoggedIn: request.session.isLoggedIn || false,
+          nombre: request.session.nombre || '',
+          mensaje: msg || '',
+          privilegios: request.session.privilegios || [],
         });
-
-        //Story Points:
-        if (isNaN(parseFloat(userInfo["Custom field (Story Points)"]))) {
-          tempTicket.Story_Points = 0;
-        }
-
-        else {
-          tempTicket.Story_Points = parseFloat(userInfo["Custom field (Story Points)"]);
-        }
-
-        tempTicket.ticket_Update = await dateToISO(userInfo.Updated);
-        tempTicket.ticket_Created = await dateToISO(userInfo.Created);
-        tempTicket.ticket_Label = await checkLabels(userInfo.Labels1, userInfo.Labels2, userInfo.Labels3, userInfo.Labels4)
-
-        await checkEpics(ticket_i, tempTicket);
-        await checkAssignees(ticket_i, tempTicket);
-
-        duplicateTicket = await checkTickets(ticket_i, tempTicket);
-        
-        if(duplicateTicket == false){
-          
-          await tempTicket.save();
-          console.log(`[Info] CSV Line ${ticket_i}: Ticket inserted to 'db' successfully.`);
-          
-        }
-
-        ticket_i++;
-
-        //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
-        await sleep(10);
       }
-
-      console.log(`[Info] Done! CSV inserted to 'db' successfully.`);
-      resolve();
     });
   });
 };
