@@ -21,6 +21,12 @@
                 <p class="lead">
                     There was a problem with the server.
                 </p>
+
+                <% (if mensaje != ''){%>
+                    <p class="fs-3"> An error occured while reading the csv file.</p>
+
+                    <p class="lead"> Try checking the columns order & date format.</p>
+                <% }%>
     
                 <div class="alert alert-info" role="alert">
                     Try again later or head to the homepage.
