@@ -45,7 +45,7 @@ async function readCSV(flpath) {
     .pipe(
       
       csv({
-        headers: ["Issue key",	"Issue id",	"Summary",	"Issue Type",	"Custom field (Story Points)",	"Status",	"Custom field (Epic Link)",	"Epic Link Summary",	"Updated", "Created", "Assignee",	"Assignee Id",	"Labels1",	"Labels2", "Labels3", "Labels4"],
+        headers: ["Issue key",	"Issue id",	"Summary",	"Issue Type",	"Custom field (Story Points)",	"Status",	"Custom field (Epic Link)",	"Epic Link Summary",	"Assignee", "Assignee Id", "Created",	"Updated",	"Labels1",	"Labels2", "Labels3", "Labels4"],
         separator: ","
       })
     )
