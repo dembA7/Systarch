@@ -29,19 +29,9 @@ exports.post_import = async (request, response, next) => {
     console.log("Savepath: " + request.file.path);
     
     const flpath = request.file.path;
-    await readCSV(flpath);
-    
-    response.redirect('/homepage')
-  }
-};
 
-async function readCSV(flpath) {
-  
-  return new Promise(async(resolve, reject) => {
-    
     let data = []
     fs.createReadStream(flpath)
-    
     .pipe(
       
       csv({
@@ -84,14 +74,18 @@ async function readCSV(flpath) {
 
           //Story Points:
           if (isNaN(parseFloat(userInfo["Custom field (Story Points)"]))) {
+
             tempTicket.Story_Points = 0;
+
           }
 
           else {
-            tempTicket.Story_Points = parseFloat(userInfo["Custom field (Story Points)"]);
-          }
 
-          tempTicket.ticket_Update = await dateToISO(userInfo.Updated);
+            tempTicket.Story_Points = parseFloat(userInfo["Custom field (Story Points)"]);
+
+          }
+          
+          tempTicket.ticket_Update = await dateToISO(userInfo.Updated)
           tempTicket.ticket_Created = await dateToISO(userInfo.Created);
           tempTicket.ticket_Label = await checkLabels(userInfo.Labels1, userInfo.Labels2, userInfo.Labels3, userInfo.Labels4)
 
@@ -106,29 +100,33 @@ async function readCSV(flpath) {
             console.log(`[Info] CSV Line ${ticket_i}: Ticket inserted to 'db' successfully.`);
             
           }
-
           ticket_i++;
 
           //Este delay es para que le de tiempo a la 'db' de actualizar sus datos y no se inserten duplicados por cualquier motivo
           await sleep(10);
+          
         }
 
         console.log(`[Info] Done! CSV inserted to 'db' successfully.`);
-        resolve();
-      } 
+        response.redirect('/homepage')
+      }
       
       catch (error) {
-        console.log(error)
-        const msg = error
+
+        console.log(error);
+        const msg = "An error occured while reading the csv file."
         response.render('err500', {
           isLoggedIn: request.session.isLoggedIn || false,
           nombre: request.session.nombre || '',
           mensaje: msg || '',
           privilegios: request.session.privilegios || [],
         });
+
       }
+      
     });
-  });
+    
+  }
 };
 
 async function checkTickets(dictInDatos, tempTicket){

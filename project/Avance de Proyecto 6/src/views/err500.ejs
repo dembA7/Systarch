@@ -22,8 +22,8 @@
                     There was a problem with the server.
                 </p>
 
-                <% (if mensaje != ''){%>
-                    <p class="fs-3"> An error occured while reading the csv file.</p>
+                <% if (mensaje != '') { %>
+                    <p class="fs-3"> <%= mensaje %> </p>
 
                     <p class="lead"> Try checking the columns order & date format.</p>
                 <% }%>
